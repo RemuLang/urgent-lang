@@ -1,18 +1,9 @@
 from __future__ import annotations
-import json
 from typing import *
 from urgent.scope import Scope, Sym
-from dataclasses import dataclass
+from urgent.evaluator import Instruction
+from sijuiacion_lang.lowering import sij
 T = TypeVar('T')
-
-
-class VM:
-    name: str
-    args: Tuple[...]
-
-    def __init__(self, name: str, *args):
-        self.name = name
-        self.args = args
 
 
 class Ref(Generic[T]):
@@ -39,117 +30,125 @@ class Numbering(dict):
 
 
 class CodeGen:
-    def __init__(self, filename: str):
-        self.code = [
-            'runtime operator', 'filename {}'.format(json.dumps(filename))
-        ]
-        self.layout = 0
-        self.number = Numbering()
-
-    def extern(module, foreign_code):
-        module("const #{}#".format(
-            json.decoder.py_scanstring(foreign_code, 1)[0]))
+    def __init__(self, numbering: Numbering = None):
+        self.number = numbering if numbering is not None else Numbering()
 
     def s2n(self, s: Sym) -> str:
-        return '{}_{}'.format(s.name, id(self.number[s.uid]))
+        return 'var.{}.{}'.format(s.name, self.number[s.uid])
 
-    def __call__(self, other: str):
-        self.code.append('  ' * self.layout + other)
+    def eval(self, instr: Instruction):
+        return getattr(self, instr.name)(*instr.args)
 
-    def eval(self, node):
-        if isinstance(node, Sym):
-            instr = "deref" if node.is_cell.contents else "load"
-            self("{} {}".format(instr, self.s2n(node)))
-            return
-        if isinstance(node, VM):
-            return getattr(self, node.name, *node.args)
+    def as_global(self, sym):
+        return sij.GlobSet(self.s2n(sym))
 
-        self("const #{}#".format(repr(node)))
+    def from_global(self, s: str):
+        assert isinstance(s, str)
+        return sij.Glob(s)
 
-    def loc(module, location, contents = None):
-        if location:
-            line = location[0]
-            module('line {}'.format(line))
-        if contents is not None:
-            module.eval(contents)
+    def start(self, instrs: List[Instruction], repl_mode=False):
+        if repl_mode:
+            many = self.eval_many(instrs)
+            many.append(sij.Return())
+            many.reverse()
+            many.append(sij.Const(()))
+            many.reverse()
+            return many
 
-    def set(module, sym: Sym, expr):
-        assert isinstance(sym, Sym)
-        module.eval(expr)
-        instr = "deref!" if sym.is_cell.contents else "store"
-        module("{} {}".format(instr, module.s2n(sym)))
+        many = self.eval_many(instrs)
+        many.append(sij.Const(None))
+        many.append(sij.Return())
+        return many
 
-    def call(module, f, arg):
-        module.eval(f)
-        module.eval(arg)
-        module("call 1")
+    def eval_many(self, instrs: List[Instruction]):
+        seq = []
+        for each in instrs:
+            each = self.eval(each)
+            if isinstance(each, list):
+                seq.extend(each)
+            else:
+                seq.append(each)
+        return seq
 
-    def prj(module, expr, i):
-        module.eval(expr)
-        module.eval(i)
-        module("prj")
+    def extern(self, foreign_code):
+        return sij.Glob(foreign_code)
 
-    def label(module, name):
-        module("label {}".format(name))
+    def push(self, v):
+        return sij.Const(v)
 
-    def goto(module, name):
-        module("goto {}".format(name))
+    def attr(self, attr: str):
+        return sij.Attr(attr)
 
-    def goto_if(module, name, cond):
-        module.eval(cond)
-        module("goto-if {}".format(name))
+    def set(self, s: Sym):
+        assert isinstance(s, Sym)
+        if s.is_global:
+            return sij.GlobSet(self.s2n(s))
+        if s.is_cell.contents:
+            return sij.RefSet(self.s2n(s))
+        return sij.Store(self.s2n(s))
 
-    def goto_if_not(module, name, cond):
-        module.eval(cond)
-        module("goto-if-not {}".format(name))
+    def var(self, s: Sym):
+        assert isinstance(s, Sym), (s, type(s))
+        if s.is_global:
+            return sij.Glob(self.s2n(s))
+        if s.is_cell.contents:
+            return sij.Deref(self.s2n(s))
+        return sij.Load(self.s2n(s))
 
-    def indir(module, expr):
-        module.eval(expr)
-        module("indir")
+    def pop(self):
+        return sij.Pop()
 
-    def addr(module, name):
-        module("blockaddr {}".format(name))
+    def tuple(self, n):
+        return sij.BuildTuple(n)
 
-    def block(module, *elts):
-        for each in elts:
-            module.eval(each)
+    def label(self, n):
+        return sij.Label(n)
 
-    def tuple(module, elts):
-        for each in elts:
-            module.eval(each)
-        module("tuple {}".format(len(elts)))
+    def goto(self, n):
+        return sij.Goto(n)
 
-    def list(module, elts):
-        for each in elts:
-            module.eval(each)
-        module("list {}".format(len(elts)))
+    def goto_if(self, n):
+        return sij.GotoEq(n)
 
-    def func(module, filename, scope: Scope, arg, expr):
-        assert not freevars or isinstance(freevars[0], Sym)
-        assert isinstance(arg, Sym)
+    def goto_if_not(self, n):
+        return sij.GotoNEq(n)
 
-        module("defun")
-        module.layout += 2
+    def eq(self):
+        return sij.Cmp(sij.Compare.EQ)
 
-        module("filename {}".format(json.dumps(filename)))
-        module("free [{}]".format(' '.join(map(module.s2n, freevars))))
-        module("args [{}] {{".format(module.s2n(arg)))
-        module.eval(expr)
-        module("label pround.return")
-        module("return")
-        module.layout -= 2
-        module("}")
+    def neq(self):
+        return sij.Cmp(sij.Compare.NE)
 
-    def switch(module, target, cases, default):
-        module.eval(target)
-        module("switch")
-        for i, n in cases:
-            module("| {} => {}".format(i, n))
-        if default:
-            module("| _ => {}".format(default))
+    def exc(self, s: str):
+        assert isinstance(s, str)
 
-    def feed_code(self):
-        self.code.append('print')
-        self.code.append('const #None#')
-        self.code.append('return')
-        return '\n'.join(self.code)
+        return [
+            sij.Glob("Exception"),
+            sij.Const(s),
+            sij.Call(1),
+            sij.SimpleRaise()
+        ]
+
+    def loc(self, i: int):
+        assert isinstance(i, int)
+        return sij.Line(i + 1)
+
+    def ret(self):
+        return sij.Return()
+
+    def dup(self):
+        return sij.DUP(1)
+
+    def rot(self):
+        return sij.ROT(2)
+
+    def unpack(self, n: int):
+        return sij.Unpack(n)
+
+    def call(self, i: int):
+        return sij.Call(i)
+
+    def function(self, filename, scope: Scope, arg_sym: Sym, instrs):
+        freevars = list(map(self.s2n, scope.freevars.values()))
+        return sij.Defun("", filename, freevars, self.s2n(arg_sym),
+                         [self.s2n(arg_sym)], self.eval_many(instrs))

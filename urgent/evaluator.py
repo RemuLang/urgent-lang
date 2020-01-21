@@ -1,12 +1,14 @@
 from __future__ import annotations
-from urgent.scope import Scope, Sym, Undef
 from typing import *
+from urgent.scope import Scope, Sym, Undef
+from urgent.config import Config
+from collections import namedtuple
+from contextlib import contextmanager
 import urgent.ast as ast
 import remu_operator
-from collections import namedtuple
 
 
-class _VM(namedtuple('VM', ['name', 'args'])):
+class Instruction(namedtuple('VM', ['name', 'args'])):
     pass
 
 
@@ -15,27 +17,21 @@ class VM:
     args: Tuple[...]
 
     def __new__(cls, name: str, *args):
-        return _VM(name, args)
+        return Instruction(name, args)
+
+
+_op_prefix = 'operator.'
+
+
+def to_operator_mangled_name(n: str):
+    return _op_prefix + n
+
+
+def to_operator_name_unmangle(n: str):
+    return n[len(_op_prefix):]
 
 
 T = TypeVar('T')
-
-
-class Ref(Generic[T]):
-    contents: T
-
-    def __init__(self, v: T):
-        self.contents = v
-
-
-class MissingDict(dict):
-    def __init__(self, f):
-        super().__init__()
-        self.gen_value = f
-
-    def __missing__(self, key):
-        value = self[key] = self.gen_value(key)
-        return value
 
 
 class Numbering(dict):
@@ -48,7 +44,10 @@ def mk_dispatch(dispatches):
     def apply(f):
         d = f.__annotations__
         assert len(d) is 1
-        dispatches[eval(next(iter(d.values())))] = f
+        meth = list(d.values())[0]
+        if isinstance(meth, str):
+            meth = eval(meth)
+        dispatches[meth] = f
         return f
 
     return apply
@@ -57,58 +56,33 @@ def mk_dispatch(dispatches):
 class Visitor:
     dispatches: Dict[type, Callable]
 
-    def eval(self, expr) -> Visitor:
+    def eval(self, expr):
         return self.dispatches[expr.__class__](self, expr)
+
+    def show_error(self, loc: ast.Location):
+        if not loc:
+            return '.'
+        return 'at {}, line {}, column {}.'.format(loc[2], loc[0], loc[1])
 
 
 state_dispatches = {}
 state_add = mk_dispatch(state_dispatches)
-
-ModuleSym = Sym
-
-
-class Loader:
-    module_symbols: Dict[Sym, Dict[str, Sym]]
-    op_precedences: Dict[Sym, int]
-    op_assoc: Dict[Sym, int]
-    labels: int
-    patterns: Dict[Sym, Sym]
-    pattern_ary: Dict[Sym, int]
-
-    def __init__(self):
-        self.module_symbols = {}
-        self.op_precedences = {}
-        self.op_assoc = {}
-        self.labels = 0
-        self.patterns = {}
-        self.pattern_ary = {}
-
-    def load_module(self, names: List[str]) -> Sym:
-        raise NotImplementedError
-
-    def new_label(self):
-        i = self.labels
-        self.labels += 1
-        return "Label.{}".format(i)
-
-    def gen_sym(self):
-        i = self.labels
-        self.labels += 1
-        return "sym.{}".format(i)
 
 
 class State(Visitor):
     dispatches = state_dispatches
 
     @classmethod
-    def top(cls):
-        return State(Scope.top(), Loader(), [])
+    def top(cls, compiler: Compiler):
+        return State(Scope.top(), compiler, compiler.code, [])
 
-    def __init__(self, scope: Scope, loader: Loader, code: list):
+    def __init__(self, scope: Scope, compiler: Compiler, code: list,
+                 levels: list):
         self.scope = scope
         self.code: List[VM] = code
-        self.loader = loader
-        self.wait_for_op_binding: Dict[str, Tuple[int, int]] = {}
+        self.compiler = compiler
+        self.path = ""
+        self.levels = levels
 
     def last_instr(self):
         for i in reversed(self.code):
@@ -118,47 +92,85 @@ class State(Visitor):
     def emit(self, vm):
         self.code.append(vm)
 
-    def new(self, scope: Scope = None):
-        return State(scope or self.scope, self.loader, self.code)
+    def mk_new(self, scope: Scope = None):
+        return State(scope, self.compiler, self.code, [])
+
+    def mk_sub(self, scope: Scope = None):
+        return State(scope or self.scope.sub_scope(), self.compiler, self.code,
+                     self.levels)
 
     @state_add
     def v_module(self, a: ast.Module):
+        self.path = qualname = '.'.join(a.quals)
         for each in a.stmts:
             self.eval(each)
+        names, syms = zip(*[each for each in self.scope.boundvars.items()])
+        sym = self.scope.shadow(a.quals[-1])
+        sym.is_global = True
+
+        for each in syms:
+            self.emit(VM("var", each))
+
+        self.emit(VM("tuple", len(syms)))
+        self.emit(VM("set", sym))
+        self.compiler.module_symbols[sym] = self.scope.boundvars
+        self.compiler.evaluated_modules[qualname] = sym
+
+        return sym
 
     @state_add
     def v_let(self, a: ast.Let):
+        self.levels.append(None)
         emit = self.emit
         is_rec = a.is_rec
         if is_rec:
             for loc, name, expr in a.binds:
                 sym = self.scope.shadow(name)
+                if len(self.levels) is 1:
+                    sym.is_global = True
                 emit(VM("loc", loc[0]))
+                emit(VM("push", ()))
                 emit(VM("set", sym))
             for loc, name, expr in a.binds:
-                self.new(self.scope.sub_scope()).eval(expr)
+                self.mk_sub().eval(expr)
                 sym = self.scope.require(name)
                 emit(VM("set", sym))
         else:
             binds = []
             for loc, name, expr in a.binds:
-                self.new().eval(expr)
-                binds.append((loc, name))
+                self.mk_sub().eval(expr)
+                i = self.last_instr()
+                if i and i.name == 'var':
+                    sym: Sym = i.args[0]
+                    binds.append((loc, name, sym))
+                else:
+                    binds.append((loc, name, None))
+
             binds.reverse()
-            for loc, name in binds:
+            for loc, name, alias in binds:
                 emit(VM("loc", loc[0]))
-                sym = self.scope.shadow(name)
-                emit(VM("set", sym))
+                if alias:
+                    self.scope.shadow(name, alias)
+                    sym = alias
+                    emit(VM("pop"))
+                else:
+                    sym = self.scope.shadow(name)
+                    emit(VM("set", sym))
+                if len(self.levels) is 1:
+                    sym.is_global = True
+
+        self.levels.pop()
 
     @state_add
     def v_do(self, a: ast.Do):
         self.emit(VM("loc", a.loc[0]))
         self.eval(a.expr)
+        self.emit(VM("pop"))
 
     def get_module_sym_from_qualified_names(self, names: List[str]):
         ns = names[::-1]
         sym = self.scope.require(ns.pop())
-        module_symbols = self.loader.module_symbols
+        module_symbols = self.compiler.module_symbols
         if sym not in module_symbols:
             raise Undef
         while ns:
@@ -174,9 +186,10 @@ class State(Visitor):
         try:
             sym = self.get_module_sym_from_qualified_names(module_ids)
         except Undef:
-            sym = self.loader.load_module(module_ids)
+            sub = self.mk_new(Scope.top())
+            sym = self.compiler.load_module(module_ids, sub)
 
-        names: Dict[str, Sym] = self.loader.module_symbols[sym]
+        names: Dict[str, Sym] = self.compiler.module_symbols[sym]
         for n, sym in names.items():
             self.scope.shadow(n, sym)
         self.emit(VM("loc", a.loc[0]))
@@ -187,7 +200,8 @@ class State(Visitor):
         try:
             sym = self.get_module_sym_from_qualified_names(module_ids)
         except Undef:
-            sym = self.loader.load_module(module_ids)
+            sub = self.mk_new(Scope.top())
+            sym = self.compiler.load_module(module_ids, sub)
 
         self.scope.shadow(module_ids[-1], sym)
         self.emit(VM("loc", a.loc[0]))
@@ -196,21 +210,23 @@ class State(Visitor):
     def v_infix(self, a: ast.Infix):
         n = a.bop
         loc = a.loc
-        sym = self.scope.require(n)
-        if sym in self.loader.op_precedences:
+        sym = self.scope.enter(to_operator_mangled_name(n))
+        if sym in self.compiler.op_precedences:
             raise Exception("redefinition of operator properties")
-        self.loader.op_precedences[sym] = a.precedence
-        self.loader.op_assoc[sym] = a.is_right_assoc
+        self.compiler.op_precedences[sym] = a.precedence
+        self.compiler.op_assoc[sym] = a.is_right_assoc
         self.emit(VM("loc", loc[0]))
+        self.emit(VM("push", ()))
+        self.emit(VM("set", sym))
 
     @state_add
     def v_if(self, a: ast.If):
         emit = self.emit
-        label_t = self.loader.new_label()
-        label_end = self.loader.new_label()
+        label_t = self.compiler.new_label()
+        label_end = self.compiler.new_label()
         emit(VM("loc", a.loc[0]))
         self.eval(a.cond)
-        emit(VM("goto-if", label_t))
+        emit(VM("goto_if", label_t))
         self.eval(a.fc)
         emit(VM("goto", label_end))
         emit(VM("label", label_t))
@@ -220,49 +236,64 @@ class State(Visitor):
     @state_add
     def v_in(self, a: ast.In):
         self.eval(a.stmt)
-        self.new().eval(a.expr)
+        self.mk_sub().eval(a.expr)
+
+    def solve_bin_ops(self, hd, tl):
+        def cons(f):
+            return lambda arg1, arg2: ast.Call(
+                ast.Call(ast.Var(loc_map[f], name_map[f]), arg1), arg2)
+
+        seq = [hd]
+        name_map = {}
+        loc_map = {}
+        for loc, a, b in tl:
+            operator_name = to_operator_mangled_name(a)
+            operator_sym = self.scope.require(operator_name)
+            name_map[operator_sym] = a
+            loc_map[operator_sym] = loc
+            op = remu_operator.Operator(operator_sym)
+            seq.extend([op, b])
+        # noinspection PyTypeChecker
+        return remu_operator.binop_reduce(
+            cons,
+            seq,
+            precedences=self.compiler.op_precedences,
+            associativities=self.compiler.op_assoc)
+
+    @state_add
+    def v_match(self, a: ast.Match):
+        self.eval(a.val_to_match)
+        compiler = self.compiler
+        n_cases = len(a.cases)
+        labels = [compiler.new_label() for _ in range(n_cases)]
+        label_success = compiler.new_label()
+
+        emit = self.emit
+        sub = self.mk_sub()
+        sub.scope.allow_reassign = True
+
+        for (loc, pat, expr), label_fail in zip(a.cases, labels):
+            emit(VM("loc", loc[0]))
+            PatternCompilation(sub.scope, sub, label_fail).eval(pat)
+            self.eval(expr)
+            emit(VM("goto", label_success))
+            emit(VM("label", label_fail))
+
+        emit(
+            VM("exc", "Pattern matching failed at {}.".format(
+                self.show_error(a.loc))))
+        emit(VM("label", label_success))
+        sub.scope.allow_reassign = False
 
     @state_add
     def v_bin(self, a: ast.Bin):
-        seq = [a.head]
-
-        def cons(f):
-            return lambda arg1, arg2: (f, arg1, arg2)
-
-        loc_maps = {}
-        for loc, a, b in a.tl:
-            sym = self.scope.require(a)
-            loc_maps[sym] = loc[0]
-            sym = remu_operator.Operator(sym)
-            seq.extend([sym, b])
-
-        # noinspection PyTypeChecker
-        tps = remu_operator.binop_reduce(
-            cons,
-            seq,
-            precedences=self.loader.op_precedences,
-            associativities=self.loader.op_assoc)
-
-        emit = self.emit
-
-        def eval_binops(tps):
-            if not isinstance(tps, tuple):
-                return self.eval(tps)
-            f, arg1, arg2 = tps
-            emit(VM("loc", loc_maps[f]))
-            emit(VM("var", f))
-            eval_binops(arg1)
-            emit(VM("call", 1))
-            eval_binops(arg2)
-            emit(VM("call", 1))
-
-        eval_binops(tps)
+        self.v_call(self.solve_bin_ops(a.head, a.tl))
 
     @state_add
     def v_call(self, a: ast.Call):
         self.eval(a.f)
         self.eval(a.arg)
-        return VM("call", 1)
+        self.emit(VM("call", 1))
 
     @state_add
     def v_unit(self, a: ast.Tuple):
@@ -286,20 +317,24 @@ class State(Visitor):
     @state_add
     def v_var(self, a: ast.Var):
         self.emit(VM("loc", a.loc[0]))
-        self.emit(VM("var", a.id))
+        sym = self.scope.require(a.id)
+        self.emit(VM("var", sym))
 
     @state_add
     def v_func(self, a: ast.Fun):
         self.emit(VM("loc", a.loc[0]))
         code = self.code
         self.code = []
-        sub = self.new(self.scope.sub_scope(hold_bound=True))
+        sub = self.mk_sub(self.scope.sub_scope(hold_bound=True))
         emit = self.emit
-        n = self.loader.gen_sym()
-        label_matched = self.loader.new_label()
-        label_unmatch = self.loader.new_label()
-        emit(VM("loc", a.loc[0]))
+        n = self.compiler.gen_sym()
 
+        label_matched = self.compiler.new_label()
+        label_unmatch = self.compiler.new_label()
+        emit(VM("loc", a.loc[0]))
+        n = sub.scope.enter(n)
+        emit(VM("var", n))
+        sub = sub.mk_sub()
         sub.scope.allow_reassign = True
         PatternCompilation(sub.scope, self, label_unmatch).eval(a.pat)
         sub.scope.allow_reassign = False
@@ -310,7 +345,7 @@ class State(Visitor):
         emit(VM("label", label_unmatch))
         emit(VM("exc", "Function argument not match."))
         emit(VM("label", "urgent.funcend"))
-        emit(VM("return"))
+        emit(VM("ret"))
 
         code, self.code = self.code, code
         emit(VM("function", a.loc[2], sub.scope, n, code))
@@ -326,8 +361,8 @@ class State(Visitor):
         self.emit(VM("loc", a.loc[0]))
         if i and i.name == 'var':
             sym: Sym = i.args[0]
-            if sym in self.loader.module_symbols:
-                names = self.loader.module_symbols[sym]
+            if sym in self.compiler.module_symbols:
+                names = self.compiler.module_symbols[sym]
                 if a.attr not in names:
                     raise Exception('Module {} has no attribute.'.format(
                         sym.name, a.attr))
@@ -340,13 +375,36 @@ class State(Visitor):
         self.emit(VM("loc", a.loc[0]))
         self.emit(VM("extern", a.s))
 
+    @state_add
+    def v_and(self, a: ast.And):
+        emit = self.emit
+        label = self.compiler.new_label()
+        emit(VM("loc", a.loc[0]))
+        self.eval(a.lhs)
+        emit(VM("dup"))
+        emit(VM("goto_if_not", label))
+        emit(VM("pop"))
+        self.eval(a.rhs)
+        emit(VM("label", label))
+
+    @state_add
+    def v_or(self, a: ast.Or):
+        emit = self.emit
+        label = self.compiler.new_label()
+        emit(VM("loc", a.loc[0]))
+        self.eval(a.lhs)
+        emit(VM("dup"))
+        emit(VM("goto_if", label))
+        emit(VM("pop"))
+        self.eval(a.rhs)
+        self.emit(VM("label", label))
+
 
 pat_dispatches = {}
 pat_add = mk_dispatch(pat_dispatches)
 
 
 class PatternCompilation:
-    loader: Loader
     dispatches = pat_dispatches
 
     def __init__(self, scope: Scope, state: State, label_unmatch):
@@ -356,20 +414,29 @@ class PatternCompilation:
         self.label_unmatch = label_unmatch
         self.predict = None
 
+    @contextmanager
+    def fail_to_specific_label(self, label_name: str):
+        lu = self.label_unmatch
+        try:
+            yield
+        finally:
+            self.label_unmatch = lu
+
     def eval(self, expr):
         return self.dispatches[expr.__class__](self, expr)
 
     def check_len_eq(self, n: int):
         emit = self.emit
         emit(VM("dup"))
-        emit(VM("global", "len"))
-        emit(VM("call", "1"))
+        emit(VM("from_global", "len"))
+        emit(VM("rot"))
+        emit(VM("call", 1))
 
         emit(VM("push", n))
 
         emit(VM("neq"))
 
-        emit(VM("goto-if", self.label_unmatch))
+        emit(VM("goto_if", self.label_unmatch))
 
     def show_error(self, loc: ast.Location):
         if not loc:
@@ -382,11 +449,40 @@ class PatternCompilation:
 
         emit(VM("loc", a.loc[0]))
         emit(VM("push", a.value))
-        emit(VM("eq", a.value))
-        emit(VM("goto", self.label_unmatch))
+        emit(VM("neq"))
+        emit(VM("goto_if", self.label_unmatch))
+
+    @pat_add
+    def v_and(self, a: ast.And):
+        self.emit(VM("loc", a.loc[0]))
+        self.emit(VM("dup"))
+        self.eval(a.lhs)
+        self.eval(a.rhs)
+
+    @pat_add
+    def v_or(self, a: ast.Or):
+        emit = self.emit
+        emit(VM("loc", a.loc[0]))
+        fail_here = self.state.compiler.new_label()
+        succ_here = self.state.compiler.new_label()
+
+        emit(VM("dup"))
+        with self.fail_to_specific_label(fail_here):
+            self.eval(a.lhs)
+            emit(VM("pop"))
+            emit(VM("goto", succ_here))
+
+        emit(VM("label", fail_here))
+        self.eval(a.rhs)
+        emit(VM("label", succ_here))
+
+    @pat_add
+    def v_bin(self, a: ast.Bin):
+        self.v_call(self.state.solve_bin_ops(a.head, a.tl))
 
     @pat_add
     def v_call(self, a: ast.Call):
+
         # TODO: location
         f = self.eval(a.f)
         if not f:
@@ -394,7 +490,7 @@ class PatternCompilation:
         uncons, n = f
         assert n > 0
         emit = self.emit
-        emit(VM("push", uncons))
+        emit(VM("var", uncons))
         emit(VM("rot", 2))
         emit(VM("call", 1))
         emit(VM("unpack", n))
@@ -422,6 +518,15 @@ class PatternCompilation:
 
     @pat_add
     def v_tuple(self, a: ast.Tuple):
+        if not a.elts:
+            self.emit(VM("push", ()))
+            self.emit(VM("neq"))
+            self.emit(VM("goto_if", self.label_unmatch))
+            return
+
+        if len(a.elts) == 1:
+            return self.eval(a.elts[0])
+
         emit = self.emit
         emit(VM("loc", a.loc[0]))
 
@@ -432,24 +537,25 @@ class PatternCompilation:
             self.non_recogniser(each, a.loc)
         return
 
-    def for_symbol(self, sym: Sym, loc):
-        if sym not in self.state.loader.patterns:
+    def process_recogniser(self, sym: Sym, loc):
+        if sym not in self.state.compiler.patterns:
             raise Exception("{} is not a pattern {}.".format(
                 sym.name, self.show_error(loc)))
-        uncons = self.state.loader.patterns[sym]
-        n = self.state.loader.pattern_ary[sym]
+        uncons = self.state.compiler.patterns[sym]
+        n = self.state.compiler.pattern_ary[sym]
         if not n:
             self.emit(VM("var", uncons))
-            self.emit(VM("eq", 0))
+            self.emit(VM("neq"))
+            self.emit(VM("goto_if", self.label_unmatch))
             return
         return uncons, n
 
     @pat_add
     def v_var(self, a: ast.Var):
         n = a.id
-        if n and n[1].isupper():
+        if n and n[0].isupper():
             sym = self.state.scope.require(a.id)
-            return self.for_symbol(sym, a.loc)
+            return self.process_recogniser(sym, a.loc)
 
         # bound to variable
         sym = self.scope.enter(n)
@@ -463,14 +569,71 @@ class PatternCompilation:
         self.emit(VM("loc", a.loc[0]))
         if i and i.name == 'var':
             sym: Sym = i.args[0]
-            if sym in self.state.loader.module_symbols:
-                names = self.state.loader.module_symbols[sym]
+            if sym in self.state.compiler.module_symbols:
+                names = self.state.compiler.module_symbols[sym]
                 if a.attr not in names:
                     raise Exception('Module {} has no attribute.'.format(
                         sym.name, a.attr))
                 sym = names[a.attr]
-                return self.for_symbol(sym, a.loc)
+                return self.process_recogniser(sym, a.loc)
 
         raise Exception(
             "Invalid pattern .{} at {}, (line, column) = {}".format(
                 a.attr, a.loc[2], a.loc[:2]))
+
+
+class Compiler:
+    evaluated_modules: Dict[str, Sym]
+    ast_modules: Dict[Tuple[str, ...], ast.Module]
+
+    module_symbols: Dict[Sym, Dict[str, Sym]]
+    op_precedences: Dict[Sym, int]
+    op_assoc: Dict[Sym, int]
+    namegen_cnt: int
+    patterns: Dict[Sym, Sym]
+    pattern_ary: Dict[Sym, int]
+    code: List[Instruction]
+    main: State
+
+    def __init__(self, project_file: str = None):
+        self.module_symbols = {}
+        self.op_precedences = {}
+        self.op_assoc = {}
+        self.namegen_cnt = 0
+        self.patterns = {}
+        self.pattern_ary = {}
+        self.evaluated_modules = {}
+        self.code = []
+
+        project_file = project_file or '~/.urgent/main.toml'
+        self.project_file = project_file
+        conf = self.config = Config.load(project_file)
+        conf.src_dirs += ['.']
+        self.ast_modules = conf.load_modules()
+        self.main = State.top(self)
+
+    def load_module(self, names: List[str], state: State) -> Sym:
+        qualname = '.'.join(names)
+        mod_sym = self.evaluated_modules.get(qualname)
+        if mod_sym:
+            return mod_sym
+        mod_ast = self.ast_modules[tuple(names)]
+
+        mod_sym = self.compile_module(mod_ast, state)
+        self.evaluated_modules['.'.join(names)] = mod_sym
+        assert isinstance(mod_sym, Sym)
+        return mod_sym
+
+    def compile_module(self, mod: ast.Module, state: State = None):
+        state = state or self.main
+        return state.eval(mod)
+
+    def new_label(self):
+        i = self.namegen_cnt
+        self.namegen_cnt += 1
+        return "Label.{}".format(i)
+
+    def gen_sym(self):
+        i = self.namegen_cnt
+        self.namegen_cnt += 1
+        return "sym.{}".format(i)

@@ -1,9 +1,9 @@
-from urgent.parser_gen import *
+from urgent.repl_parser_gen import *
 from urgent import ast
 from rbnf_rts.rts import Tokens, State
 from rbnf_rts.routine import DQString
 
-__all__ = ['parse']
+__all__ = ['parse_stmt']
 co = mk_parser.__code__
 requires = co.co_varnames[:co.co_argcount]
 ctx = {}
@@ -25,9 +25,8 @@ def _find_n(s: str, ch, n: int):
     return s[since:s.find(ch, since)]
 
 
-def parse(text: str, filename: str = "unknown"):
+def parse_stmt(text: str, filename: str = "unknown"):
     tokens = list(run_lexer(filename, text))
-
     res = _parse(State(), Tokens(tokens))
     if res[0]:
         return res[1]

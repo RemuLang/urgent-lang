@@ -5,7 +5,6 @@ import typing as t
 Location = t.Tuple[int, int, str]
 
 
-
 @dataclass
 class Do:
     loc: Location
@@ -38,6 +37,7 @@ class Let:
     loc: Location
     is_rec: bool
     binds: t.List[t.Tuple[Location, str, Expr]]
+
 
 @dataclass
 class Import:
@@ -128,10 +128,24 @@ class Extern:
     s: str
 
 
+@dataclass
+class And:
+    loc: Location
+    lhs: Expr
+    rhs: Expr
+
+
+@dataclass
+class Or:
+    loc: Location
+    lhs: Expr
+    rhs: Expr
+
+
 Stmt = t.Union[Do, Open, Cons, Infix, Let]
 
-Expr = t.Union[Extern, Coerce, Field, Var, Import, Match, If, Fun, Bin,
-               Call, List, Tuple, Lit]
+Expr = t.Union[And, Or, Extern, Coerce, Field, Var, Import, Match, If, Fun,
+               Bin, Call, List, Tuple, Lit]
 
 
 @dataclass

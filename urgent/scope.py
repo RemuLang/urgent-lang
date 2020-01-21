@@ -29,12 +29,14 @@ class Sym:
     name: str
     uid: object
     is_cell: Ref[bool]
+    is_global: bool
 
-    def __init__(self, name: str, uid: object, is_cell: bool):
+    def __init__(self, name: str, uid: object, is_cell: bool, is_global=False):
         assert isinstance(is_cell, bool)
         self.name = name
         self.uid = uid
         self.is_cell = Ref(is_cell)
+        self.is_global = is_global
 
     def __repr__(self):
         return self.name
@@ -43,6 +45,7 @@ class Sym:
 class Scope:
     freevars: t.Dict[str, Sym]
     boundvars: t.Dict[str, Sym]
+    aliases: t.Dict[str, Sym]
     hold_bound: bool
     parent: t.Optional['Scope']
     allow_reassign: bool
@@ -54,6 +57,7 @@ class Scope:
                  allow_reassign=False):
         self.freevars = {}
         self.boundvars = {}
+        self.aliases = {}
         self.hold_bound = hold_bound
         self.parent = parent
         self.allow_reassign = allow_reassign
@@ -93,6 +97,9 @@ def require(scope: Scope, name: str) -> Sym:
     var = scope.boundvars.get(name, None)
     if var is not None:
         return var
+    var = scope.aliases.get(name, None)
+    if var is not None:
+        return var
     var = scope.freevars.get(name, None)
     if var is not None:
         return var
@@ -118,7 +125,7 @@ def enter(scope: Scope, name: str) -> Sym:
 def shadow(scope: Scope, name: str, sym: Sym = None) -> Sym:
     assert isinstance(name, (str, tuple)), name
     if sym:
-        scope.boundvars[name] = sym
+        scope.aliases[name] = sym
         return sym
 
     s = scope.boundvars[name] = Sym(name, object(), False)

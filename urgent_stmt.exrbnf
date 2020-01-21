@@ -1,4 +1,4 @@
-START : <BOF> 'module' module list(stmt) { Module($2, $3) } ;
+START : <BOF>  stmt  <EOF> { $1 } ;
 
 ID : (<UPPER>|<LOWER>) { *$0 } ;
 

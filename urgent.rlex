@@ -25,6 +25,10 @@ W \s+
 %require If
 %require Match
 
+%require And
+%require Or
+
+
 %require Bin
 %require Call
 %require List
