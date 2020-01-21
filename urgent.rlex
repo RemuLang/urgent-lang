@@ -1,0 +1,40 @@
+COMMENT //[^\n\r]*|#[^\n\r]*
+
+FLOAT [-+]?[0-9]+\.\d+([eE][-+]?\d+)?|[-+]?[0-9]+[eE][-+]?\d+
+INT [-+]?\d+
+UPPER [A-Z][a-zA-Z0-9_\u4e00-\u9fa5]*'?
+LOWER [a-z_\u4e00-\u9fa5][a-zA-Z0-9_\u4e00-\u9fa5]*'?
+STRING "([^\\"]+|\\.)*?"
+SPECIAL \-\>|\=\>|\=|\=\=
+OP [\+\-\*\/\@\~\%\>\<][\+\-\*\/\@\~\%\>\<\:\|\=\^]*
+SOP \|[\+\-\*\/\@\~\%\>\<\:\|\=\^]+
+
+W \s+
+%ignore W
+%ignore COMMENT
+
+%require Module
+%require Do
+%require Open
+%require Cons
+
+%require Let
+%require Infix
+%require Fun
+%require Import
+%require If
+%require Match
+
+%require Bin
+%require Call
+%require List
+%require Tuple
+%require Lit
+%require Field
+%require Coerce
+%require Extern
+%require Var
+%require In
+
+%require DQString
+

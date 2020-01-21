@@ -1,0 +1,74 @@
+START : <BOF> 'module' module list(stmt) { Module($2, $3) } ;
+
+ID : (<UPPER>|<LOWER>) { *$0 } ;
+
+LET : 'let' { $0 } | 'def' { $0 } ;
+
+
+bind  : bop '=' expr { (@1, *$0, $2) };
+
+binds : separated_list('and', bind) { $0 };
+
+stmt :  LET binds                        { Let(@0, False, $1) }
+      | 'rec' binds                      { Let(@0, True, $1) }
+      | 'do' expr                        { Do(@0, $1) }
+      | 'open'    module                 { Open(@0, $1) }
+      | 'import'  module                 { Import(@0, $1) }
+      | 'infixl' bop <INT>               { Infix(@0, False, *$1, $2) }
+      | 'infixr' bop <INT>               { Infix(@0, True, *$1, $2) }
+      | <UPPER> slots                    { Cons(@0, *$0, $1) }
+      ;
+
+module : separated_list('.', ID)   { $0 };
+
+slots : '(' separated_list(',', '_') ')' { len($1) };
+
+expr : bind_expr                        { $0 }
+     | expr '?' expr 'else' expr        { If(@1, $0, $2, $4) }
+     | expr 'match' match_cases         { Match(@1, $0, $2) }
+     | expr2                            { $0 }
+     ;
+
+expr2 : bin { $0 }
+      | bin '->' bin { Fun(@1, $1, $2) }
+      ;
+
+bind_expr : stmt exprCont                   { In($0, $1) } ;
+
+exprCont : 'in' expr   { $1 }
+         | bind_expr   { $0 }
+         ;
+
+match_cases : separated_list(',', match_case) { $0 } ;
+match_case : pat '=>' expr                    { (@1, $0, $2) } ;
+
+bop : ('^' | '::' | <OP> | 'and' | 'or' | '==') { $0 }
+      | (<UPPER> | <LOWER>)                     { $0 }
+      ;
+
+btr  : bop call_expr       { (@0, *$0, $1) } ;
+
+bin  : call_expr           { $0 }
+     | call_expr list(btr) { Bin($0, $1) }
+     ;
+
+pat  : bin { $0 } ;
+
+call_expr : call_expr atom      { Call($0, $1) }
+          | atom                { $0 }
+          ;
+
+atom      : '(' ')'                                  { Tuple(@0, []) }
+          | '[' ']'                                  { List(@0, []) }
+          | '[' separated_list(',', expr) ']'        { List(@0, $1) }
+          | '(' separated_list(',', expr) ')'        { Tuple(@0, $1) }
+          | <UPPER>                                  { Var(@0, *$0) }
+          | <LOWER>                                  { Var(@0, *$0) }
+          | <INT>                                    { Lit(@0, int(*$0)) }
+          | <FLOAT>                                  { Lit(@0, float(*$0)) }
+          | <STRING>                                 { Lit(@0, DQString(*$0)) }
+          | atom '.' ID                              { Field(@1, $0, $2) }
+          | 'True'                                   { Lit(@0, True) }
+          | 'False'                                  { Lit(@0, False) }
+          | 'extern' <STRING>                        { Extern(@0, DQString(*$1)) }
+          ;
