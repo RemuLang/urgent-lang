@@ -8,10 +8,14 @@ from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.shortcuts import PromptSession
 from prompt_toolkit.lexers import PygmentsLexer
 from urgent.cli import get_code_for_repl
-from urgent.evaluator import Compiler
+from urgent.evaluator import Compiler, Report
 import re
+import dis
+import traceback
 
-keywords = ['let', 'def', 'match', 'rec', 'open', 'infixl', 'infixr', 'import', 'in']
+keywords = [
+    'let', 'def', 'match', 'rec', 'open', 'infixl', 'infixr', 'import', 'in'
+]
 operators = ['->', '.', '?', '=>']
 completer = WordCompleter(keywords)
 
@@ -35,7 +39,7 @@ session = PromptSession(completer=completer,
                         lexer=PygmentsLexer(UrgentLexer),
                         history=InMemoryHistory())
 
-import dis
+
 
 def repl(debug=False):
     compiler = Compiler()
@@ -52,7 +56,9 @@ def repl(debug=False):
             code = get_code_for_repl(inp, compiler)
             if debug:
                 dis.dis(code)
-            exec(code, ctx, ctx)
-        except Exception as e:
-            print(e.__class__, e, '\n')
+            print('=>', eval(code, ctx, ctx))
+        except SyntaxError:
+            traceback.print_exc(limit=0)
+        except Report as e:
+            print(repr(e), '\n')
             continue

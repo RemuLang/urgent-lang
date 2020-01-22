@@ -1,4 +1,13 @@
-START : <BOF>  stmt  <EOF> { $1 } ;
+START : <BOF>  interactive  <EOF> { $1 } ;
+
+interactive : stmt                                    { $0 }
+            | interactive_expr                        { $0 }
+            ;
+
+interactive_expr :  | interactive_expr '?' expr 'else' expr        { If(@1, $0, $2, $4) }
+                    | interactive_expr 'match' match_cases         { Match(@1, $0, $2) }
+                    | expr2                                        { $0 }
+                    ;
 
 ID : (<UPPER>|<LOWER>) { *$0 } ;
 

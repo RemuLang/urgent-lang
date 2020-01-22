@@ -53,16 +53,42 @@ def mk_dispatch(dispatches):
     return apply
 
 
+class Report(Exception):
+    location: ast.Location
+    exc: Exception
+
+    def __init__(self, loc, exc):
+        self.location = loc
+        self.exc = exc
+
+    def __repr__(self):
+        exc = self.exc
+        return f'{exc.__class__.__name__}: {self.exc}{_show_error_loc(self.location)}'
+
+
+def _show_error_loc(loc: ast.Location):
+    if not loc:
+        return '.'
+    return ' at {}, line {}, column {}.'.format(loc[2], loc[0] + 1, loc[1])
+
+
 class Visitor:
     dispatches: Dict[type, Callable]
+    _loc: Optional[ast.Location]
 
     def eval(self, expr):
-        return self.dispatches[expr.__class__](self, expr)
+        if hasattr(expr, 'loc'):
+            self._loc = expr.loc
+        try:
+            return self.dispatches[expr.__class__](self, expr)
+        except Report:
+            raise
+        except Exception as e:
+            raise Report(self._loc, e)
 
-    def show_error(self, loc: ast.Location):
-        if not loc:
-            return '.'
-        return 'at {}, line {}, column {}.'.format(loc[2], loc[0], loc[1])
+    def show_error_loc(self, loc: ast.Location = None):
+        loc = loc or self._loc
+        return _show_error_loc(loc)
 
 
 state_dispatches = {}
@@ -78,6 +104,7 @@ class State(Visitor):
 
     def __init__(self, scope: Scope, compiler: Compiler, code: list,
                  levels: list):
+        self._loc = None
         self.scope = scope
         self.code: List[VM] = code
         self.compiler = compiler
@@ -235,8 +262,10 @@ class State(Visitor):
 
     @state_add
     def v_in(self, a: ast.In):
-        self.eval(a.stmt)
-        self.mk_sub().eval(a.expr)
+        sub1 = self.mk_sub()
+        sub1.eval(a.stmt)
+        sub2 = sub1.mk_sub()
+        sub2.eval(a.expr)
 
     def solve_bin_ops(self, hd, tl):
         def cons(f):
@@ -275,13 +304,14 @@ class State(Visitor):
         for (loc, pat, expr), label_fail in zip(a.cases, labels):
             emit(VM("loc", loc[0]))
             PatternCompilation(sub.scope, sub, label_fail).eval(pat)
-            self.eval(expr)
+            sub.eval(expr)
             emit(VM("goto", label_success))
             emit(VM("label", label_fail))
 
         emit(
-            VM("exc", "Pattern matching failed at {}.".format(
-                self.show_error(a.loc))))
+            VM(
+                "exc", "Pattern matching failed at {}.".format(
+                    self.show_error_loc(a.loc))))
         emit(VM("label", label_success))
         sub.scope.allow_reassign = False
 
@@ -296,11 +326,11 @@ class State(Visitor):
         self.emit(VM("call", 1))
 
     @state_add
-    def v_unit(self, a: ast.Tuple):
+    def v_tuple(self, a: ast.Tuple):
         self.emit(VM("loc", a.loc[0]))
         if not a.elts:
             return self.emit(VM("push", ()))
-        # should be is
+
         if len(a.elts) == 1:
             return self.eval(a.elts[0])
 
@@ -425,6 +455,14 @@ class PatternCompilation:
     def eval(self, expr):
         return self.dispatches[expr.__class__](self, expr)
 
+    def check_class(self, class_name: str):
+        emit = self.emit
+        emit(VM("dup"))
+        emit(VM("attr", "__class__"))
+        emit(VM("from_global", class_name))
+        emit(VM("neq"))
+        emit(VM("goto_if", self.label_unmatch))
+
     def check_len_eq(self, n: int):
         emit = self.emit
         emit(VM("dup"))
@@ -530,6 +568,7 @@ class PatternCompilation:
         emit = self.emit
         emit(VM("loc", a.loc[0]))
 
+        self.check_class('tuple')
         self.check_len_eq(len(a.elts))
         emit(VM("unpack", len(a.elts)))
 
@@ -604,6 +643,7 @@ class Compiler:
         self.pattern_ary = {}
         self.evaluated_modules = {}
         self.code = []
+        self._loc = None
 
         project_file = project_file or '~/.urgent/main.toml'
         self.project_file = project_file
