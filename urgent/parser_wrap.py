@@ -25,7 +25,7 @@ def _find_n(s: str, ch, n: int):
     return s[since:s.find(ch, since)]
 
 
-def parse(text: str, filename: str = "unknown"):
+def parse(text: str, filename: str = "unknown") -> ast.Module:
     tokens = list(run_lexer(filename, text))
 
     res = _parse(State(), Tokens(tokens))

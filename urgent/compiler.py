@@ -129,7 +129,13 @@ class State(Visitor):
         self.path = qualname = '.'.join(a.quals)
         for each in a.stmts:
             self.eval(each)
-        names, syms = zip(*[each for each in self.scope.boundvars.items()])
+
+        bounds = self.scope.boundvars
+        if not bounds:
+            names, syms = [], []
+        else:
+            names, syms = zip(*[each for each in self.scope.boundvars.items()])
+
         sym = self.scope.shadow(a.quals[-1])
 
         self.emit(
