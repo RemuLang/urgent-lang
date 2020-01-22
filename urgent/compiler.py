@@ -690,7 +690,7 @@ class PatternCompilation(Visitor):
     @pat_add
     def v_var(self, a: ast.Var):
         if a.id == '_':
-            self.emit("pop")
+            self.emit(VM("pop"))
             return
         n = a.id
 

@@ -114,4 +114,5 @@ atom      : '(' ')'                                  { Tuple(@0, []) }
           | 'False'                                  { Lit(@0, False) }
           | 'extern' <STRING>                        { Extern(@0, DQString(*$1)) }
           | '!' atom                                 { Call(Var(@0, DEREF), $1) }
+          | '{' expr '}'                             { Fun(@0, Var(@0, WILDCARD), TCO($1)) }
           ;

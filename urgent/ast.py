@@ -5,6 +5,7 @@ import typing as t
 
 Location = t.Tuple[int, int, str]
 DEREF = "!"
+WILDCARD = '_'
 
 @dataclass
 class Do:

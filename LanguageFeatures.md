@@ -228,6 +228,8 @@ f.(a, b, c)
 
 ## Imperative Programming
 
+下面的代码需要加载项目目录下的`base/prelude.ugt`.
+
 - `ref`
 ```shell script
 Urgent> let x = ref 1
@@ -242,11 +244,59 @@ Urgent> !x + 2
 => 4
 ```
 
-- `foreach`
+- `for`
 
 ```shell script
-foreach 
+Urgent> for [1, 2, 3] ( x -> 
+  print x
+)
+1
+2
+3
+=> ()
 ```
+
+- `while`
+
+```shell script
+Urgent> let x = ref 1
+=> ()
+Urgent> while { !x < 10 } {
+  do print !x
+  in x := !x + 1
+}
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+=> ()
+```
+
+上面的循环暂时是尾递归写的, 之后会用Python字节码重写.
+
+`for`和`while`的实现如下:
+```shell script
+rec for = seq -> f ->
+    seq match
+        [] => (),
+        hd :: tl =>
+            do f hd
+            in for tl f
+
+rec while = cond -> f ->
+    cond () ?
+        do f ()
+        in while cond f
+    else ()
+```
+
+都可以良好地尾递归.
 
 ## WIP的其他东西
 

@@ -46,6 +46,19 @@ let !! = x -> y -> _item.(x, y)
 
 let setattr = x -> y -> v -> (extern "setattr").(x, y, v)
 
+// cmp operations
+infixl < 8
+infixl > 8
+infixl == 8
+
+let _lt = op.lt
+let _gt = op.gt
+let _eq = op.eq
+
+let < = x -> y -> _lt.(x, y)
+let > = x -> y -> _gt.(x, y)
+let == = x -> y -> _eq.(x, y)
+
 // list
 
 infixr :: 1
@@ -70,6 +83,11 @@ rec for = seq -> f ->
             do f hd
             in for tl f
 
+rec while = cond -> f ->
+    cond () ?
+        do f ()
+        in while cond f
+    else ()
 
 let reverse =
     rec reverse_impl = feed -> left ->
