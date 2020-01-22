@@ -74,7 +74,7 @@ def _show_error_loc(loc: ast.Location):
 
 class Visitor:
     dispatches: Dict[type, Callable]
-    _loc: Optional[ast.Location]
+    _loc: Optional[ast.Location] = None
 
     def eval(self, expr):
         if hasattr(expr, 'loc'):
@@ -353,7 +353,9 @@ class State(Visitor):
 
         for (loc, pat, expr), label_fail in zip(a.cases, labels):
             emit(VM("loc", loc[0]))
+            emit(VM("dup"))
             PatternCompilation(sub.scope, sub, label_fail).eval(pat)
+            emit(VM("pop"))
             sub.eval(expr)
             emit(VM("goto", label_success))
             emit(VM("label", label_fail))
@@ -562,7 +564,7 @@ class PatternCompilation(Visitor):
         lst = ast.Var(a.loc, "Nil")
         cons = ast.Var(a.loc, "Cons")
         for each in reversed(a.elts):
-            lst = ast.Call(cons, ast.Tuple(a.loc, [each, lst]))
+            lst = ast.Call(ast.Call(cons, each), lst)
         return self.eval(lst)
 
     @pat_add
@@ -600,17 +602,23 @@ class PatternCompilation(Visitor):
 
     @pat_add
     def v_bin(self, a: ast.Bin):
-        self.v_call(self.state.solve_bin_ops(a.head, a.tl))
+        pat = self.state.solve_bin_ops(a.head, a.tl)
+        self.v_call(pat)
 
     @pat_add
     def v_call(self, a: ast.Call):
-
+        args = [a.arg]
+        f = a.f
+        while isinstance(f, ast.Call):
+            args.append(f.arg)
+            f = f.f
+        args.reverse()
         # TODO: location
-        f = self.eval(a.f)
+        f = self.eval(f)
         if not f:
             raise Exception("Not a recogniser!")
         data_cons, n = f
-        assert n > 0
+        assert n == len(args)
         emit = self.emit
         emit(VM("dup"))
         emit(VM("attr", '__class__'))
@@ -618,23 +626,9 @@ class PatternCompilation(Visitor):
         emit(VM("neq"))
         emit(VM("goto_if", self.label_unmatch))
         emit(VM("unpack", n))
-        if n == 1:
-            return self.eval(a.arg)
-
-        if not isinstance(a.arg, ast.Tuple):
-            raise Exception(
-                "Expect a tuple for deconstruction of recogniser {}.".format(
-                    data_cons.name))
-
-        if len(a.arg.elts) != n:
-            raise Exception("{} is a {}-ary recogniser, got {}, {}".format(
-                data_cons.name, n, len(a.arg.elts),
-                self.show_error_loc(a.arg.loc)))
-
-        loc = a.arg.loc
-
-        for each in a.arg.elts:
-            self.non_recogniser(each, loc)
+        for arg in args:
+            loc = getattr(arg, 'loc', None)
+            self.non_recogniser(arg, loc)
 
     def non_recogniser(self, a, loc):
         recog = self.eval(a)
@@ -680,11 +674,29 @@ class PatternCompilation(Visitor):
         return data_cons, n
 
     @pat_add
+    def v_func(self, a: ast.Fun):
+        emit = self.emit
+        self.state.eval(a.pat)
+        emit(VM("load_global", "tco"))
+        emit(VM("rot", 3))
+        emit(VM("tuple", 2))
+        emit(VM("call", 1))
+        self.eval(a.body)
+
+    @pat_add
+    def v_tco(self, a: ast.TCO):
+        return self.eval(a.expr)
+
+    @pat_add
     def v_var(self, a: ast.Var):
         if a.id == '_':
-            return self.emit("pop")
+            self.emit("pop")
+            return
         n = a.id
-        if n and n[0].isupper():
+
+        if n and n[0].isupper() or not n[0].isidentifier():
+            # upper names and operators
+            # deconstructor
             sym = self.state.scope.require(a.id)
             return self.process_recogniser(sym, a.loc)
 

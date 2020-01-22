@@ -44,6 +44,7 @@ session = PromptSession(completer=completer,
 def repl(debug=False, project: str = ""):
     compiler = Compiler(project)
     ctx = {}
+    tracing_limit = 2 if debug else 0
     while True:
         inp: str = session.prompt('Urgent> ')
         inp = inp.strip()
@@ -51,14 +52,16 @@ def repl(debug=False, project: str = ""):
             return
         elif inp.lower() == ':sc':
             print(compiler.main.scope.boundvars)
-            return
+            continue
         try:
             code = get_code_for_repl(inp, compiler)
             if debug:
                 dis.dis(code)
             print('=>', eval(code, ctx, ctx))
         except SyntaxError:
-            traceback.print_exc(limit=0)
+            traceback.print_exc(limit=tracing_limit)
         except Report as e:
+            if debug:
+                traceback.print_exc(limit=tracing_limit)
             print(repr(e), '\n')
             continue

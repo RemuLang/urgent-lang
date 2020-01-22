@@ -6,7 +6,8 @@ LET : 'let' { $0 } | 'def' { $0 } ;
 
 
 bind  : bop '=' expr { (@1, *$0, $2) }
-      | ID '=' expr { (@1, $0, $2) }
+      | ID  '=' expr { (@1, $0, $2) }
+      | '!' '=' expr { (@1, *$0, $2) }
       ;
 
 binds : separated_list(',', bind) { $0 };
@@ -66,7 +67,9 @@ bop : | '^'  { $0 }
       | '`' <LOWER> '`' { $1 }
       ;
 
-btr  : bop call_expr       { (@0, *$0, $1) } ;
+btr  : bop call_expr       { (@0, *$0, $1) }
+     | bop bind_expr       { (@0, *$0, $1) }
+     ;
 
 bin  : call_expr           { $0 }
      | call_expr list(btr) { Bin($0, $1) }
@@ -74,8 +77,16 @@ bin  : call_expr           { $0 }
 
 pat  : boolor { $0 } ;
 
-call_expr : call_expr atom      { Call($0, $1) }
-          | atom                { $0 }
+call_expr : call_expr atomExpr      { Call($0, $1) }
+          | atomExpr                { $0 }
+          ;
+
+atomExpr  :
+          | atomExpr '.' ID                              { Field(@1, $0, $2) }
+          | atomExpr '.' bop                             { Field(@1, $0, *$2) }
+          | atomExpr '.' '(' separated_list(',', expr) ')' { PyCall($0, $3) }
+          | atomExpr '.' '(' ')'                           { PyCall($0, []) }
+          | atom                                           { $0 }
           ;
 
 atom      : '(' ')'                                  { Tuple(@0, []) }
@@ -83,17 +94,15 @@ atom      : '(' ')'                                  { Tuple(@0, []) }
           | '[' separated_list(',', expr) ']'        { List(@0, $1) }
           | '(' separated_list(',', expr) ')'        { Tuple(@0, $1) }
           | '(' bop ')'                              { Var(@0, *$1) }
+          | '(' '!' ')'                              { Var(@0, *$1) }
           | <UPPER>                                  { Var(@0, *$0) }
           | <LOWER>                                  { Var(@0, *$0) }
           | '_'                                      { Var(@0, *$0) }
           | <INT>                                    { Lit(@0, int(*$0)) }
           | <FLOAT>                                  { Lit(@0, float(*$0)) }
           | <STRING>                                 { Lit(@0, DQString(*$0)) }
-          | atom '.' ID                              { Field(@1, $0, $2) }
-          | atom '.' bop                             { Field(@1, $0, *$2) }
           | 'True'                                   { Lit(@0, True) }
           | 'False'                                  { Lit(@0, False) }
           | 'extern' <STRING>                        { Extern(@0, DQString(*$1)) }
-          | atom '.' '(' separated_list(',', expr) ')' { PyCall($0, $3) }
-          | atom '.' '(' ')'                           { PyCall($0, []) }
+          | '!' atom                                 { Call(Var(@0, DEREF), $1) }
           ;

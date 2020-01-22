@@ -62,9 +62,18 @@ let x  =
   (1, 2) => 0
 ```
 
-可以`match`的很多, 但所有特性打算在variant type做了之后再写.
-还是extensible pattern matching(之后可以自定义模式匹配规则), 表达力换exhaustive checking.
+可以`match`的很多, 更多例子见后面的variants.
 
+注意, 二元运算符会被当作解构器.
+
+我们还支持view pattern.
+
+```shell script
+let f = x -> (x, 2 * x)
+
+1 match (f -> (a, b)) => a + b # 1 + 2 * 1 
+5 match (f -> (a, b)) => a + b # 5 + 2 * 5 
+```
 
 ## Open, Import
 
@@ -217,17 +226,29 @@ f.(a, b, c)
 
 像这样, 调用时加个点的函数, 就是按照Python的调用约定. 这并不和我们的尾递归优化冲突.
 
-## WIP的其他东西
+## Imperative Programming
 
-标准库, 
+- `ref`
+```shell script
+Urgent> let x = ref 1
+=> ()
+Urgent> x
+=> ref 1
+Urgent> x := 2
+=> ()
+Urgent> x
+=> ref 2
+Urgent> !x + 2
+=> 4
+```
 
-`ref`类型.
+- `foreach`
 
 ```shell script
-let a = ref 0
-do a := 1
-do a := (1, 2)
+foreach 
 ```
+
+## WIP的其他东西
 
 
 例如`for`函数和`while`函数之类的.

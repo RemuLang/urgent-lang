@@ -43,6 +43,29 @@ class CodeGen:
             sij.GotoNEq("loop"),
             sij.Return()
         ])
+        to_py_callable = sij.Defun(
+            "base", "base", [], "to_py_callable", ["urgent_func"], [
+                sij.Const(True),
+                sij.Defun("base", "base", ["urgent_func"], "to_py_callable",
+                          ["x"], [
+                              sij.Glob("tco"),
+                              sij.Load("x"),
+                              sij.Deref("urgent_func"),
+                              sij.BuildTuple(2),
+                              sij.Call(1),
+                              sij.Return()
+                          ]),
+                sij.BuildTuple(2),
+                sij.Return()
+            ])
+        set_contents = sij.Defun("base", "base", [],
+                                 "to_py_callable", ["on", "val"], [
+                                     sij.Load("val"),
+                                     sij.Load("on"),
+                                     sij.AttrSet("contents"),
+                                     sij.Const(()),
+                                     sij.Return()
+                                 ])
         return [
             # for ADTs
             sij.Glob("__import__"),
@@ -52,7 +75,11 @@ class CodeGen:
             sij.GlobSet("namedtuple"),
             # for tail call optimizations
             tco,
-            sij.GlobSet("tco")
+            sij.GlobSet("tco"),
+            to_py_callable,
+            sij.GlobSet("to_py_callable"),
+            set_contents,
+            sij.GlobSet("set_contents")
         ]
 
     def s2n(self, s: Sym) -> str:
@@ -161,8 +188,8 @@ class CodeGen:
     def dup(self):
         return sij.DUP(1)
 
-    def rot(self):
-        return sij.ROT(2)
+    def rot(self, n=None):
+        return sij.ROT(n or 2)
 
     def unpack(self, n: int):
         return sij.Unpack(n)

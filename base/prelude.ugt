@@ -2,16 +2,21 @@ module Pre
 
 infixr <| 0
 infixl |> 0
-
+infixl |>> 5
+infixl <<| 5
 let <| = f -> x -> f x
 let |> = x -> f -> f x
+let |>> = f -> g -> x -> g (f x)
+let <<| = f -> g -> x -> f (g x)
 
-let wrap_py_func = pyfunc -> arg -> pyfunc.(arg)
+let from_py = pyfunc -> arg -> pyfunc.(arg)
+let to_py = extern "to_py_callable"
 
-let print = wrap_py_func extern "print"
-let imp = wrap_py_func extern "__import__"
-
+let print = from_py extern "print"
+let imp = from_py extern "__import__"
+let io = imp "io"
 let op = imp "operator"
+let repr = from_py extern "repr"
 
 // arithmetic operators
 
@@ -39,6 +44,8 @@ let / = x -> y -> _fdiv.(x, y)
 let ^ = x -> y -> _pow.(x, y)
 let !! = x -> y -> _item.(x, y)
 
+let setattr = x -> y -> v -> (extern "setattr").(x, y, v)
+
 // list
 
 infixr :: 1
@@ -48,5 +55,83 @@ let :: = Cons
 
 // control flow
 
+// TODO: use bytecode to write one that uses loops
+rec each = f -> seq ->
+    seq match
+        [] => (),
+        hd :: tl =>
+            do f hd
+            in each f tl
+
+rec for = seq -> f ->
+    seq match
+        [] => (),
+        hd :: tl =>
+            do f hd
+            in for tl f
 
 
+let reverse =
+    rec reverse_impl = feed -> left ->
+        left match
+            [] => feed,
+            hd :: tl =>
+                reverse_impl (hd::feed) tl
+    in reverse_impl []
+
+let map =
+    rec map_impl = feed -> (f, left) ->
+        left match
+            [] => feed,
+            hd :: tl => map_impl (f hd :: feed) (f, tl)
+    in f -> xs -> reverse <| map_impl [] (f, xs)
+
+
+let join =
+    let sio = io.StringIO
+    rec join_impl = write -> sep -> strs ->
+        strs match
+            [] => (),
+            [hd] => write.(hd),
+            hd :: tl =>
+                do write.(hd)
+                do write.(sep)
+                in join_impl write sep tl
+    in sep -> strs ->
+        let io = sio.()
+        do join_impl io.write sep strs
+        in  io.getvalue.()
+
+let surround = (l, r) -> x -> l + x + r
+
+do setattr [].__class__ "repr" <| to_py (x -> "[]")
+do setattr [1].__class__ "__repr__" <|
+     let f = map repr |>> join ", " |>> surround ("[", "]")
+     in to_py f
+
+let py_list = xs ->
+    let ret = (extern "list").()
+    do each (from_py ret.append) xs
+    in ret
+
+let ref =
+    let dict = extern "dict"
+    let type = extern "type"
+    let list = extern "list"
+    let pair = py_list [
+            ("__slots__", py_list ["contents"]),
+            ("__repr__",
+                    let repr = extern "repr" in
+                    let func = x -> "ref " + repr.(x.contents)
+                    in to_py func)
+        ]
+    let py_ref_make = type.("ref", (), dict.(pair))
+    in contents ->
+        let ref = py_ref_make.()
+        do (extern "set_contents").(ref,  contents)
+        in ref
+
+infixl := 5
+let := = x -> y -> (extern "set_contents").(x, y)
+
+let ! = x -> x.contents

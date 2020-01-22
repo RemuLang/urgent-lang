@@ -4,15 +4,15 @@ from rbnf_rts.rbnf_linker import link
 from rbnf_rts.utils import ImmutableMap
 from rbnf_rts.lexical import *
 __all__ = ['lexicals', 'run_lexer', 'mk_parser']
-(lexicals, run_lexer) = lexer(r(COMMENT='//[^\\n\\r]*|#[^\\n\\r]*'), r(FLOAT='[-+]?[0-9]+\\.\\d+([eE][-+]?\\d+)?|[-+]?[0-9]+[eE][-+]?\\d+'), r(INT='[-+]?\\d+'), r(UPPER="[A-Z][a-zA-Z0-9_\\u4e00-\\u9fa5]*'?"), r(LOWER="[a-z_\\u4e00-\\u9fa5][a-zA-Z0-9_\\u4e00-\\u9fa5]*'?"), r(STRING='"([^\\\\"]+|\\\\.)*?"'), r(SPECIAL='\\-\\>|\\=\\>|\\=|\\=\\='), r(OP='[\\+\\-\\*\\/\\@\\~\\%\\>\\<\\\\\\:\\!][\\\\\\+\\-\\*\\/\\@\\~\\%\\>\\<\\:\\|\\=\\^\\!]*'), r(SOP='\\|[\\+\\-\\*\\/\\@\\~\\%\\>\\<\\:\\|\\=\\^]+'), r(W='\\s+'), l['`'], l['^'], l[']'], l['['], l['?'], l['.'], l[','], l[')'], l['('], ignores=['W', 'COMMENT'], reserved_map=ImmutableMap.from_dict({'module': 'quote module', 'let': 'quote let', 'def': 'quote def', '=': 'quote =', ',': 'quote ,', 'rec': 'quote rec', 'do': 'quote do', 'open': 'quote open', 'import': 'quote import', 'infixl': 'quote infixl', 'infixr': 'quote infixr', 'data': 'quote data', '.': 'quote .', '_': 'quote _', '(': 'quote (', ')': 'quote )', '?': 'quote ?', 'else': 'quote else', 'match': 'quote match', '->': 'quote ->', 'or': 'quote or', 'and': 'quote and', 'in': 'quote in', '=>': 'quote =>', '^': 'quote ^', '::': 'quote ::', '==': 'quote ==', '`': 'quote `', '[': 'quote [', ']': 'quote ]', 'True': 'quote True', 'False': 'quote False', 'extern': 'quote extern'}), numbering={'BOF': 0, 'EOF': 1, 'quote module': 2, 'quote let': 3, 'quote def': 4, 'quote =': 5, 'quote ,': 6, 'quote rec': 7, 'quote do': 8, 'quote open': 9, 'quote import': 10, 'quote infixl': 11, 'quote infixr': 12, 'quote data': 13, 'quote .': 14, 'quote _': 15, 'quote (': 16, 'quote )': 17, 'quote ?': 18, 'quote else': 19, 'quote match': 20, 'quote ->': 21, 'quote or': 22, 'quote and': 23, 'quote in': 24, 'quote =>': 25, 'quote ^': 26, 'quote ::': 27, 'quote ==': 28, 'quote `': 29, 'quote [': 30, 'quote ]': 31, 'quote True': 32, 'quote False': 33, 'quote extern': 34, 'COMMENT': 35, 'FLOAT': 36, 'INT': 37, 'UPPER': 38, 'LOWER': 39, 'STRING': 40, 'SPECIAL': 41, 'OP': 42, 'SOP': 43, 'W': 44})
+(lexicals, run_lexer) = lexer(r(COMMENT='//[^\\n\\r]*|#[^\\n\\r]*'), r(FLOAT='[-+]?[0-9]+\\.\\d+([eE][-+]?\\d+)?|[-+]?[0-9]+[eE][-+]?\\d+'), r(INT='[-+]?\\d+'), r(UPPER="[A-Z][a-zA-Z0-9_\\u4e00-\\u9fa5]*'?"), r(LOWER="[a-z_\\u4e00-\\u9fa5][a-zA-Z0-9_\\u4e00-\\u9fa5]*'?"), r(STRING='"([^\\\\"]+|\\\\.)*?"'), r(SPECIAL='\\-\\>|\\=\\>|\\=|\\=\\='), r(OP='[\\+\\-\\*\\/\\@\\~\\%\\>\\<\\\\\\:\\!][\\\\\\+\\-\\*\\/\\@\\~\\%\\>\\<\\:\\|\\=\\^\\!]*'), r(SOP='\\|[\\+\\-\\*\\/\\@\\~\\%\\>\\<\\:\\|\\=\\^]+'), r(W='\\s+'), l['`'], l['^'], l[']'], l['['], l['?'], l['.'], l[','], l[')'], l['('], ignores=['W', 'COMMENT'], reserved_map=ImmutableMap.from_dict({'module': 'quote module', 'let': 'quote let', 'def': 'quote def', '=': 'quote =', '!': 'quote !', ',': 'quote ,', 'rec': 'quote rec', 'do': 'quote do', 'open': 'quote open', 'import': 'quote import', 'infixl': 'quote infixl', 'infixr': 'quote infixr', 'data': 'quote data', '.': 'quote .', '_': 'quote _', '(': 'quote (', ')': 'quote )', '?': 'quote ?', 'else': 'quote else', 'match': 'quote match', '->': 'quote ->', 'or': 'quote or', 'and': 'quote and', 'in': 'quote in', '=>': 'quote =>', '^': 'quote ^', '::': 'quote ::', '==': 'quote ==', '`': 'quote `', '[': 'quote [', ']': 'quote ]', 'True': 'quote True', 'False': 'quote False', 'extern': 'quote extern'}), numbering={'BOF': 0, 'EOF': 1, 'quote module': 2, 'quote let': 3, 'quote def': 4, 'quote =': 5, 'quote !': 6, 'quote ,': 7, 'quote rec': 8, 'quote do': 9, 'quote open': 10, 'quote import': 11, 'quote infixl': 12, 'quote infixr': 13, 'quote data': 14, 'quote .': 15, 'quote _': 16, 'quote (': 17, 'quote )': 18, 'quote ?': 19, 'quote else': 20, 'quote match': 21, 'quote ->': 22, 'quote or': 23, 'quote and': 24, 'quote in': 25, 'quote =>': 26, 'quote ^': 27, 'quote ::': 28, 'quote ==': 29, 'quote `': 30, 'quote [': 31, 'quote ]': 32, 'quote True': 33, 'quote False': 34, 'quote extern': 35, 'COMMENT': 36, 'FLOAT': 37, 'INT': 38, 'UPPER': 39, 'LOWER': 40, 'STRING': 41, 'SPECIAL': 42, 'OP': 43, 'SOP': 44, 'W': 45})
 
 
 
-def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, And, Or, Bin, Call, List, Tuple, Lit, Field, Coerce, Extern, Var, In, TCO, PyCall, DQString):
+def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, And, Or, Bin, Call, List, Tuple, Lit, Field, Coerce, Extern, Var, In, TCO, PyCall, DEREF, DQString):
     from rbnf_rts.rts import AST as prim__mk__ast, Cons as prim__cons, _nil as prim__nil
 
-    def lr_step_atom(_slot_0, prim__state, prim__tokens):
-        lcl_0 = 14
+    def lr_step_atomExpr(_slot_0, prim__state, prim__tokens):
+        lcl_0 = 15
         try:
             _py_local_tk = prim__tokens.array[prim__tokens.offset]
             if (_py_local_tk.idint is lcl_0):
@@ -38,47 +38,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
             if lcl_1:
                 lcl_3 = prim__tokens.array[(prim__tokens.offset + 0)]
                 lcl_3 = lcl_3.idint
-                if (lcl_3 == 29):
-                    lcl_4 = parse_bop(prim__state, prim__tokens)
-                    _slot_2_check = lcl_4
-                    lcl_4 = _slot_2_check[0]
-                    lcl_4 = (lcl_4 is False)
-                    if lcl_4:
-                        lcl_4 = _slot_2_check
-                    else:
-                        lcl_5 = _slot_2_check[1]
-                        lcl_5 = lcl_5
-                        _slot_2 = lcl_5
-                        lcl_5 = (_slot_1.lineno, _slot_1.colno, _slot_1.filename)
-                        lcl_6 = _slot_0
-                        lcl_7 = _slot_2
-                        lcl_7 = lcl_7.value
-                        lcl_5 = Field(lcl_5, lcl_6, lcl_7)
-                        _slot_local__1 = lcl_5
-                        lcl_5 = (True, _slot_local__1)
-                        lcl_4 = lcl_5
-                    lcl_2 = lcl_4
-                elif (lcl_3 == 26):
-                    lcl_4 = parse_bop(prim__state, prim__tokens)
-                    _slot_2_check = lcl_4
-                    lcl_4 = _slot_2_check[0]
-                    lcl_4 = (lcl_4 is False)
-                    if lcl_4:
-                        lcl_4 = _slot_2_check
-                    else:
-                        lcl_5 = _slot_2_check[1]
-                        lcl_5 = lcl_5
-                        _slot_2 = lcl_5
-                        lcl_5 = (_slot_1.lineno, _slot_1.colno, _slot_1.filename)
-                        lcl_6 = _slot_0
-                        lcl_7 = _slot_2
-                        lcl_7 = lcl_7.value
-                        lcl_5 = Field(lcl_5, lcl_6, lcl_7)
-                        _slot_local__1 = lcl_5
-                        lcl_5 = (True, _slot_local__1)
-                        lcl_4 = lcl_5
-                    lcl_2 = lcl_4
-                elif (lcl_3 == 28):
+                if (lcl_3 == 30):
                     lcl_4 = parse_bop(prim__state, prim__tokens)
                     _slot_2_check = lcl_4
                     lcl_4 = _slot_2_check[0]
@@ -118,7 +78,47 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                         lcl_5 = (True, _slot_local__1)
                         lcl_4 = lcl_5
                     lcl_2 = lcl_4
-                elif (lcl_3 == 16):
+                elif (lcl_3 == 29):
+                    lcl_4 = parse_bop(prim__state, prim__tokens)
+                    _slot_2_check = lcl_4
+                    lcl_4 = _slot_2_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_2_check
+                    else:
+                        lcl_5 = _slot_2_check[1]
+                        lcl_5 = lcl_5
+                        _slot_2 = lcl_5
+                        lcl_5 = (_slot_1.lineno, _slot_1.colno, _slot_1.filename)
+                        lcl_6 = _slot_0
+                        lcl_7 = _slot_2
+                        lcl_7 = lcl_7.value
+                        lcl_5 = Field(lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 28):
+                    lcl_4 = parse_bop(prim__state, prim__tokens)
+                    _slot_2_check = lcl_4
+                    lcl_4 = _slot_2_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_2_check
+                    else:
+                        lcl_5 = _slot_2_check[1]
+                        lcl_5 = lcl_5
+                        _slot_2 = lcl_5
+                        lcl_5 = (_slot_1.lineno, _slot_1.colno, _slot_1.filename)
+                        lcl_6 = _slot_0
+                        lcl_7 = _slot_2
+                        lcl_7 = lcl_7.value
+                        lcl_5 = Field(lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 17):
                     _py_local_i = prim__tokens.offset
                     _py_local_t = prim__tokens.array[_py_local_i]
                     prim__tokens.offset = (_py_local_i + 1)
@@ -130,7 +130,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     if lcl_4:
                         lcl_6 = prim__tokens.array[(prim__tokens.offset + 0)]
                         lcl_6 = lcl_6.idint
-                        if (lcl_6 == 7):
+                        if (lcl_6 == 8):
                             lcl_7 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                             _slot_3_check = lcl_7
                             lcl_7 = _slot_3_check[0]
@@ -141,7 +141,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_8 = _slot_3_check[1]
                                 lcl_8 = lcl_8
                                 _slot_3 = lcl_8
-                                lcl_8 = 17
+                                lcl_8 = 18
                                 try:
                                     _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                     if (_py_local_tk.idint is lcl_8):
@@ -169,7 +169,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                     lcl_8 = lcl_10
                                 lcl_7 = lcl_8
                             lcl_5 = lcl_7
-                        elif (lcl_6 == 9):
+                        elif (lcl_6 == 10):
                             lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                             _slot_3_check = lcl_10
                             lcl_10 = _slot_3_check[0]
@@ -180,7 +180,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_7 = _slot_3_check[1]
                                 lcl_7 = lcl_7
                                 _slot_3 = lcl_7
-                                lcl_7 = 17
+                                lcl_7 = 18
                                 try:
                                     _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                     if (_py_local_tk.idint is lcl_7):
@@ -219,241 +219,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_7 = _slot_3_check[1]
                                 lcl_7 = lcl_7
                                 _slot_3 = lcl_7
-                                lcl_7 = 17
-                                try:
-                                    _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                    if (_py_local_tk.idint is lcl_7):
-                                        prim__tokens.offset += 1
-                                    else:
-                                        _py_local_tk = None
-                                except IndexError:
-                                    _py_local_tk = None
-                                lcl_7 = _py_local_tk
-                                _slot_4 = lcl_7
-                                lcl_7 = (_slot_4 is None)
-                                if lcl_7:
-                                    lcl_8 = prim__tokens.offset
-                                    lcl_8 = (lcl_8, 'quote ) not match')
-                                    lcl_8 = prim__cons(lcl_8, prim__nil)
-                                    lcl_8 = lcl_8
-                                    lcl_8 = (False, lcl_8)
-                                    lcl_7 = lcl_8
-                                else:
-                                    lcl_8 = _slot_0
-                                    lcl_9 = _slot_3
-                                    lcl_8 = PyCall(lcl_8, lcl_9)
-                                    _slot_local__1 = lcl_8
-                                    lcl_8 = (True, _slot_local__1)
-                                    lcl_7 = lcl_8
-                                lcl_10 = lcl_7
-                            lcl_5 = lcl_10
-                        elif (lcl_6 == 12):
-                            lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                            _slot_3_check = lcl_10
-                            lcl_10 = _slot_3_check[0]
-                            lcl_10 = (lcl_10 is False)
-                            if lcl_10:
-                                lcl_10 = _slot_3_check
-                            else:
-                                lcl_7 = _slot_3_check[1]
-                                lcl_7 = lcl_7
-                                _slot_3 = lcl_7
-                                lcl_7 = 17
-                                try:
-                                    _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                    if (_py_local_tk.idint is lcl_7):
-                                        prim__tokens.offset += 1
-                                    else:
-                                        _py_local_tk = None
-                                except IndexError:
-                                    _py_local_tk = None
-                                lcl_7 = _py_local_tk
-                                _slot_4 = lcl_7
-                                lcl_7 = (_slot_4 is None)
-                                if lcl_7:
-                                    lcl_8 = prim__tokens.offset
-                                    lcl_8 = (lcl_8, 'quote ) not match')
-                                    lcl_8 = prim__cons(lcl_8, prim__nil)
-                                    lcl_8 = lcl_8
-                                    lcl_8 = (False, lcl_8)
-                                    lcl_7 = lcl_8
-                                else:
-                                    lcl_8 = _slot_0
-                                    lcl_9 = _slot_3
-                                    lcl_8 = PyCall(lcl_8, lcl_9)
-                                    _slot_local__1 = lcl_8
-                                    lcl_8 = (True, _slot_local__1)
-                                    lcl_7 = lcl_8
-                                lcl_10 = lcl_7
-                            lcl_5 = lcl_10
-                        elif (lcl_6 == 11):
-                            lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                            _slot_3_check = lcl_10
-                            lcl_10 = _slot_3_check[0]
-                            lcl_10 = (lcl_10 is False)
-                            if lcl_10:
-                                lcl_10 = _slot_3_check
-                            else:
-                                lcl_7 = _slot_3_check[1]
-                                lcl_7 = lcl_7
-                                _slot_3 = lcl_7
-                                lcl_7 = 17
-                                try:
-                                    _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                    if (_py_local_tk.idint is lcl_7):
-                                        prim__tokens.offset += 1
-                                    else:
-                                        _py_local_tk = None
-                                except IndexError:
-                                    _py_local_tk = None
-                                lcl_7 = _py_local_tk
-                                _slot_4 = lcl_7
-                                lcl_7 = (_slot_4 is None)
-                                if lcl_7:
-                                    lcl_8 = prim__tokens.offset
-                                    lcl_8 = (lcl_8, 'quote ) not match')
-                                    lcl_8 = prim__cons(lcl_8, prim__nil)
-                                    lcl_8 = lcl_8
-                                    lcl_8 = (False, lcl_8)
-                                    lcl_7 = lcl_8
-                                else:
-                                    lcl_8 = _slot_0
-                                    lcl_9 = _slot_3
-                                    lcl_8 = PyCall(lcl_8, lcl_9)
-                                    _slot_local__1 = lcl_8
-                                    lcl_8 = (True, _slot_local__1)
-                                    lcl_7 = lcl_8
-                                lcl_10 = lcl_7
-                            lcl_5 = lcl_10
-                        elif (lcl_6 == 10):
-                            lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                            _slot_3_check = lcl_10
-                            lcl_10 = _slot_3_check[0]
-                            lcl_10 = (lcl_10 is False)
-                            if lcl_10:
-                                lcl_10 = _slot_3_check
-                            else:
-                                lcl_7 = _slot_3_check[1]
-                                lcl_7 = lcl_7
-                                _slot_3 = lcl_7
-                                lcl_7 = 17
-                                try:
-                                    _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                    if (_py_local_tk.idint is lcl_7):
-                                        prim__tokens.offset += 1
-                                    else:
-                                        _py_local_tk = None
-                                except IndexError:
-                                    _py_local_tk = None
-                                lcl_7 = _py_local_tk
-                                _slot_4 = lcl_7
-                                lcl_7 = (_slot_4 is None)
-                                if lcl_7:
-                                    lcl_8 = prim__tokens.offset
-                                    lcl_8 = (lcl_8, 'quote ) not match')
-                                    lcl_8 = prim__cons(lcl_8, prim__nil)
-                                    lcl_8 = lcl_8
-                                    lcl_8 = (False, lcl_8)
-                                    lcl_7 = lcl_8
-                                else:
-                                    lcl_8 = _slot_0
-                                    lcl_9 = _slot_3
-                                    lcl_8 = PyCall(lcl_8, lcl_9)
-                                    _slot_local__1 = lcl_8
-                                    lcl_8 = (True, _slot_local__1)
-                                    lcl_7 = lcl_8
-                                lcl_10 = lcl_7
-                            lcl_5 = lcl_10
-                        elif (lcl_6 == 34):
-                            lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                            _slot_3_check = lcl_10
-                            lcl_10 = _slot_3_check[0]
-                            lcl_10 = (lcl_10 is False)
-                            if lcl_10:
-                                lcl_10 = _slot_3_check
-                            else:
-                                lcl_7 = _slot_3_check[1]
-                                lcl_7 = lcl_7
-                                _slot_3 = lcl_7
-                                lcl_7 = 17
-                                try:
-                                    _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                    if (_py_local_tk.idint is lcl_7):
-                                        prim__tokens.offset += 1
-                                    else:
-                                        _py_local_tk = None
-                                except IndexError:
-                                    _py_local_tk = None
-                                lcl_7 = _py_local_tk
-                                _slot_4 = lcl_7
-                                lcl_7 = (_slot_4 is None)
-                                if lcl_7:
-                                    lcl_8 = prim__tokens.offset
-                                    lcl_8 = (lcl_8, 'quote ) not match')
-                                    lcl_8 = prim__cons(lcl_8, prim__nil)
-                                    lcl_8 = lcl_8
-                                    lcl_8 = (False, lcl_8)
-                                    lcl_7 = lcl_8
-                                else:
-                                    lcl_8 = _slot_0
-                                    lcl_9 = _slot_3
-                                    lcl_8 = PyCall(lcl_8, lcl_9)
-                                    _slot_local__1 = lcl_8
-                                    lcl_8 = (True, _slot_local__1)
-                                    lcl_7 = lcl_8
-                                lcl_10 = lcl_7
-                            lcl_5 = lcl_10
-                        elif (lcl_6 == 8):
-                            lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                            _slot_3_check = lcl_10
-                            lcl_10 = _slot_3_check[0]
-                            lcl_10 = (lcl_10 is False)
-                            if lcl_10:
-                                lcl_10 = _slot_3_check
-                            else:
-                                lcl_7 = _slot_3_check[1]
-                                lcl_7 = lcl_7
-                                _slot_3 = lcl_7
-                                lcl_7 = 17
-                                try:
-                                    _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                    if (_py_local_tk.idint is lcl_7):
-                                        prim__tokens.offset += 1
-                                    else:
-                                        _py_local_tk = None
-                                except IndexError:
-                                    _py_local_tk = None
-                                lcl_7 = _py_local_tk
-                                _slot_4 = lcl_7
-                                lcl_7 = (_slot_4 is None)
-                                if lcl_7:
-                                    lcl_8 = prim__tokens.offset
-                                    lcl_8 = (lcl_8, 'quote ) not match')
-                                    lcl_8 = prim__cons(lcl_8, prim__nil)
-                                    lcl_8 = lcl_8
-                                    lcl_8 = (False, lcl_8)
-                                    lcl_7 = lcl_8
-                                else:
-                                    lcl_8 = _slot_0
-                                    lcl_9 = _slot_3
-                                    lcl_8 = PyCall(lcl_8, lcl_9)
-                                    _slot_local__1 = lcl_8
-                                    lcl_8 = (True, _slot_local__1)
-                                    lcl_7 = lcl_8
-                                lcl_10 = lcl_7
-                            lcl_5 = lcl_10
-                        elif (lcl_6 == 4):
-                            lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                            _slot_3_check = lcl_10
-                            lcl_10 = _slot_3_check[0]
-                            lcl_10 = (lcl_10 is False)
-                            if lcl_10:
-                                lcl_10 = _slot_3_check
-                            else:
-                                lcl_7 = _slot_3_check[1]
-                                lcl_7 = lcl_7
-                                _slot_3 = lcl_7
-                                lcl_7 = 17
+                                lcl_7 = 18
                                 try:
                                     _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                     if (_py_local_tk.idint is lcl_7):
@@ -492,7 +258,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_7 = _slot_3_check[1]
                                 lcl_7 = lcl_7
                                 _slot_3 = lcl_7
-                                lcl_7 = 17
+                                lcl_7 = 18
                                 try:
                                     _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                     if (_py_local_tk.idint is lcl_7):
@@ -520,7 +286,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                     lcl_7 = lcl_8
                                 lcl_10 = lcl_7
                             lcl_5 = lcl_10
-                        elif (lcl_6 == 15):
+                        elif (lcl_6 == 12):
                             lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                             _slot_3_check = lcl_10
                             lcl_10 = _slot_3_check[0]
@@ -531,7 +297,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_7 = _slot_3_check[1]
                                 lcl_7 = lcl_7
                                 _slot_3 = lcl_7
-                                lcl_7 = 17
+                                lcl_7 = 18
                                 try:
                                     _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                     if (_py_local_tk.idint is lcl_7):
@@ -559,7 +325,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                     lcl_7 = lcl_8
                                 lcl_10 = lcl_7
                             lcl_5 = lcl_10
-                        elif (lcl_6 == 30):
+                        elif (lcl_6 == 11):
                             lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                             _slot_3_check = lcl_10
                             lcl_10 = _slot_3_check[0]
@@ -570,7 +336,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_7 = _slot_3_check[1]
                                 lcl_7 = lcl_7
                                 _slot_3 = lcl_7
-                                lcl_7 = 17
+                                lcl_7 = 18
                                 try:
                                     _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                     if (_py_local_tk.idint is lcl_7):
@@ -598,7 +364,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                     lcl_7 = lcl_8
                                 lcl_10 = lcl_7
                             lcl_5 = lcl_10
-                        elif (lcl_6 == 32):
+                        elif (lcl_6 == 35):
                             lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                             _slot_3_check = lcl_10
                             lcl_10 = _slot_3_check[0]
@@ -609,7 +375,202 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_7 = _slot_3_check[1]
                                 lcl_7 = lcl_7
                                 _slot_3 = lcl_7
-                                lcl_7 = 17
+                                lcl_7 = 18
+                                try:
+                                    _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                    if (_py_local_tk.idint is lcl_7):
+                                        prim__tokens.offset += 1
+                                    else:
+                                        _py_local_tk = None
+                                except IndexError:
+                                    _py_local_tk = None
+                                lcl_7 = _py_local_tk
+                                _slot_4 = lcl_7
+                                lcl_7 = (_slot_4 is None)
+                                if lcl_7:
+                                    lcl_8 = prim__tokens.offset
+                                    lcl_8 = (lcl_8, 'quote ) not match')
+                                    lcl_8 = prim__cons(lcl_8, prim__nil)
+                                    lcl_8 = lcl_8
+                                    lcl_8 = (False, lcl_8)
+                                    lcl_7 = lcl_8
+                                else:
+                                    lcl_8 = _slot_0
+                                    lcl_9 = _slot_3
+                                    lcl_8 = PyCall(lcl_8, lcl_9)
+                                    _slot_local__1 = lcl_8
+                                    lcl_8 = (True, _slot_local__1)
+                                    lcl_7 = lcl_8
+                                lcl_10 = lcl_7
+                            lcl_5 = lcl_10
+                        elif (lcl_6 == 9):
+                            lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                            _slot_3_check = lcl_10
+                            lcl_10 = _slot_3_check[0]
+                            lcl_10 = (lcl_10 is False)
+                            if lcl_10:
+                                lcl_10 = _slot_3_check
+                            else:
+                                lcl_7 = _slot_3_check[1]
+                                lcl_7 = lcl_7
+                                _slot_3 = lcl_7
+                                lcl_7 = 18
+                                try:
+                                    _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                    if (_py_local_tk.idint is lcl_7):
+                                        prim__tokens.offset += 1
+                                    else:
+                                        _py_local_tk = None
+                                except IndexError:
+                                    _py_local_tk = None
+                                lcl_7 = _py_local_tk
+                                _slot_4 = lcl_7
+                                lcl_7 = (_slot_4 is None)
+                                if lcl_7:
+                                    lcl_8 = prim__tokens.offset
+                                    lcl_8 = (lcl_8, 'quote ) not match')
+                                    lcl_8 = prim__cons(lcl_8, prim__nil)
+                                    lcl_8 = lcl_8
+                                    lcl_8 = (False, lcl_8)
+                                    lcl_7 = lcl_8
+                                else:
+                                    lcl_8 = _slot_0
+                                    lcl_9 = _slot_3
+                                    lcl_8 = PyCall(lcl_8, lcl_9)
+                                    _slot_local__1 = lcl_8
+                                    lcl_8 = (True, _slot_local__1)
+                                    lcl_7 = lcl_8
+                                lcl_10 = lcl_7
+                            lcl_5 = lcl_10
+                        elif (lcl_6 == 4):
+                            lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                            _slot_3_check = lcl_10
+                            lcl_10 = _slot_3_check[0]
+                            lcl_10 = (lcl_10 is False)
+                            if lcl_10:
+                                lcl_10 = _slot_3_check
+                            else:
+                                lcl_7 = _slot_3_check[1]
+                                lcl_7 = lcl_7
+                                _slot_3 = lcl_7
+                                lcl_7 = 18
+                                try:
+                                    _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                    if (_py_local_tk.idint is lcl_7):
+                                        prim__tokens.offset += 1
+                                    else:
+                                        _py_local_tk = None
+                                except IndexError:
+                                    _py_local_tk = None
+                                lcl_7 = _py_local_tk
+                                _slot_4 = lcl_7
+                                lcl_7 = (_slot_4 is None)
+                                if lcl_7:
+                                    lcl_8 = prim__tokens.offset
+                                    lcl_8 = (lcl_8, 'quote ) not match')
+                                    lcl_8 = prim__cons(lcl_8, prim__nil)
+                                    lcl_8 = lcl_8
+                                    lcl_8 = (False, lcl_8)
+                                    lcl_7 = lcl_8
+                                else:
+                                    lcl_8 = _slot_0
+                                    lcl_9 = _slot_3
+                                    lcl_8 = PyCall(lcl_8, lcl_9)
+                                    _slot_local__1 = lcl_8
+                                    lcl_8 = (True, _slot_local__1)
+                                    lcl_7 = lcl_8
+                                lcl_10 = lcl_7
+                            lcl_5 = lcl_10
+                        elif (lcl_6 == 14):
+                            lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                            _slot_3_check = lcl_10
+                            lcl_10 = _slot_3_check[0]
+                            lcl_10 = (lcl_10 is False)
+                            if lcl_10:
+                                lcl_10 = _slot_3_check
+                            else:
+                                lcl_7 = _slot_3_check[1]
+                                lcl_7 = lcl_7
+                                _slot_3 = lcl_7
+                                lcl_7 = 18
+                                try:
+                                    _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                    if (_py_local_tk.idint is lcl_7):
+                                        prim__tokens.offset += 1
+                                    else:
+                                        _py_local_tk = None
+                                except IndexError:
+                                    _py_local_tk = None
+                                lcl_7 = _py_local_tk
+                                _slot_4 = lcl_7
+                                lcl_7 = (_slot_4 is None)
+                                if lcl_7:
+                                    lcl_8 = prim__tokens.offset
+                                    lcl_8 = (lcl_8, 'quote ) not match')
+                                    lcl_8 = prim__cons(lcl_8, prim__nil)
+                                    lcl_8 = lcl_8
+                                    lcl_8 = (False, lcl_8)
+                                    lcl_7 = lcl_8
+                                else:
+                                    lcl_8 = _slot_0
+                                    lcl_9 = _slot_3
+                                    lcl_8 = PyCall(lcl_8, lcl_9)
+                                    _slot_local__1 = lcl_8
+                                    lcl_8 = (True, _slot_local__1)
+                                    lcl_7 = lcl_8
+                                lcl_10 = lcl_7
+                            lcl_5 = lcl_10
+                        elif (lcl_6 == 16):
+                            lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                            _slot_3_check = lcl_10
+                            lcl_10 = _slot_3_check[0]
+                            lcl_10 = (lcl_10 is False)
+                            if lcl_10:
+                                lcl_10 = _slot_3_check
+                            else:
+                                lcl_7 = _slot_3_check[1]
+                                lcl_7 = lcl_7
+                                _slot_3 = lcl_7
+                                lcl_7 = 18
+                                try:
+                                    _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                    if (_py_local_tk.idint is lcl_7):
+                                        prim__tokens.offset += 1
+                                    else:
+                                        _py_local_tk = None
+                                except IndexError:
+                                    _py_local_tk = None
+                                lcl_7 = _py_local_tk
+                                _slot_4 = lcl_7
+                                lcl_7 = (_slot_4 is None)
+                                if lcl_7:
+                                    lcl_8 = prim__tokens.offset
+                                    lcl_8 = (lcl_8, 'quote ) not match')
+                                    lcl_8 = prim__cons(lcl_8, prim__nil)
+                                    lcl_8 = lcl_8
+                                    lcl_8 = (False, lcl_8)
+                                    lcl_7 = lcl_8
+                                else:
+                                    lcl_8 = _slot_0
+                                    lcl_9 = _slot_3
+                                    lcl_8 = PyCall(lcl_8, lcl_9)
+                                    _slot_local__1 = lcl_8
+                                    lcl_8 = (True, _slot_local__1)
+                                    lcl_7 = lcl_8
+                                lcl_10 = lcl_7
+                            lcl_5 = lcl_10
+                        elif (lcl_6 == 31):
+                            lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                            _slot_3_check = lcl_10
+                            lcl_10 = _slot_3_check[0]
+                            lcl_10 = (lcl_10 is False)
+                            if lcl_10:
+                                lcl_10 = _slot_3_check
+                            else:
+                                lcl_7 = _slot_3_check[1]
+                                lcl_7 = lcl_7
+                                _slot_3 = lcl_7
+                                lcl_7 = 18
                                 try:
                                     _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                     if (_py_local_tk.idint is lcl_7):
@@ -648,7 +609,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_7 = _slot_3_check[1]
                                 lcl_7 = lcl_7
                                 _slot_3 = lcl_7
-                                lcl_7 = 17
+                                lcl_7 = 18
                                 try:
                                     _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                     if (_py_local_tk.idint is lcl_7):
@@ -676,7 +637,46 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                     lcl_7 = lcl_8
                                 lcl_10 = lcl_7
                             lcl_5 = lcl_10
-                        elif (lcl_6 == 17):
+                        elif (lcl_6 == 34):
+                            lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                            _slot_3_check = lcl_10
+                            lcl_10 = _slot_3_check[0]
+                            lcl_10 = (lcl_10 is False)
+                            if lcl_10:
+                                lcl_10 = _slot_3_check
+                            else:
+                                lcl_7 = _slot_3_check[1]
+                                lcl_7 = lcl_7
+                                _slot_3 = lcl_7
+                                lcl_7 = 18
+                                try:
+                                    _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                    if (_py_local_tk.idint is lcl_7):
+                                        prim__tokens.offset += 1
+                                    else:
+                                        _py_local_tk = None
+                                except IndexError:
+                                    _py_local_tk = None
+                                lcl_7 = _py_local_tk
+                                _slot_4 = lcl_7
+                                lcl_7 = (_slot_4 is None)
+                                if lcl_7:
+                                    lcl_8 = prim__tokens.offset
+                                    lcl_8 = (lcl_8, 'quote ) not match')
+                                    lcl_8 = prim__cons(lcl_8, prim__nil)
+                                    lcl_8 = lcl_8
+                                    lcl_8 = (False, lcl_8)
+                                    lcl_7 = lcl_8
+                                else:
+                                    lcl_8 = _slot_0
+                                    lcl_9 = _slot_3
+                                    lcl_8 = PyCall(lcl_8, lcl_9)
+                                    _slot_local__1 = lcl_8
+                                    lcl_8 = (True, _slot_local__1)
+                                    lcl_7 = lcl_8
+                                lcl_10 = lcl_7
+                            lcl_5 = lcl_10
+                        elif (lcl_6 == 18):
                             _py_local_i = prim__tokens.offset
                             _py_local_t = prim__tokens.array[_py_local_i]
                             prim__tokens.offset = (_py_local_i + 1)
@@ -688,7 +688,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             _slot_local__1 = lcl_10
                             lcl_10 = (True, _slot_local__1)
                             lcl_5 = lcl_10
-                        elif (lcl_6 == 16):
+                        elif (lcl_6 == 17):
                             lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                             _slot_3_check = lcl_10
                             lcl_10 = _slot_3_check[0]
@@ -699,7 +699,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_7 = _slot_3_check[1]
                                 lcl_7 = lcl_7
                                 _slot_3 = lcl_7
-                                lcl_7 = 17
+                                lcl_7 = 18
                                 try:
                                     _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                     if (_py_local_tk.idint is lcl_7):
@@ -727,7 +727,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                     lcl_7 = lcl_8
                                 lcl_10 = lcl_7
                             lcl_5 = lcl_10
-                        elif (lcl_6 == 38):
+                        elif (lcl_6 == 6):
                             lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                             _slot_3_check = lcl_10
                             lcl_10 = _slot_3_check[0]
@@ -738,46 +738,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_7 = _slot_3_check[1]
                                 lcl_7 = lcl_7
                                 _slot_3 = lcl_7
-                                lcl_7 = 17
-                                try:
-                                    _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                    if (_py_local_tk.idint is lcl_7):
-                                        prim__tokens.offset += 1
-                                    else:
-                                        _py_local_tk = None
-                                except IndexError:
-                                    _py_local_tk = None
-                                lcl_7 = _py_local_tk
-                                _slot_4 = lcl_7
-                                lcl_7 = (_slot_4 is None)
-                                if lcl_7:
-                                    lcl_8 = prim__tokens.offset
-                                    lcl_8 = (lcl_8, 'quote ) not match')
-                                    lcl_8 = prim__cons(lcl_8, prim__nil)
-                                    lcl_8 = lcl_8
-                                    lcl_8 = (False, lcl_8)
-                                    lcl_7 = lcl_8
-                                else:
-                                    lcl_8 = _slot_0
-                                    lcl_9 = _slot_3
-                                    lcl_8 = PyCall(lcl_8, lcl_9)
-                                    _slot_local__1 = lcl_8
-                                    lcl_8 = (True, _slot_local__1)
-                                    lcl_7 = lcl_8
-                                lcl_10 = lcl_7
-                            lcl_5 = lcl_10
-                        elif (lcl_6 == 40):
-                            lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                            _slot_3_check = lcl_10
-                            lcl_10 = _slot_3_check[0]
-                            lcl_10 = (lcl_10 is False)
-                            if lcl_10:
-                                lcl_10 = _slot_3_check
-                            else:
-                                lcl_7 = _slot_3_check[1]
-                                lcl_7 = lcl_7
-                                _slot_3 = lcl_7
-                                lcl_7 = 17
+                                lcl_7 = 18
                                 try:
                                     _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                     if (_py_local_tk.idint is lcl_7):
@@ -816,7 +777,124 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_7 = _slot_3_check[1]
                                 lcl_7 = lcl_7
                                 _slot_3 = lcl_7
-                                lcl_7 = 17
+                                lcl_7 = 18
+                                try:
+                                    _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                    if (_py_local_tk.idint is lcl_7):
+                                        prim__tokens.offset += 1
+                                    else:
+                                        _py_local_tk = None
+                                except IndexError:
+                                    _py_local_tk = None
+                                lcl_7 = _py_local_tk
+                                _slot_4 = lcl_7
+                                lcl_7 = (_slot_4 is None)
+                                if lcl_7:
+                                    lcl_8 = prim__tokens.offset
+                                    lcl_8 = (lcl_8, 'quote ) not match')
+                                    lcl_8 = prim__cons(lcl_8, prim__nil)
+                                    lcl_8 = lcl_8
+                                    lcl_8 = (False, lcl_8)
+                                    lcl_7 = lcl_8
+                                else:
+                                    lcl_8 = _slot_0
+                                    lcl_9 = _slot_3
+                                    lcl_8 = PyCall(lcl_8, lcl_9)
+                                    _slot_local__1 = lcl_8
+                                    lcl_8 = (True, _slot_local__1)
+                                    lcl_7 = lcl_8
+                                lcl_10 = lcl_7
+                            lcl_5 = lcl_10
+                        elif (lcl_6 == 41):
+                            lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                            _slot_3_check = lcl_10
+                            lcl_10 = _slot_3_check[0]
+                            lcl_10 = (lcl_10 is False)
+                            if lcl_10:
+                                lcl_10 = _slot_3_check
+                            else:
+                                lcl_7 = _slot_3_check[1]
+                                lcl_7 = lcl_7
+                                _slot_3 = lcl_7
+                                lcl_7 = 18
+                                try:
+                                    _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                    if (_py_local_tk.idint is lcl_7):
+                                        prim__tokens.offset += 1
+                                    else:
+                                        _py_local_tk = None
+                                except IndexError:
+                                    _py_local_tk = None
+                                lcl_7 = _py_local_tk
+                                _slot_4 = lcl_7
+                                lcl_7 = (_slot_4 is None)
+                                if lcl_7:
+                                    lcl_8 = prim__tokens.offset
+                                    lcl_8 = (lcl_8, 'quote ) not match')
+                                    lcl_8 = prim__cons(lcl_8, prim__nil)
+                                    lcl_8 = lcl_8
+                                    lcl_8 = (False, lcl_8)
+                                    lcl_7 = lcl_8
+                                else:
+                                    lcl_8 = _slot_0
+                                    lcl_9 = _slot_3
+                                    lcl_8 = PyCall(lcl_8, lcl_9)
+                                    _slot_local__1 = lcl_8
+                                    lcl_8 = (True, _slot_local__1)
+                                    lcl_7 = lcl_8
+                                lcl_10 = lcl_7
+                            lcl_5 = lcl_10
+                        elif (lcl_6 == 40):
+                            lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                            _slot_3_check = lcl_10
+                            lcl_10 = _slot_3_check[0]
+                            lcl_10 = (lcl_10 is False)
+                            if lcl_10:
+                                lcl_10 = _slot_3_check
+                            else:
+                                lcl_7 = _slot_3_check[1]
+                                lcl_7 = lcl_7
+                                _slot_3 = lcl_7
+                                lcl_7 = 18
+                                try:
+                                    _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                    if (_py_local_tk.idint is lcl_7):
+                                        prim__tokens.offset += 1
+                                    else:
+                                        _py_local_tk = None
+                                except IndexError:
+                                    _py_local_tk = None
+                                lcl_7 = _py_local_tk
+                                _slot_4 = lcl_7
+                                lcl_7 = (_slot_4 is None)
+                                if lcl_7:
+                                    lcl_8 = prim__tokens.offset
+                                    lcl_8 = (lcl_8, 'quote ) not match')
+                                    lcl_8 = prim__cons(lcl_8, prim__nil)
+                                    lcl_8 = lcl_8
+                                    lcl_8 = (False, lcl_8)
+                                    lcl_7 = lcl_8
+                                else:
+                                    lcl_8 = _slot_0
+                                    lcl_9 = _slot_3
+                                    lcl_8 = PyCall(lcl_8, lcl_9)
+                                    _slot_local__1 = lcl_8
+                                    lcl_8 = (True, _slot_local__1)
+                                    lcl_7 = lcl_8
+                                lcl_10 = lcl_7
+                            lcl_5 = lcl_10
+                        elif (lcl_6 == 38):
+                            lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                            _slot_3_check = lcl_10
+                            lcl_10 = _slot_3_check[0]
+                            lcl_10 = (lcl_10 is False)
+                            if lcl_10:
+                                lcl_10 = _slot_3_check
+                            else:
+                                lcl_7 = _slot_3_check[1]
+                                lcl_7 = lcl_7
+                                _slot_3 = lcl_7
+                                lcl_7 = 18
                                 try:
                                     _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                     if (_py_local_tk.idint is lcl_7):
@@ -855,46 +933,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_7 = _slot_3_check[1]
                                 lcl_7 = lcl_7
                                 _slot_3 = lcl_7
-                                lcl_7 = 17
-                                try:
-                                    _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                    if (_py_local_tk.idint is lcl_7):
-                                        prim__tokens.offset += 1
-                                    else:
-                                        _py_local_tk = None
-                                except IndexError:
-                                    _py_local_tk = None
-                                lcl_7 = _py_local_tk
-                                _slot_4 = lcl_7
-                                lcl_7 = (_slot_4 is None)
-                                if lcl_7:
-                                    lcl_8 = prim__tokens.offset
-                                    lcl_8 = (lcl_8, 'quote ) not match')
-                                    lcl_8 = prim__cons(lcl_8, prim__nil)
-                                    lcl_8 = lcl_8
-                                    lcl_8 = (False, lcl_8)
-                                    lcl_7 = lcl_8
-                                else:
-                                    lcl_8 = _slot_0
-                                    lcl_9 = _slot_3
-                                    lcl_8 = PyCall(lcl_8, lcl_9)
-                                    _slot_local__1 = lcl_8
-                                    lcl_8 = (True, _slot_local__1)
-                                    lcl_7 = lcl_8
-                                lcl_10 = lcl_7
-                            lcl_5 = lcl_10
-                        elif (lcl_6 == 36):
-                            lcl_10 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                            _slot_3_check = lcl_10
-                            lcl_10 = _slot_3_check[0]
-                            lcl_10 = (lcl_10 is False)
-                            if lcl_10:
-                                lcl_10 = _slot_3_check
-                            else:
-                                lcl_7 = _slot_3_check[1]
-                                lcl_7 = lcl_7
-                                _slot_3 = lcl_7
-                                lcl_7 = 17
+                                lcl_7 = 18
                                 try:
                                     _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                     if (_py_local_tk.idint is lcl_7):
@@ -923,20 +962,20 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_10 = lcl_7
                             lcl_5 = lcl_10
                         else:
-                            lcl_10 = (_off_2, 'atom lookahead failed')
+                            lcl_10 = (_off_2, 'atomExpr lookahead failed')
                             lcl_10 = prim__cons(lcl_10, prim__nil)
                             lcl_10 = lcl_10
                             lcl_10 = (False, lcl_10)
                             lcl_5 = lcl_10
                         lcl_4 = lcl_5
                     else:
-                        lcl_10 = (_off_2, 'atom got EOF')
+                        lcl_10 = (_off_2, 'atomExpr got EOF')
                         lcl_10 = prim__cons(lcl_10, prim__nil)
                         lcl_10 = lcl_10
                         lcl_10 = (False, lcl_10)
                         lcl_4 = lcl_10
                     lcl_2 = lcl_4
-                elif (lcl_3 == 38):
+                elif (lcl_3 == 39):
                     lcl_10 = parse_ID(prim__state, prim__tokens)
                     _slot_2_check = lcl_10
                     lcl_10 = _slot_2_check[0]
@@ -950,6 +989,26 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                         lcl_4 = (_slot_1.lineno, _slot_1.colno, _slot_1.filename)
                         lcl_5 = _slot_0
                         lcl_6 = _slot_2
+                        lcl_4 = Field(lcl_4, lcl_5, lcl_6)
+                        _slot_local__1 = lcl_4
+                        lcl_4 = (True, _slot_local__1)
+                        lcl_10 = lcl_4
+                    lcl_2 = lcl_10
+                elif (lcl_3 == 44):
+                    lcl_10 = parse_bop(prim__state, prim__tokens)
+                    _slot_2_check = lcl_10
+                    lcl_10 = _slot_2_check[0]
+                    lcl_10 = (lcl_10 is False)
+                    if lcl_10:
+                        lcl_10 = _slot_2_check
+                    else:
+                        lcl_4 = _slot_2_check[1]
+                        lcl_4 = lcl_4
+                        _slot_2 = lcl_4
+                        lcl_4 = (_slot_1.lineno, _slot_1.colno, _slot_1.filename)
+                        lcl_5 = _slot_0
+                        lcl_6 = _slot_2
+                        lcl_6 = lcl_6.value
                         lcl_4 = Field(lcl_4, lcl_5, lcl_6)
                         _slot_local__1 = lcl_4
                         lcl_4 = (True, _slot_local__1)
@@ -975,27 +1034,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                         lcl_4 = (True, _slot_local__1)
                         lcl_10 = lcl_4
                     lcl_2 = lcl_10
-                elif (lcl_3 == 42):
-                    lcl_10 = parse_bop(prim__state, prim__tokens)
-                    _slot_2_check = lcl_10
-                    lcl_10 = _slot_2_check[0]
-                    lcl_10 = (lcl_10 is False)
-                    if lcl_10:
-                        lcl_10 = _slot_2_check
-                    else:
-                        lcl_4 = _slot_2_check[1]
-                        lcl_4 = lcl_4
-                        _slot_2 = lcl_4
-                        lcl_4 = (_slot_1.lineno, _slot_1.colno, _slot_1.filename)
-                        lcl_5 = _slot_0
-                        lcl_6 = _slot_2
-                        lcl_6 = lcl_6.value
-                        lcl_4 = Field(lcl_4, lcl_5, lcl_6)
-                        _slot_local__1 = lcl_4
-                        lcl_4 = (True, _slot_local__1)
-                        lcl_10 = lcl_4
-                    lcl_2 = lcl_10
-                elif (lcl_3 == 39):
+                elif (lcl_3 == 40):
                     lcl_10 = parse_ID(prim__state, prim__tokens)
                     _slot_2_check = lcl_10
                     lcl_10 = _slot_2_check[0]
@@ -1015,14 +1054,14 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                         lcl_10 = lcl_4
                     lcl_2 = lcl_10
                 else:
-                    lcl_10 = (_off_1, 'atom lookahead failed')
+                    lcl_10 = (_off_1, 'atomExpr lookahead failed')
                     lcl_10 = prim__cons(lcl_10, prim__nil)
                     lcl_10 = lcl_10
                     lcl_10 = (False, lcl_10)
                     lcl_2 = lcl_10
                 lcl_1 = lcl_2
             else:
-                lcl_10 = (_off_1, 'atom got EOF')
+                lcl_10 = (_off_1, 'atomExpr got EOF')
                 lcl_10 = prim__cons(lcl_10, prim__nil)
                 lcl_10 = lcl_10
                 lcl_10 = (False, lcl_10)
@@ -1030,36 +1069,36 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
             lcl_0 = lcl_1
         return lcl_0
 
-    def lr_loop_atom(_slot_0, prim__state, prim__tokens):
-        lr_atom_reduce = _slot_0
+    def lr_loop_atomExpr(_slot_0, prim__state, prim__tokens):
+        lr_atomExpr_reduce = _slot_0
         lcl_0 = prim__tokens.offset
         _off_0 = lcl_0
-        lcl_0 = lr_step_atom(lr_atom_reduce, prim__state, prim__tokens)
-        lr_atom_try = lcl_0
-        lcl_0 = lr_atom_try[0]
+        lcl_0 = lr_step_atomExpr(lr_atomExpr_reduce, prim__state, prim__tokens)
+        lr_atomExpr_try = lcl_0
+        lcl_0 = lr_atomExpr_try[0]
         lcl_0 = (lcl_0 is not False)
         while lcl_0:
             lcl_1 = prim__tokens.offset
             _off_0 = lcl_1
-            lcl_1 = lr_atom_try[1]
+            lcl_1 = lr_atomExpr_try[1]
             lcl_1 = lcl_1
-            lr_atom_reduce = lcl_1
-            lcl_1 = lr_step_atom(lr_atom_reduce, prim__state, prim__tokens)
-            lr_atom_try = lcl_1
-            lcl_1 = lr_atom_try[0]
+            lr_atomExpr_reduce = lcl_1
+            lcl_1 = lr_step_atomExpr(lr_atomExpr_reduce, prim__state, prim__tokens)
+            lr_atomExpr_try = lcl_1
+            lcl_1 = lr_atomExpr_try[0]
             lcl_1 = (lcl_1 is not False)
             lcl_0 = lcl_1
         lcl_0 = prim__tokens.offset
         lcl_0 = (lcl_0 is _off_0)
         if lcl_0:
-            lcl_1 = (True, lr_atom_reduce)
+            lcl_1 = (True, lr_atomExpr_reduce)
             lcl_0 = lcl_1
         else:
-            lcl_0 = lr_atom_try
+            lcl_0 = lr_atomExpr_try
         return lcl_0
 
     def lr_step_booland(_slot_0, prim__state, prim__tokens):
-        lcl_0 = 23
+        lcl_0 = 24
         try:
             _py_local_tk = prim__tokens.array[prim__tokens.offset]
             if (_py_local_tk.idint is lcl_0):
@@ -1128,7 +1167,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
         return lcl_0
 
     def lr_step_boolor(_slot_0, prim__state, prim__tokens):
-        lcl_0 = 22
+        lcl_0 = 23
         try:
             _py_local_tk = prim__tokens.array[prim__tokens.offset]
             if (_py_local_tk.idint is lcl_0):
@@ -1197,7 +1236,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
         return lcl_0
 
     def lr_step_call__expr(_slot_0, prim__state, prim__tokens):
-        lcl_0 = parse_atom(prim__state, prim__tokens)
+        lcl_0 = parse_atomExpr(prim__state, prim__tokens)
         _slot_1_check = lcl_0
         lcl_0 = _slot_1_check[0]
         lcl_0 = (lcl_0 is False)
@@ -1250,7 +1289,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
         if lcl_0:
             lcl_2 = prim__tokens.array[(prim__tokens.offset + 0)]
             lcl_2 = lcl_2.idint
-            if (lcl_2 == 20):
+            if (lcl_2 == 21):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -1274,7 +1313,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = (True, _slot_local__1)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 18):
+            elif (lcl_2 == 19):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -1290,7 +1329,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = _slot_2_check[1]
                     lcl_4 = lcl_4
                     _slot_2 = lcl_4
-                    lcl_4 = 19
+                    lcl_4 = 20
                     try:
                         _py_local_tk = prim__tokens.array[prim__tokens.offset]
                         if (_py_local_tk.idint is lcl_4):
@@ -1473,7 +1512,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
         return lcl_0
 
     def lr_step_rbnf__sep__list__1(_slot_0, prim__state, prim__tokens):
-        lcl_0 = 6
+        lcl_0 = 7
         try:
             _py_local_tk = prim__tokens.array[prim__tokens.offset]
             if (_py_local_tk.idint is lcl_0):
@@ -1543,7 +1582,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
         return lcl_0
 
     def lr_step_rbnf__sep__list__2(_slot_0, prim__state, prim__tokens):
-        lcl_0 = 6
+        lcl_0 = 7
         try:
             _py_local_tk = prim__tokens.array[prim__tokens.offset]
             if (_py_local_tk.idint is lcl_0):
@@ -1613,7 +1652,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
         return lcl_0
 
     def lr_step_rbnf__sep__list__3(_slot_0, prim__state, prim__tokens):
-        lcl_0 = 14
+        lcl_0 = 15
         try:
             _py_local_tk = prim__tokens.array[prim__tokens.offset]
             if (_py_local_tk.idint is lcl_0):
@@ -1683,7 +1722,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
         return lcl_0
 
     def lr_step_rbnf__sep__list__4(_slot_0, prim__state, prim__tokens):
-        lcl_0 = 6
+        lcl_0 = 7
         try:
             _py_local_tk = prim__tokens.array[prim__tokens.offset]
             if (_py_local_tk.idint is lcl_0):
@@ -1703,7 +1742,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
             lcl_1 = (False, lcl_1)
             lcl_0 = lcl_1
         else:
-            lcl_1 = 15
+            lcl_1 = 16
             try:
                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                 if (_py_local_tk.idint is lcl_1):
@@ -1763,7 +1802,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
         return lcl_0
 
     def lr_step_rbnf__sep__list__5(_slot_0, prim__state, prim__tokens):
-        lcl_0 = 6
+        lcl_0 = 7
         try:
             _py_local_tk = prim__tokens.array[prim__tokens.offset]
             if (_py_local_tk.idint is lcl_0):
@@ -1833,7 +1872,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
         return lcl_0
 
     def lr_step_rbnf__sep__list__7(_slot_0, prim__state, prim__tokens):
-        lcl_0 = 6
+        lcl_0 = 7
         try:
             _py_local_tk = prim__tokens.array[prim__tokens.offset]
             if (_py_local_tk.idint is lcl_0):
@@ -1909,7 +1948,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
         if lcl_0:
             lcl_2 = prim__tokens.array[(prim__tokens.offset + 0)]
             lcl_2 = lcl_2.idint
-            if (lcl_2 == 38):
+            if (lcl_2 == 39):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -1920,7 +1959,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                 _slot_local__1 = lcl_3
                 lcl_3 = (True, _slot_local__1)
                 lcl_1 = lcl_3
-            elif (lcl_2 == 39):
+            elif (lcl_2 == 40):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -2067,13 +2106,13 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
         if lcl_0:
             lcl_2 = prim__tokens.array[(prim__tokens.offset + 0)]
             lcl_2 = lcl_2.idint
-            if (lcl_2 == 34):
+            if (lcl_2 == 35):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
                 lcl_3 = _py_local_t
                 _slot_0 = lcl_3
-                lcl_3 = 40
+                lcl_3 = 41
                 try:
                     _py_local_tk = prim__tokens.array[prim__tokens.offset]
                     if (_py_local_tk.idint is lcl_3):
@@ -2099,10 +2138,10 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_5 = DQString(lcl_5)
                     lcl_4 = Extern(lcl_4, lcl_5)
                     _slot_local__1 = lcl_4
-                    lcl_4 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                    lcl_4 = (True, _slot_local__1)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 15):
+            elif (lcl_2 == 16):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -2113,9 +2152,9 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                 lcl_4 = lcl_4.value
                 lcl_3 = Var(lcl_3, lcl_4)
                 _slot_local__1 = lcl_3
-                lcl_3 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                lcl_3 = (True, _slot_local__1)
                 lcl_1 = lcl_3
-            elif (lcl_2 == 30):
+            elif (lcl_2 == 31):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -2127,7 +2166,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                 if lcl_3:
                     lcl_5 = prim__tokens.array[(prim__tokens.offset + 0)]
                     lcl_5 = lcl_5.idint
-                    if (lcl_5 == 7):
+                    if (lcl_5 == 8):
                         lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                         _slot_1_check = lcl_6
                         lcl_6 = _slot_1_check[0]
@@ -2138,7 +2177,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 31
+                            lcl_7 = 32
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -2162,163 +2201,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = List(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 9):
-                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 31
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ] not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_8 = List(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 3):
-                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 31
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ] not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_8 = List(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 12):
-                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 31
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ] not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_8 = List(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 11):
-                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 31
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ] not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_8 = List(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -2333,7 +2216,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 31
+                            lcl_7 = 32
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -2357,11 +2240,11 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = List(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
-                    elif (lcl_5 == 34):
+                    elif (lcl_5 == 3):
                         lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                         _slot_1_check = lcl_6
                         lcl_6 = _slot_1_check[0]
@@ -2372,7 +2255,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 31
+                            lcl_7 = 32
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -2396,85 +2279,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = List(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 8):
-                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 31
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ] not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_8 = List(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 4):
-                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 31
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ] not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_8 = List(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -2489,7 +2294,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 31
+                            lcl_7 = 32
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -2513,11 +2318,11 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = List(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
-                    elif (lcl_5 == 15):
+                    elif (lcl_5 == 12):
                         lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                         _slot_1_check = lcl_6
                         lcl_6 = _slot_1_check[0]
@@ -2528,7 +2333,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 31
+                            lcl_7 = 32
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -2552,23 +2357,11 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = List(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
-                    elif (lcl_5 == 31):
-                        _py_local_i = prim__tokens.offset
-                        _py_local_t = prim__tokens.array[_py_local_i]
-                        prim__tokens.offset = (_py_local_i + 1)
-                        lcl_6 = _py_local_t
-                        _slot_1 = lcl_6
-                        lcl_6 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                        lcl_7 = []
-                        lcl_6 = List(lcl_6, lcl_7)
-                        _slot_local__1 = lcl_6
-                        lcl_6 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 30):
+                    elif (lcl_5 == 11):
                         lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                         _slot_1_check = lcl_6
                         lcl_6 = _slot_1_check[0]
@@ -2579,7 +2372,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 31
+                            lcl_7 = 32
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -2603,11 +2396,11 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = List(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
-                    elif (lcl_5 == 32):
+                    elif (lcl_5 == 35):
                         lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                         _slot_1_check = lcl_6
                         lcl_6 = _slot_1_check[0]
@@ -2618,7 +2411,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 31
+                            lcl_7 = 32
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -2642,11 +2435,11 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = List(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
-                    elif (lcl_5 == 33):
+                    elif (lcl_5 == 9):
                         lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                         _slot_1_check = lcl_6
                         lcl_6 = _slot_1_check[0]
@@ -2657,7 +2450,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 31
+                            lcl_7 = 32
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -2681,7 +2474,85 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = List(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 4):
+                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 32
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ] not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_8 = List(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 14):
+                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 32
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ] not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_8 = List(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -2696,7 +2567,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 31
+                            lcl_7 = 32
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -2720,11 +2591,23 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = List(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
-                    elif (lcl_5 == 38):
+                    elif (lcl_5 == 32):
+                        _py_local_i = prim__tokens.offset
+                        _py_local_t = prim__tokens.array[_py_local_i]
+                        prim__tokens.offset = (_py_local_i + 1)
+                        lcl_6 = _py_local_t
+                        _slot_1 = lcl_6
+                        lcl_6 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_7 = []
+                        lcl_6 = List(lcl_6, lcl_7)
+                        _slot_local__1 = lcl_6
+                        lcl_6 = (True, _slot_local__1)
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 31):
                         lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                         _slot_1_check = lcl_6
                         lcl_6 = _slot_1_check[0]
@@ -2735,7 +2618,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 31
+                            lcl_7 = 32
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -2759,11 +2642,11 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = List(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
-                    elif (lcl_5 == 40):
+                    elif (lcl_5 == 33):
                         lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                         _slot_1_check = lcl_6
                         lcl_6 = _slot_1_check[0]
@@ -2774,7 +2657,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 31
+                            lcl_7 = 32
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -2798,7 +2681,124 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = List(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 34):
+                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 32
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ] not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_8 = List(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 17):
+                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 32
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ] not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_8 = List(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 6):
+                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 32
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ] not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_8 = List(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -2813,7 +2813,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 31
+                            lcl_7 = 32
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -2837,7 +2837,124 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = List(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 41):
+                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 32
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ] not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_8 = List(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 40):
+                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 32
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ] not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_8 = List(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 38):
+                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 32
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ] not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_8 = List(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -2852,7 +2969,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 31
+                            lcl_7 = 32
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -2876,46 +2993,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = List(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 36):
-                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 31
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ] not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_8 = List(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -2933,7 +3011,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = (False, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 32):
+            elif (lcl_2 == 33):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -2942,9 +3020,9 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                 lcl_3 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
                 lcl_3 = Lit(lcl_3, True)
                 _slot_local__1 = lcl_3
-                lcl_3 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                lcl_3 = (True, _slot_local__1)
                 lcl_1 = lcl_3
-            elif (lcl_2 == 33):
+            elif (lcl_2 == 34):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -2953,9 +3031,9 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                 lcl_3 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
                 lcl_3 = Lit(lcl_3, False)
                 _slot_local__1 = lcl_3
-                lcl_3 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                lcl_3 = (True, _slot_local__1)
                 lcl_1 = lcl_3
-            elif (lcl_2 == 16):
+            elif (lcl_2 == 17):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -2967,7 +3045,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                 if lcl_3:
                     lcl_5 = prim__tokens.array[(prim__tokens.offset + 0)]
                     lcl_5 = lcl_5.idint
-                    if (lcl_5 == 7):
+                    if (lcl_5 == 8):
                         lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                         _slot_1_check = lcl_6
                         lcl_6 = _slot_1_check[0]
@@ -2978,7 +3056,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 17
+                            lcl_7 = 18
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -3002,163 +3080,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = Tuple(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 9):
-                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 17
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ) not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_8 = Tuple(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 3):
-                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 17
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ) not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_8 = Tuple(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 12):
-                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 17
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ) not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_8 = Tuple(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 11):
-                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 17
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ) not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_8 = Tuple(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -3173,7 +3095,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 17
+                            lcl_7 = 18
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -3197,11 +3119,11 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = Tuple(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
-                    elif (lcl_5 == 34):
+                    elif (lcl_5 == 3):
                         lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                         _slot_1_check = lcl_6
                         lcl_6 = _slot_1_check[0]
@@ -3212,7 +3134,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 17
+                            lcl_7 = 18
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -3236,85 +3158,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = Tuple(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 8):
-                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 17
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ) not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_8 = Tuple(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 4):
-                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 17
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ) not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_8 = Tuple(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -3329,7 +3173,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 17
+                            lcl_7 = 18
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -3353,51 +3197,11 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = Tuple(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
-                    elif (lcl_5 == 29):
-                        lcl_6 = parse_bop(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 17
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ) not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_9 = lcl_9.value
-                                lcl_8 = Var(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 15):
+                    elif (lcl_5 == 12):
                         lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                         _slot_1_check = lcl_6
                         lcl_6 = _slot_1_check[0]
@@ -3408,7 +3212,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 17
+                            lcl_7 = 18
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -3432,12 +3236,12 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = Tuple(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
-                    elif (lcl_5 == 26):
-                        lcl_6 = parse_bop(prim__state, prim__tokens)
+                    elif (lcl_5 == 11):
+                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                         _slot_1_check = lcl_6
                         lcl_6 = _slot_1_check[0]
                         lcl_6 = (lcl_6 is False)
@@ -3447,7 +3251,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 17
+                            lcl_7 = 18
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -3469,131 +3273,169 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             else:
                                 lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
                                 lcl_9 = _slot_1
-                                lcl_9 = lcl_9.value
-                                lcl_8 = Var(lcl_8, lcl_9)
+                                lcl_8 = Tuple(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 35):
+                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 18
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ) not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_8 = Tuple(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 9):
+                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 18
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ) not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_8 = Tuple(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 4):
+                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 18
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ) not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_8 = Tuple(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 14):
+                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 18
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ) not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_8 = Tuple(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
                     elif (lcl_5 == 30):
-                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 17
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ) not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_8 = Tuple(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 32):
-                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 17
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ) not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_8 = Tuple(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 33):
-                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 17
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ) not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_8 = Tuple(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 28):
                         lcl_6 = parse_bop(prim__state, prim__tokens)
                         _slot_1_check = lcl_6
                         lcl_6 = _slot_1_check[0]
@@ -3604,7 +3446,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 17
+                            lcl_7 = 18
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -3629,7 +3471,46 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = lcl_9.value
                                 lcl_8 = Var(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 16):
+                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 18
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ) not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_8 = Tuple(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -3644,7 +3525,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 17
+                            lcl_7 = 18
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -3669,11 +3550,208 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = lcl_9.value
                                 lcl_8 = Var(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
-                    elif (lcl_5 == 17):
+                    elif (lcl_5 == 31):
+                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 18
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ) not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_8 = Tuple(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 33):
+                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 18
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ) not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_8 = Tuple(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 34):
+                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 18
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ) not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_8 = Tuple(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 29):
+                        lcl_6 = parse_bop(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 18
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ) not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_9 = lcl_9.value
+                                lcl_8 = Var(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 28):
+                        lcl_6 = parse_bop(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 18
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ) not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_9 = lcl_9.value
+                                lcl_8 = Var(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 18):
                         _py_local_i = prim__tokens.offset
                         _py_local_t = prim__tokens.array[_py_local_i]
                         prim__tokens.offset = (_py_local_i + 1)
@@ -3683,9 +3761,9 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                         lcl_7 = []
                         lcl_6 = Tuple(lcl_6, lcl_7)
                         _slot_local__1 = lcl_6
-                        lcl_6 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                        lcl_6 = (True, _slot_local__1)
                         lcl_4 = lcl_6
-                    elif (lcl_5 == 16):
+                    elif (lcl_5 == 17):
                         lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                         _slot_1_check = lcl_6
                         lcl_6 = _slot_1_check[0]
@@ -3696,7 +3774,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 17
+                            lcl_7 = 18
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -3720,11 +3798,13 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = Tuple(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
-                    elif (lcl_5 == 38):
+                    elif (lcl_5 == 6):
+                        lcl_6 = prim__tokens.offset
+                        _off_2 = lcl_6
                         lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
                         _slot_1_check = lcl_6
                         lcl_6 = _slot_1_check[0]
@@ -3735,7 +3815,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 17
+                            lcl_7 = 18
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -3759,126 +3839,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = Tuple(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 40):
-                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 17
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ) not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_8 = Tuple(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 43):
-                        lcl_6 = parse_bop(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 17
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ) not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_9 = lcl_9.value
-                                lcl_8 = Var(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 42):
-                        lcl_6 = parse_bop(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 17
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ) not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_9 = lcl_9.value
-                                lcl_8 = Var(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -3893,7 +3854,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 17
+                            lcl_7 = 18
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -3917,7 +3878,204 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = Tuple(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 41):
+                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 18
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ) not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_8 = Tuple(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 44):
+                        lcl_6 = parse_bop(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 18
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ) not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_9 = lcl_9.value
+                                lcl_8 = Var(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 43):
+                        lcl_6 = parse_bop(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 18
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ) not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_9 = lcl_9.value
+                                lcl_8 = Var(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 40):
+                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 18
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ) not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_8 = Tuple(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
+                                lcl_7 = lcl_8
+                            lcl_6 = lcl_7
+                        lcl_4 = lcl_6
+                    elif (lcl_5 == 38):
+                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
+                        _slot_1_check = lcl_6
+                        lcl_6 = _slot_1_check[0]
+                        lcl_6 = (lcl_6 is False)
+                        if lcl_6:
+                            lcl_6 = _slot_1_check
+                        else:
+                            lcl_7 = _slot_1_check[1]
+                            lcl_7 = lcl_7
+                            _slot_1 = lcl_7
+                            lcl_7 = 18
+                            try:
+                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                                if (_py_local_tk.idint is lcl_7):
+                                    prim__tokens.offset += 1
+                                else:
+                                    _py_local_tk = None
+                            except IndexError:
+                                _py_local_tk = None
+                            lcl_7 = _py_local_tk
+                            _slot_2 = lcl_7
+                            lcl_7 = (_slot_2 is None)
+                            if lcl_7:
+                                lcl_8 = prim__tokens.offset
+                                lcl_8 = (lcl_8, 'quote ) not match')
+                                lcl_8 = prim__cons(lcl_8, prim__nil)
+                                lcl_8 = lcl_8
+                                lcl_8 = (False, lcl_8)
+                                lcl_7 = lcl_8
+                            else:
+                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                                lcl_9 = _slot_1
+                                lcl_8 = Tuple(lcl_8, lcl_9)
+                                _slot_local__1 = lcl_8
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -3932,7 +4090,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = _slot_1_check[1]
                             lcl_7 = lcl_7
                             _slot_1 = lcl_7
-                            lcl_7 = 17
+                            lcl_7 = 18
                             try:
                                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                                 if (_py_local_tk.idint is lcl_7):
@@ -3956,46 +4114,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                                 lcl_9 = _slot_1
                                 lcl_8 = Tuple(lcl_8, lcl_9)
                                 _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                                lcl_7 = lcl_8
-                            lcl_6 = lcl_7
-                        lcl_4 = lcl_6
-                    elif (lcl_5 == 36):
-                        lcl_6 = parse_rbnf__sep__list__7(prim__state, prim__tokens)
-                        _slot_1_check = lcl_6
-                        lcl_6 = _slot_1_check[0]
-                        lcl_6 = (lcl_6 is False)
-                        if lcl_6:
-                            lcl_6 = _slot_1_check
-                        else:
-                            lcl_7 = _slot_1_check[1]
-                            lcl_7 = lcl_7
-                            _slot_1 = lcl_7
-                            lcl_7 = 17
-                            try:
-                                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                                if (_py_local_tk.idint is lcl_7):
-                                    prim__tokens.offset += 1
-                                else:
-                                    _py_local_tk = None
-                            except IndexError:
-                                _py_local_tk = None
-                            lcl_7 = _py_local_tk
-                            _slot_2 = lcl_7
-                            lcl_7 = (_slot_2 is None)
-                            if lcl_7:
-                                lcl_8 = prim__tokens.offset
-                                lcl_8 = (lcl_8, 'quote ) not match')
-                                lcl_8 = prim__cons(lcl_8, prim__nil)
-                                lcl_8 = lcl_8
-                                lcl_8 = (False, lcl_8)
-                                lcl_7 = lcl_8
-                            else:
-                                lcl_8 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                                lcl_9 = _slot_1
-                                lcl_8 = Tuple(lcl_8, lcl_9)
-                                _slot_local__1 = lcl_8
-                                lcl_8 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                                lcl_8 = (True, _slot_local__1)
                                 lcl_7 = lcl_8
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
@@ -4013,32 +4132,29 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = (False, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 38):
+            elif (lcl_2 == 6):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
                 lcl_3 = _py_local_t
                 _slot_0 = lcl_3
-                lcl_3 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                lcl_4 = _slot_0
-                lcl_4 = lcl_4.value
-                lcl_3 = Var(lcl_3, lcl_4)
-                _slot_local__1 = lcl_3
-                lcl_3 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
-                lcl_1 = lcl_3
-            elif (lcl_2 == 40):
-                _py_local_i = prim__tokens.offset
-                _py_local_t = prim__tokens.array[_py_local_i]
-                prim__tokens.offset = (_py_local_i + 1)
-                lcl_3 = _py_local_t
-                _slot_0 = lcl_3
-                lcl_3 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                lcl_4 = _slot_0
-                lcl_4 = lcl_4.value
-                lcl_4 = DQString(lcl_4)
-                lcl_3 = Lit(lcl_3, lcl_4)
-                _slot_local__1 = lcl_3
-                lcl_3 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                lcl_3 = parse_atom(prim__state, prim__tokens)
+                _slot_1_check = lcl_3
+                lcl_3 = _slot_1_check[0]
+                lcl_3 = (lcl_3 is False)
+                if lcl_3:
+                    lcl_3 = _slot_1_check
+                else:
+                    lcl_4 = _slot_1_check[1]
+                    lcl_4 = lcl_4
+                    _slot_1 = lcl_4
+                    lcl_4 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                    lcl_4 = Var(lcl_4, DEREF)
+                    lcl_5 = _slot_1
+                    lcl_4 = Call(lcl_4, lcl_5)
+                    _slot_local__1 = lcl_4
+                    lcl_4 = (True, _slot_local__1)
+                    lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 39):
                 _py_local_i = prim__tokens.offset
@@ -4051,9 +4167,36 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                 lcl_4 = lcl_4.value
                 lcl_3 = Var(lcl_3, lcl_4)
                 _slot_local__1 = lcl_3
-                lcl_3 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                lcl_3 = (True, _slot_local__1)
                 lcl_1 = lcl_3
-            elif (lcl_2 == 37):
+            elif (lcl_2 == 41):
+                _py_local_i = prim__tokens.offset
+                _py_local_t = prim__tokens.array[_py_local_i]
+                prim__tokens.offset = (_py_local_i + 1)
+                lcl_3 = _py_local_t
+                _slot_0 = lcl_3
+                lcl_3 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                lcl_4 = _slot_0
+                lcl_4 = lcl_4.value
+                lcl_4 = DQString(lcl_4)
+                lcl_3 = Lit(lcl_3, lcl_4)
+                _slot_local__1 = lcl_3
+                lcl_3 = (True, _slot_local__1)
+                lcl_1 = lcl_3
+            elif (lcl_2 == 40):
+                _py_local_i = prim__tokens.offset
+                _py_local_t = prim__tokens.array[_py_local_i]
+                prim__tokens.offset = (_py_local_i + 1)
+                lcl_3 = _py_local_t
+                _slot_0 = lcl_3
+                lcl_3 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                lcl_4 = _slot_0
+                lcl_4 = lcl_4.value
+                lcl_3 = Var(lcl_3, lcl_4)
+                _slot_local__1 = lcl_3
+                lcl_3 = (True, _slot_local__1)
+                lcl_1 = lcl_3
+            elif (lcl_2 == 38):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -4065,9 +4208,9 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                 lcl_4 = int(lcl_4)
                 lcl_3 = Lit(lcl_3, lcl_4)
                 _slot_local__1 = lcl_3
-                lcl_3 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                lcl_3 = (True, _slot_local__1)
                 lcl_1 = lcl_3
-            elif (lcl_2 == 36):
+            elif (lcl_2 == 37):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -4079,7 +4222,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                 lcl_4 = float(lcl_4)
                 lcl_3 = Lit(lcl_3, lcl_4)
                 _slot_local__1 = lcl_3
-                lcl_3 = lr_loop_atom(_slot_local__1, prim__state, prim__tokens)
+                lcl_3 = (True, _slot_local__1)
                 lcl_1 = lcl_3
             else:
                 lcl_3 = (_off_0, 'atom lookahead failed')
@@ -4093,6 +4236,23 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
             lcl_1 = prim__cons(lcl_1, prim__nil)
             lcl_1 = lcl_1
             lcl_1 = (False, lcl_1)
+            lcl_0 = lcl_1
+        return lcl_0
+
+    def parse_atomExpr(prim__state, prim__tokens):
+        lcl_0 = parse_atom(prim__state, prim__tokens)
+        _slot_0_check = lcl_0
+        lcl_0 = _slot_0_check[0]
+        lcl_0 = (lcl_0 is False)
+        if lcl_0:
+            lcl_0 = _slot_0_check
+        else:
+            lcl_1 = _slot_0_check[1]
+            lcl_1 = lcl_1
+            _slot_0 = lcl_1
+            lcl_1 = _slot_0
+            _slot_local__1 = lcl_1
+            lcl_1 = lr_loop_atomExpr(_slot_local__1, prim__state, prim__tokens)
             lcl_0 = lcl_1
         return lcl_0
 
@@ -4113,43 +4273,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
             if lcl_1:
                 lcl_3 = prim__tokens.array[(prim__tokens.offset + 0)]
                 lcl_3 = lcl_3.idint
-                if (lcl_3 == 29):
-                    lcl_4 = parse_rbnf__list__6(prim__state, prim__tokens)
-                    _slot_1_check = lcl_4
-                    lcl_4 = _slot_1_check[0]
-                    lcl_4 = (lcl_4 is False)
-                    if lcl_4:
-                        lcl_4 = _slot_1_check
-                    else:
-                        lcl_5 = _slot_1_check[1]
-                        lcl_5 = lcl_5
-                        _slot_1 = lcl_5
-                        lcl_5 = _slot_0
-                        lcl_6 = _slot_1
-                        lcl_5 = Bin(lcl_5, lcl_6)
-                        _slot_local__1 = lcl_5
-                        lcl_5 = (True, _slot_local__1)
-                        lcl_4 = lcl_5
-                    lcl_2 = lcl_4
-                elif (lcl_3 == 26):
-                    lcl_4 = parse_rbnf__list__6(prim__state, prim__tokens)
-                    _slot_1_check = lcl_4
-                    lcl_4 = _slot_1_check[0]
-                    lcl_4 = (lcl_4 is False)
-                    if lcl_4:
-                        lcl_4 = _slot_1_check
-                    else:
-                        lcl_5 = _slot_1_check[1]
-                        lcl_5 = lcl_5
-                        _slot_1 = lcl_5
-                        lcl_5 = _slot_0
-                        lcl_6 = _slot_1
-                        lcl_5 = Bin(lcl_5, lcl_6)
-                        _slot_local__1 = lcl_5
-                        lcl_5 = (True, _slot_local__1)
-                        lcl_4 = lcl_5
-                    lcl_2 = lcl_4
-                elif (lcl_3 == 28):
+                if (lcl_3 == 30):
                     lcl_4 = parse_rbnf__list__6(prim__state, prim__tokens)
                     _slot_1_check = lcl_4
                     lcl_4 = _slot_1_check[0]
@@ -4185,7 +4309,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                         lcl_5 = (True, _slot_local__1)
                         lcl_4 = lcl_5
                     lcl_2 = lcl_4
-                elif (lcl_3 == 43):
+                elif (lcl_3 == 29):
                     lcl_4 = parse_rbnf__list__6(prim__state, prim__tokens)
                     _slot_1_check = lcl_4
                     lcl_4 = _slot_1_check[0]
@@ -4203,7 +4327,43 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                         lcl_5 = (True, _slot_local__1)
                         lcl_4 = lcl_5
                     lcl_2 = lcl_4
-                elif (lcl_3 == 42):
+                elif (lcl_3 == 28):
+                    lcl_4 = parse_rbnf__list__6(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = _slot_0
+                        lcl_6 = _slot_1
+                        lcl_5 = Bin(lcl_5, lcl_6)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 44):
+                    lcl_4 = parse_rbnf__list__6(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = _slot_0
+                        lcl_6 = _slot_1
+                        lcl_5 = Bin(lcl_5, lcl_6)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 43):
                     lcl_4 = parse_rbnf__list__6(prim__state, prim__tokens)
                     _slot_1_check = lcl_4
                     lcl_4 = _slot_1_check[0]
@@ -4243,111 +4403,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
         if lcl_0:
             lcl_2 = prim__tokens.array[(prim__tokens.offset + 0)]
             lcl_2 = lcl_2.idint
-            if (lcl_2 == 29):
-                lcl_3 = parse_bop(prim__state, prim__tokens)
-                _slot_0_check = lcl_3
-                lcl_3 = _slot_0_check[0]
-                lcl_3 = (lcl_3 is False)
-                if lcl_3:
-                    lcl_3 = _slot_0_check
-                else:
-                    lcl_4 = _slot_0_check[1]
-                    lcl_4 = lcl_4
-                    _slot_0 = lcl_4
-                    lcl_4 = 5
-                    try:
-                        _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                        if (_py_local_tk.idint is lcl_4):
-                            prim__tokens.offset += 1
-                        else:
-                            _py_local_tk = None
-                    except IndexError:
-                        _py_local_tk = None
-                    lcl_4 = _py_local_tk
-                    _slot_1 = lcl_4
-                    lcl_4 = (_slot_1 is None)
-                    if lcl_4:
-                        lcl_5 = prim__tokens.offset
-                        lcl_5 = (lcl_5, 'quote = not match')
-                        lcl_5 = prim__cons(lcl_5, prim__nil)
-                        lcl_5 = lcl_5
-                        lcl_5 = (False, lcl_5)
-                        lcl_4 = lcl_5
-                    else:
-                        lcl_5 = parse_expr(prim__state, prim__tokens)
-                        _slot_2_check = lcl_5
-                        lcl_5 = _slot_2_check[0]
-                        lcl_5 = (lcl_5 is False)
-                        if lcl_5:
-                            lcl_5 = _slot_2_check
-                        else:
-                            lcl_6 = _slot_2_check[1]
-                            lcl_6 = lcl_6
-                            _slot_2 = lcl_6
-                            lcl_6 = (_slot_1.lineno, _slot_1.colno, _slot_1.filename)
-                            lcl_7 = _slot_0
-                            lcl_7 = lcl_7.value
-                            lcl_8 = _slot_2
-                            lcl_6 = (lcl_6, lcl_7, lcl_8)
-                            _slot_local__1 = lcl_6
-                            lcl_6 = (True, _slot_local__1)
-                            lcl_5 = lcl_6
-                        lcl_4 = lcl_5
-                    lcl_3 = lcl_4
-                lcl_1 = lcl_3
-            elif (lcl_2 == 26):
-                lcl_3 = parse_bop(prim__state, prim__tokens)
-                _slot_0_check = lcl_3
-                lcl_3 = _slot_0_check[0]
-                lcl_3 = (lcl_3 is False)
-                if lcl_3:
-                    lcl_3 = _slot_0_check
-                else:
-                    lcl_4 = _slot_0_check[1]
-                    lcl_4 = lcl_4
-                    _slot_0 = lcl_4
-                    lcl_4 = 5
-                    try:
-                        _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                        if (_py_local_tk.idint is lcl_4):
-                            prim__tokens.offset += 1
-                        else:
-                            _py_local_tk = None
-                    except IndexError:
-                        _py_local_tk = None
-                    lcl_4 = _py_local_tk
-                    _slot_1 = lcl_4
-                    lcl_4 = (_slot_1 is None)
-                    if lcl_4:
-                        lcl_5 = prim__tokens.offset
-                        lcl_5 = (lcl_5, 'quote = not match')
-                        lcl_5 = prim__cons(lcl_5, prim__nil)
-                        lcl_5 = lcl_5
-                        lcl_5 = (False, lcl_5)
-                        lcl_4 = lcl_5
-                    else:
-                        lcl_5 = parse_expr(prim__state, prim__tokens)
-                        _slot_2_check = lcl_5
-                        lcl_5 = _slot_2_check[0]
-                        lcl_5 = (lcl_5 is False)
-                        if lcl_5:
-                            lcl_5 = _slot_2_check
-                        else:
-                            lcl_6 = _slot_2_check[1]
-                            lcl_6 = lcl_6
-                            _slot_2 = lcl_6
-                            lcl_6 = (_slot_1.lineno, _slot_1.colno, _slot_1.filename)
-                            lcl_7 = _slot_0
-                            lcl_7 = lcl_7.value
-                            lcl_8 = _slot_2
-                            lcl_6 = (lcl_6, lcl_7, lcl_8)
-                            _slot_local__1 = lcl_6
-                            lcl_6 = (True, _slot_local__1)
-                            lcl_5 = lcl_6
-                        lcl_4 = lcl_5
-                    lcl_3 = lcl_4
-                lcl_1 = lcl_3
-            elif (lcl_2 == 28):
+            if (lcl_2 == 30):
                 lcl_3 = parse_bop(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -4451,7 +4507,157 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                         lcl_4 = lcl_5
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 38):
+            elif (lcl_2 == 29):
+                lcl_3 = parse_bop(prim__state, prim__tokens)
+                _slot_0_check = lcl_3
+                lcl_3 = _slot_0_check[0]
+                lcl_3 = (lcl_3 is False)
+                if lcl_3:
+                    lcl_3 = _slot_0_check
+                else:
+                    lcl_4 = _slot_0_check[1]
+                    lcl_4 = lcl_4
+                    _slot_0 = lcl_4
+                    lcl_4 = 5
+                    try:
+                        _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                        if (_py_local_tk.idint is lcl_4):
+                            prim__tokens.offset += 1
+                        else:
+                            _py_local_tk = None
+                    except IndexError:
+                        _py_local_tk = None
+                    lcl_4 = _py_local_tk
+                    _slot_1 = lcl_4
+                    lcl_4 = (_slot_1 is None)
+                    if lcl_4:
+                        lcl_5 = prim__tokens.offset
+                        lcl_5 = (lcl_5, 'quote = not match')
+                        lcl_5 = prim__cons(lcl_5, prim__nil)
+                        lcl_5 = lcl_5
+                        lcl_5 = (False, lcl_5)
+                        lcl_4 = lcl_5
+                    else:
+                        lcl_5 = parse_expr(prim__state, prim__tokens)
+                        _slot_2_check = lcl_5
+                        lcl_5 = _slot_2_check[0]
+                        lcl_5 = (lcl_5 is False)
+                        if lcl_5:
+                            lcl_5 = _slot_2_check
+                        else:
+                            lcl_6 = _slot_2_check[1]
+                            lcl_6 = lcl_6
+                            _slot_2 = lcl_6
+                            lcl_6 = (_slot_1.lineno, _slot_1.colno, _slot_1.filename)
+                            lcl_7 = _slot_0
+                            lcl_7 = lcl_7.value
+                            lcl_8 = _slot_2
+                            lcl_6 = (lcl_6, lcl_7, lcl_8)
+                            _slot_local__1 = lcl_6
+                            lcl_6 = (True, _slot_local__1)
+                            lcl_5 = lcl_6
+                        lcl_4 = lcl_5
+                    lcl_3 = lcl_4
+                lcl_1 = lcl_3
+            elif (lcl_2 == 28):
+                lcl_3 = parse_bop(prim__state, prim__tokens)
+                _slot_0_check = lcl_3
+                lcl_3 = _slot_0_check[0]
+                lcl_3 = (lcl_3 is False)
+                if lcl_3:
+                    lcl_3 = _slot_0_check
+                else:
+                    lcl_4 = _slot_0_check[1]
+                    lcl_4 = lcl_4
+                    _slot_0 = lcl_4
+                    lcl_4 = 5
+                    try:
+                        _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                        if (_py_local_tk.idint is lcl_4):
+                            prim__tokens.offset += 1
+                        else:
+                            _py_local_tk = None
+                    except IndexError:
+                        _py_local_tk = None
+                    lcl_4 = _py_local_tk
+                    _slot_1 = lcl_4
+                    lcl_4 = (_slot_1 is None)
+                    if lcl_4:
+                        lcl_5 = prim__tokens.offset
+                        lcl_5 = (lcl_5, 'quote = not match')
+                        lcl_5 = prim__cons(lcl_5, prim__nil)
+                        lcl_5 = lcl_5
+                        lcl_5 = (False, lcl_5)
+                        lcl_4 = lcl_5
+                    else:
+                        lcl_5 = parse_expr(prim__state, prim__tokens)
+                        _slot_2_check = lcl_5
+                        lcl_5 = _slot_2_check[0]
+                        lcl_5 = (lcl_5 is False)
+                        if lcl_5:
+                            lcl_5 = _slot_2_check
+                        else:
+                            lcl_6 = _slot_2_check[1]
+                            lcl_6 = lcl_6
+                            _slot_2 = lcl_6
+                            lcl_6 = (_slot_1.lineno, _slot_1.colno, _slot_1.filename)
+                            lcl_7 = _slot_0
+                            lcl_7 = lcl_7.value
+                            lcl_8 = _slot_2
+                            lcl_6 = (lcl_6, lcl_7, lcl_8)
+                            _slot_local__1 = lcl_6
+                            lcl_6 = (True, _slot_local__1)
+                            lcl_5 = lcl_6
+                        lcl_4 = lcl_5
+                    lcl_3 = lcl_4
+                lcl_1 = lcl_3
+            elif (lcl_2 == 6):
+                _py_local_i = prim__tokens.offset
+                _py_local_t = prim__tokens.array[_py_local_i]
+                prim__tokens.offset = (_py_local_i + 1)
+                lcl_3 = _py_local_t
+                _slot_0 = lcl_3
+                lcl_3 = 5
+                try:
+                    _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                    if (_py_local_tk.idint is lcl_3):
+                        prim__tokens.offset += 1
+                    else:
+                        _py_local_tk = None
+                except IndexError:
+                    _py_local_tk = None
+                lcl_3 = _py_local_tk
+                _slot_1 = lcl_3
+                lcl_3 = (_slot_1 is None)
+                if lcl_3:
+                    lcl_4 = prim__tokens.offset
+                    lcl_4 = (lcl_4, 'quote = not match')
+                    lcl_4 = prim__cons(lcl_4, prim__nil)
+                    lcl_4 = lcl_4
+                    lcl_4 = (False, lcl_4)
+                    lcl_3 = lcl_4
+                else:
+                    lcl_4 = parse_expr(prim__state, prim__tokens)
+                    _slot_2_check = lcl_4
+                    lcl_4 = _slot_2_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_2_check
+                    else:
+                        lcl_5 = _slot_2_check[1]
+                        lcl_5 = lcl_5
+                        _slot_2 = lcl_5
+                        lcl_5 = (_slot_1.lineno, _slot_1.colno, _slot_1.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_2
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_3 = lcl_4
+                lcl_1 = lcl_3
+            elif (lcl_2 == 39):
                 lcl_3 = parse_ID(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -4494,6 +4700,58 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             _slot_2 = lcl_6
                             lcl_6 = (_slot_1.lineno, _slot_1.colno, _slot_1.filename)
                             lcl_7 = _slot_0
+                            lcl_8 = _slot_2
+                            lcl_6 = (lcl_6, lcl_7, lcl_8)
+                            _slot_local__1 = lcl_6
+                            lcl_6 = (True, _slot_local__1)
+                            lcl_5 = lcl_6
+                        lcl_4 = lcl_5
+                    lcl_3 = lcl_4
+                lcl_1 = lcl_3
+            elif (lcl_2 == 44):
+                lcl_3 = parse_bop(prim__state, prim__tokens)
+                _slot_0_check = lcl_3
+                lcl_3 = _slot_0_check[0]
+                lcl_3 = (lcl_3 is False)
+                if lcl_3:
+                    lcl_3 = _slot_0_check
+                else:
+                    lcl_4 = _slot_0_check[1]
+                    lcl_4 = lcl_4
+                    _slot_0 = lcl_4
+                    lcl_4 = 5
+                    try:
+                        _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                        if (_py_local_tk.idint is lcl_4):
+                            prim__tokens.offset += 1
+                        else:
+                            _py_local_tk = None
+                    except IndexError:
+                        _py_local_tk = None
+                    lcl_4 = _py_local_tk
+                    _slot_1 = lcl_4
+                    lcl_4 = (_slot_1 is None)
+                    if lcl_4:
+                        lcl_5 = prim__tokens.offset
+                        lcl_5 = (lcl_5, 'quote = not match')
+                        lcl_5 = prim__cons(lcl_5, prim__nil)
+                        lcl_5 = lcl_5
+                        lcl_5 = (False, lcl_5)
+                        lcl_4 = lcl_5
+                    else:
+                        lcl_5 = parse_expr(prim__state, prim__tokens)
+                        _slot_2_check = lcl_5
+                        lcl_5 = _slot_2_check[0]
+                        lcl_5 = (lcl_5 is False)
+                        if lcl_5:
+                            lcl_5 = _slot_2_check
+                        else:
+                            lcl_6 = _slot_2_check[1]
+                            lcl_6 = lcl_6
+                            _slot_2 = lcl_6
+                            lcl_6 = (_slot_1.lineno, _slot_1.colno, _slot_1.filename)
+                            lcl_7 = _slot_0
+                            lcl_7 = lcl_7.value
                             lcl_8 = _slot_2
                             lcl_6 = (lcl_6, lcl_7, lcl_8)
                             _slot_local__1 = lcl_6
@@ -4554,59 +4812,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                         lcl_4 = lcl_5
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 42):
-                lcl_3 = parse_bop(prim__state, prim__tokens)
-                _slot_0_check = lcl_3
-                lcl_3 = _slot_0_check[0]
-                lcl_3 = (lcl_3 is False)
-                if lcl_3:
-                    lcl_3 = _slot_0_check
-                else:
-                    lcl_4 = _slot_0_check[1]
-                    lcl_4 = lcl_4
-                    _slot_0 = lcl_4
-                    lcl_4 = 5
-                    try:
-                        _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                        if (_py_local_tk.idint is lcl_4):
-                            prim__tokens.offset += 1
-                        else:
-                            _py_local_tk = None
-                    except IndexError:
-                        _py_local_tk = None
-                    lcl_4 = _py_local_tk
-                    _slot_1 = lcl_4
-                    lcl_4 = (_slot_1 is None)
-                    if lcl_4:
-                        lcl_5 = prim__tokens.offset
-                        lcl_5 = (lcl_5, 'quote = not match')
-                        lcl_5 = prim__cons(lcl_5, prim__nil)
-                        lcl_5 = lcl_5
-                        lcl_5 = (False, lcl_5)
-                        lcl_4 = lcl_5
-                    else:
-                        lcl_5 = parse_expr(prim__state, prim__tokens)
-                        _slot_2_check = lcl_5
-                        lcl_5 = _slot_2_check[0]
-                        lcl_5 = (lcl_5 is False)
-                        if lcl_5:
-                            lcl_5 = _slot_2_check
-                        else:
-                            lcl_6 = _slot_2_check[1]
-                            lcl_6 = lcl_6
-                            _slot_2 = lcl_6
-                            lcl_6 = (_slot_1.lineno, _slot_1.colno, _slot_1.filename)
-                            lcl_7 = _slot_0
-                            lcl_7 = lcl_7.value
-                            lcl_8 = _slot_2
-                            lcl_6 = (lcl_6, lcl_7, lcl_8)
-                            _slot_local__1 = lcl_6
-                            lcl_6 = (True, _slot_local__1)
-                            lcl_5 = lcl_6
-                        lcl_4 = lcl_5
-                    lcl_3 = lcl_4
-                lcl_1 = lcl_3
-            elif (lcl_2 == 39):
+            elif (lcl_2 == 40):
                 lcl_3 = parse_ID(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -4760,7 +4966,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
         if lcl_0:
             lcl_2 = prim__tokens.array[(prim__tokens.offset + 0)]
             lcl_2 = lcl_2.idint
-            if (lcl_2 == 29):
+            if (lcl_2 == 30):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -4772,13 +4978,13 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                 if lcl_3:
                     lcl_5 = prim__tokens.array[(prim__tokens.offset + 0)]
                     lcl_5 = lcl_5.idint
-                    if (lcl_5 == 38):
+                    if (lcl_5 == 39):
                         _py_local_i = prim__tokens.offset
                         _py_local_t = prim__tokens.array[_py_local_i]
                         prim__tokens.offset = (_py_local_i + 1)
                         lcl_6 = _py_local_t
                         _slot_1 = lcl_6
-                        lcl_6 = 29
+                        lcl_6 = 30
                         try:
                             _py_local_tk = prim__tokens.array[prim__tokens.offset]
                             if (_py_local_tk.idint is lcl_6):
@@ -4803,13 +5009,13 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                             lcl_7 = (True, _slot_local__1)
                             lcl_6 = lcl_7
                         lcl_4 = lcl_6
-                    elif (lcl_5 == 39):
+                    elif (lcl_5 == 40):
                         _py_local_i = prim__tokens.offset
                         _py_local_t = prim__tokens.array[_py_local_i]
                         prim__tokens.offset = (_py_local_i + 1)
                         lcl_6 = _py_local_t
                         _slot_1 = lcl_6
-                        lcl_6 = 29
+                        lcl_6 = 30
                         try:
                             _py_local_tk = prim__tokens.array[prim__tokens.offset]
                             if (_py_local_tk.idint is lcl_6):
@@ -4848,7 +5054,17 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = (False, lcl_4)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 26):
+            elif (lcl_2 == 27):
+                _py_local_i = prim__tokens.offset
+                _py_local_t = prim__tokens.array[_py_local_i]
+                prim__tokens.offset = (_py_local_i + 1)
+                lcl_3 = _py_local_t
+                _slot_0 = lcl_3
+                lcl_3 = _slot_0
+                _slot_local__1 = lcl_3
+                lcl_3 = (True, _slot_local__1)
+                lcl_1 = lcl_3
+            elif (lcl_2 == 29):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -4868,7 +5084,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                 _slot_local__1 = lcl_3
                 lcl_3 = (True, _slot_local__1)
                 lcl_1 = lcl_3
-            elif (lcl_2 == 27):
+            elif (lcl_2 == 44):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -4879,16 +5095,6 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                 lcl_3 = (True, _slot_local__1)
                 lcl_1 = lcl_3
             elif (lcl_2 == 43):
-                _py_local_i = prim__tokens.offset
-                _py_local_t = prim__tokens.array[_py_local_i]
-                prim__tokens.offset = (_py_local_i + 1)
-                lcl_3 = _py_local_t
-                _slot_0 = lcl_3
-                lcl_3 = _slot_0
-                _slot_local__1 = lcl_3
-                lcl_3 = (True, _slot_local__1)
-                lcl_1 = lcl_3
-            elif (lcl_2 == 42):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -4924,29 +5130,450 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
             lcl_1 = _slot_0_check[1]
             lcl_1 = lcl_1
             _slot_0 = lcl_1
-            lcl_1 = parse_call__expr(prim__state, prim__tokens)
-            _slot_1_check = lcl_1
-            lcl_1 = _slot_1_check[0]
-            lcl_1 = (lcl_1 is False)
+            lcl_1 = prim__tokens.offset
+            _off_0 = lcl_1
+            lcl_1 = (len(prim__tokens.array) > (prim__tokens.offset + 0))
             if lcl_1:
-                lcl_1 = _slot_1_check
+                lcl_3 = prim__tokens.array[(prim__tokens.offset + 0)]
+                lcl_3 = lcl_3.idint
+                if (lcl_3 == 8):
+                    lcl_4 = parse_bind__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 10):
+                    lcl_4 = parse_bind__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 3):
+                    lcl_4 = parse_bind__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 13):
+                    lcl_4 = parse_bind__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 12):
+                    lcl_4 = parse_bind__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 11):
+                    lcl_4 = parse_bind__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 35):
+                    lcl_4 = parse_call__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 9):
+                    lcl_4 = parse_bind__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 4):
+                    lcl_4 = parse_bind__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 14):
+                    lcl_4 = parse_bind__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 16):
+                    lcl_4 = parse_call__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 31):
+                    lcl_4 = parse_call__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 33):
+                    lcl_4 = parse_call__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 34):
+                    lcl_4 = parse_call__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 17):
+                    lcl_4 = parse_call__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 6):
+                    lcl_4 = parse_call__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 39):
+                    lcl_4 = parse_call__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 41):
+                    lcl_4 = parse_call__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 40):
+                    lcl_4 = parse_call__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 38):
+                    lcl_4 = parse_call__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 37):
+                    lcl_4 = parse_call__expr(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_6 = _slot_0
+                        lcl_6 = lcl_6.value
+                        lcl_7 = _slot_1
+                        lcl_5 = (lcl_5, lcl_6, lcl_7)
+                        _slot_local__1 = lcl_5
+                        lcl_5 = (True, _slot_local__1)
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                else:
+                    lcl_4 = (_off_0, 'btr lookahead failed')
+                    lcl_4 = prim__cons(lcl_4, prim__nil)
+                    lcl_4 = lcl_4
+                    lcl_4 = (False, lcl_4)
+                    lcl_2 = lcl_4
+                lcl_1 = lcl_2
             else:
-                lcl_2 = _slot_1_check[1]
+                lcl_2 = (_off_0, 'btr got EOF')
+                lcl_2 = prim__cons(lcl_2, prim__nil)
                 lcl_2 = lcl_2
-                _slot_1 = lcl_2
-                lcl_2 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
-                lcl_3 = _slot_0
-                lcl_3 = lcl_3.value
-                lcl_4 = _slot_1
-                lcl_2 = (lcl_2, lcl_3, lcl_4)
-                _slot_local__1 = lcl_2
-                lcl_2 = (True, _slot_local__1)
+                lcl_2 = (False, lcl_2)
                 lcl_1 = lcl_2
             lcl_0 = lcl_1
         return lcl_0
 
     def parse_call__expr(prim__state, prim__tokens):
-        lcl_0 = parse_atom(prim__state, prim__tokens)
+        lcl_0 = parse_atomExpr(prim__state, prim__tokens)
         _slot_0_check = lcl_0
         lcl_0 = _slot_0_check[0]
         lcl_0 = (lcl_0 is False)
@@ -4963,7 +5590,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
         return lcl_0
 
     def parse_cons(prim__state, prim__tokens):
-        lcl_0 = 38
+        lcl_0 = 39
         try:
             _py_local_tk = prim__tokens.array[prim__tokens.offset]
             if (_py_local_tk.idint is lcl_0):
@@ -4989,7 +5616,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
             if lcl_1:
                 lcl_3 = prim__tokens.array[(prim__tokens.offset + 0)]
                 lcl_3 = lcl_3.idint
-                if (lcl_3 == 16):
+                if (lcl_3 == 17):
                     lcl_4 = parse_slots(prim__state, prim__tokens)
                     _slot_1_check = lcl_4
                     lcl_4 = _slot_1_check[0]
@@ -5034,7 +5661,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
         if lcl_0:
             lcl_2 = prim__tokens.array[(prim__tokens.offset + 0)]
             lcl_2 = lcl_2.idint
-            if (lcl_2 == 7):
+            if (lcl_2 == 8):
                 lcl_3 = parse_bind__expr(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -5050,7 +5677,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = lr_loop_expr(_slot_local__1, prim__state, prim__tokens)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 9):
+            elif (lcl_2 == 10):
                 lcl_3 = parse_bind__expr(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -5067,6 +5694,22 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 3):
+                lcl_3 = parse_bind__expr(prim__state, prim__tokens)
+                _slot_0_check = lcl_3
+                lcl_3 = _slot_0_check[0]
+                lcl_3 = (lcl_3 is False)
+                if lcl_3:
+                    lcl_3 = _slot_0_check
+                else:
+                    lcl_4 = _slot_0_check[1]
+                    lcl_4 = lcl_4
+                    _slot_0 = lcl_4
+                    lcl_4 = _slot_0
+                    _slot_local__1 = lcl_4
+                    lcl_4 = lr_loop_expr(_slot_local__1, prim__state, prim__tokens)
+                    lcl_3 = lcl_4
+                lcl_1 = lcl_3
+            elif (lcl_2 == 13):
                 lcl_3 = parse_bind__expr(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -5114,23 +5757,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = lr_loop_expr(_slot_local__1, prim__state, prim__tokens)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 10):
-                lcl_3 = parse_bind__expr(prim__state, prim__tokens)
-                _slot_0_check = lcl_3
-                lcl_3 = _slot_0_check[0]
-                lcl_3 = (lcl_3 is False)
-                if lcl_3:
-                    lcl_3 = _slot_0_check
-                else:
-                    lcl_4 = _slot_0_check[1]
-                    lcl_4 = lcl_4
-                    _slot_0 = lcl_4
-                    lcl_4 = _slot_0
-                    _slot_local__1 = lcl_4
-                    lcl_4 = lr_loop_expr(_slot_local__1, prim__state, prim__tokens)
-                    lcl_3 = lcl_4
-                lcl_1 = lcl_3
-            elif (lcl_2 == 34):
+            elif (lcl_2 == 35):
                 lcl_3 = parse_expr2(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -5146,7 +5773,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = lr_loop_expr(_slot_local__1, prim__state, prim__tokens)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 8):
+            elif (lcl_2 == 9):
                 lcl_3 = parse_bind__expr(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -5178,7 +5805,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = lr_loop_expr(_slot_local__1, prim__state, prim__tokens)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 13):
+            elif (lcl_2 == 14):
                 lcl_3 = parse_bind__expr(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -5194,7 +5821,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = lr_loop_expr(_slot_local__1, prim__state, prim__tokens)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 15):
+            elif (lcl_2 == 16):
                 lcl_3 = parse_expr2(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -5210,23 +5837,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = lr_loop_expr(_slot_local__1, prim__state, prim__tokens)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 30):
-                lcl_3 = parse_expr2(prim__state, prim__tokens)
-                _slot_0_check = lcl_3
-                lcl_3 = _slot_0_check[0]
-                lcl_3 = (lcl_3 is False)
-                if lcl_3:
-                    lcl_3 = _slot_0_check
-                else:
-                    lcl_4 = _slot_0_check[1]
-                    lcl_4 = lcl_4
-                    _slot_0 = lcl_4
-                    lcl_4 = _slot_0
-                    _slot_local__1 = lcl_4
-                    lcl_4 = lr_loop_expr(_slot_local__1, prim__state, prim__tokens)
-                    lcl_3 = lcl_4
-                lcl_1 = lcl_3
-            elif (lcl_2 == 32):
+            elif (lcl_2 == 31):
                 lcl_3 = parse_expr2(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -5258,7 +5869,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = lr_loop_expr(_slot_local__1, prim__state, prim__tokens)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 16):
+            elif (lcl_2 == 34):
                 lcl_3 = parse_expr2(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -5274,7 +5885,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = lr_loop_expr(_slot_local__1, prim__state, prim__tokens)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 38):
+            elif (lcl_2 == 17):
                 lcl_3 = parse_expr2(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -5290,7 +5901,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = lr_loop_expr(_slot_local__1, prim__state, prim__tokens)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 40):
+            elif (lcl_2 == 6):
                 lcl_3 = parse_expr2(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -5322,7 +5933,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = lr_loop_expr(_slot_local__1, prim__state, prim__tokens)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 37):
+            elif (lcl_2 == 41):
                 lcl_3 = parse_expr2(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -5338,7 +5949,39 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = lr_loop_expr(_slot_local__1, prim__state, prim__tokens)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 36):
+            elif (lcl_2 == 40):
+                lcl_3 = parse_expr2(prim__state, prim__tokens)
+                _slot_0_check = lcl_3
+                lcl_3 = _slot_0_check[0]
+                lcl_3 = (lcl_3 is False)
+                if lcl_3:
+                    lcl_3 = _slot_0_check
+                else:
+                    lcl_4 = _slot_0_check[1]
+                    lcl_4 = lcl_4
+                    _slot_0 = lcl_4
+                    lcl_4 = _slot_0
+                    _slot_local__1 = lcl_4
+                    lcl_4 = lr_loop_expr(_slot_local__1, prim__state, prim__tokens)
+                    lcl_3 = lcl_4
+                lcl_1 = lcl_3
+            elif (lcl_2 == 38):
+                lcl_3 = parse_expr2(prim__state, prim__tokens)
+                _slot_0_check = lcl_3
+                lcl_3 = _slot_0_check[0]
+                lcl_3 = (lcl_3 is False)
+                if lcl_3:
+                    lcl_3 = _slot_0_check
+                else:
+                    lcl_4 = _slot_0_check[1]
+                    lcl_4 = lcl_4
+                    _slot_0 = lcl_4
+                    lcl_4 = _slot_0
+                    _slot_local__1 = lcl_4
+                    lcl_4 = lr_loop_expr(_slot_local__1, prim__state, prim__tokens)
+                    lcl_3 = lcl_4
+                lcl_1 = lcl_3
+            elif (lcl_2 == 37):
                 lcl_3 = parse_expr2(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -5386,7 +6029,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
             if lcl_1:
                 lcl_3 = prim__tokens.array[(prim__tokens.offset + 0)]
                 lcl_3 = lcl_3.idint
-                if (lcl_3 == 21):
+                if (lcl_3 == 22):
                     _py_local_i = prim__tokens.offset
                     _py_local_t = prim__tokens.array[_py_local_i]
                     prim__tokens.offset = (_py_local_i + 1)
@@ -5433,7 +6076,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
         if lcl_0:
             lcl_2 = prim__tokens.array[(prim__tokens.offset + 0)]
             lcl_2 = lcl_2.idint
-            if (lcl_2 == 7):
+            if (lcl_2 == 8):
                 lcl_3 = parse_bind__expr(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -5449,7 +6092,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = (True, _slot_local__1)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 9):
+            elif (lcl_2 == 10):
                 lcl_3 = parse_bind__expr(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -5481,6 +6124,22 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = (True, _slot_local__1)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
+            elif (lcl_2 == 13):
+                lcl_3 = parse_bind__expr(prim__state, prim__tokens)
+                _slot_0_check = lcl_3
+                lcl_3 = _slot_0_check[0]
+                lcl_3 = (lcl_3 is False)
+                if lcl_3:
+                    lcl_3 = _slot_0_check
+                else:
+                    lcl_4 = _slot_0_check[1]
+                    lcl_4 = lcl_4
+                    _slot_0 = lcl_4
+                    lcl_4 = _slot_0
+                    _slot_local__1 = lcl_4
+                    lcl_4 = (True, _slot_local__1)
+                    lcl_3 = lcl_4
+                lcl_1 = lcl_3
             elif (lcl_2 == 12):
                 lcl_3 = parse_bind__expr(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
@@ -5497,23 +6156,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = (True, _slot_local__1)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 11):
-                lcl_3 = parse_bind__expr(prim__state, prim__tokens)
-                _slot_0_check = lcl_3
-                lcl_3 = _slot_0_check[0]
-                lcl_3 = (lcl_3 is False)
-                if lcl_3:
-                    lcl_3 = _slot_0_check
-                else:
-                    lcl_4 = _slot_0_check[1]
-                    lcl_4 = lcl_4
-                    _slot_0 = lcl_4
-                    lcl_4 = _slot_0
-                    _slot_local__1 = lcl_4
-                    lcl_4 = (True, _slot_local__1)
-                    lcl_3 = lcl_4
-                lcl_1 = lcl_3
-            elif (lcl_2 == 24):
+            elif (lcl_2 == 25):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -5534,7 +6177,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = (True, _slot_local__1)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 10):
+            elif (lcl_2 == 11):
                 lcl_3 = parse_bind__expr(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -5550,7 +6193,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = (True, _slot_local__1)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 8):
+            elif (lcl_2 == 9):
                 lcl_3 = parse_bind__expr(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -5582,7 +6225,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = (True, _slot_local__1)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 13):
+            elif (lcl_2 == 14):
                 lcl_3 = parse_bind__expr(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -5624,7 +6267,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
             lcl_1 = _slot_0_check[1]
             lcl_1 = lcl_1
             _slot_0 = lcl_1
-            lcl_1 = 25
+            lcl_1 = 26
             try:
                 _py_local_tk = prim__tokens.array[prim__tokens.offset]
                 if (_py_local_tk.idint is lcl_1):
@@ -5807,7 +6450,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
         return lcl_0
 
     def parse_rbnf__sep__list__4(prim__state, prim__tokens):
-        lcl_0 = 15
+        lcl_0 = 16
         try:
             _py_local_tk = prim__tokens.array[prim__tokens.offset]
             if (_py_local_tk.idint is lcl_0):
@@ -5871,7 +6514,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
         return lcl_0
 
     def parse_slots(prim__state, prim__tokens):
-        lcl_0 = 16
+        lcl_0 = 17
         try:
             _py_local_tk = prim__tokens.array[prim__tokens.offset]
             if (_py_local_tk.idint is lcl_0):
@@ -5901,7 +6544,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                 lcl_2 = _slot_1_check[1]
                 lcl_2 = lcl_2
                 _slot_1 = lcl_2
-                lcl_2 = 17
+                lcl_2 = 18
                 try:
                     _py_local_tk = prim__tokens.array[prim__tokens.offset]
                     if (_py_local_tk.idint is lcl_2):
@@ -5937,7 +6580,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
         if lcl_0:
             lcl_2 = prim__tokens.array[(prim__tokens.offset + 0)]
             lcl_2 = lcl_2.idint
-            if (lcl_2 == 7):
+            if (lcl_2 == 8):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -5960,7 +6603,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = (True, _slot_local__1)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 9):
+            elif (lcl_2 == 10):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -6012,7 +6655,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                         lcl_4 = lcl_5
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 12):
+            elif (lcl_2 == 13):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -6028,7 +6671,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = _slot_1_check[1]
                     lcl_4 = lcl_4
                     _slot_1 = lcl_4
-                    lcl_4 = 37
+                    lcl_4 = 38
                     try:
                         _py_local_tk = prim__tokens.array[prim__tokens.offset]
                         if (_py_local_tk.idint is lcl_4):
@@ -6060,7 +6703,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                         lcl_4 = lcl_5
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 11):
+            elif (lcl_2 == 12):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -6076,7 +6719,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = _slot_1_check[1]
                     lcl_4 = lcl_4
                     _slot_1 = lcl_4
-                    lcl_4 = 37
+                    lcl_4 = 38
                     try:
                         _py_local_tk = prim__tokens.array[prim__tokens.offset]
                         if (_py_local_tk.idint is lcl_4):
@@ -6108,7 +6751,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                         lcl_4 = lcl_5
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 10):
+            elif (lcl_2 == 11):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -6131,7 +6774,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = (True, _slot_local__1)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 8):
+            elif (lcl_2 == 9):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -6183,7 +6826,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                         lcl_4 = lcl_5
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 13):
+            elif (lcl_2 == 14):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)

@@ -4,7 +4,7 @@ from urgent.scope import Sym
 import typing as t
 
 Location = t.Tuple[int, int, str]
-
+DEREF = "!"
 
 @dataclass
 class Do:

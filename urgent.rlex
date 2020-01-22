@@ -43,6 +43,7 @@ W \s+
 %require TCO
 
 %require PyCall
+%require DEREF
 
 %require DQString
 
