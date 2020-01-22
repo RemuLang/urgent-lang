@@ -171,10 +171,12 @@ data Nil, Cons(_, _)
 infixr :: 1
 let :: = Cons
 
+let l1 = Cons 1 Nil
+
 let print_lst = lst ->
   lst match
-    1 :: Cons(a, b) => ...,
-    Cons(a, b) => ...,
+    1 :: Cons a b => ...,
+    Cons a b => ...,
     Nil =>  ...
 ```
 
@@ -184,6 +186,7 @@ let print_lst = lst ->
 data Nil, Cons(_, _) 
 infixr :: 1
 let :: = Cons
+let l1 = [1]
 
 let print_lst = lst ->
   lst match
