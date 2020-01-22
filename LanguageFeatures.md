@@ -301,6 +301,23 @@ rec while = cond -> f ->
 
 都可以良好地尾递归.
 
+## 项目构建
+
+urgent把所有代码编译成单个.pyc文件.
+
+```shell script
+# 编译
+sh> ugt cc <主模块.ugt> <a.pyc> --project <项目文件.toml>
+# 直接执行
+sh> ugt run <主模块.ugt> --project <项目文件.toml>
+# 启动REPL
+sh> ugt repl --project <项目文件.toml>
+```
+
+一个示例的项目文件见`bootstrap.toml`.
+
+packaging和project building这些方面其实还没设计好, 但先用着了. 做事第一.
+
 ## WIP的其他东西
 
 
