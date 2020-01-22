@@ -27,8 +27,12 @@ stmt :  LET binds                        { Let(@0, False, $1) }
       | 'import'  module                 { Import(@0, $1) }
       | 'infixl' bop <INT>               { Infix(@0, False, *$1, int(*$2)) }
       | 'infixr' bop <INT>               { Infix(@0, True, *$1, int(*$2)) }
-      | <UPPER> slots                    { Cons(@0, *$0, $1) }
+      | 'data' separated_list(',', cons) { Data(@0, $1) }
       ;
+
+cons : <UPPER> slots  { Cons(@0, *$0, $1) }
+     | <UPPER>        { Cons(@0, *$0, False) }
+     ;
 
 module : separated_list('.', ID)   { $0 };
 

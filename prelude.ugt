@@ -17,3 +17,7 @@ let ^ = curry <| op.pow
 
 infixl |> 0
 let |> = x -> f -> f x
+
+infixr :: 1
+data Cons(_, _), Nil
+let :: = Cons

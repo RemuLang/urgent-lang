@@ -17,6 +17,7 @@ W \s+
 %require Do
 %require Open
 %require Cons
+%require Data
 
 %require Let
 %require Infix

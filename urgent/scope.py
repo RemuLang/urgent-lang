@@ -105,8 +105,9 @@ def require(scope: Scope, name: str) -> Sym:
         return var
     if scope.parent:
         var = require(scope.parent, name)
-        scope.freevars[name] = var
-        var.is_cell.contents = True
+        if not var.is_global:
+            scope.freevars[name] = var
+            var.is_cell.contents = True
         return var
 
     raise Undef(name)
@@ -119,6 +120,9 @@ def enter(scope: Scope, name: str) -> Sym:
             return scope.boundvars[name]
         raise BindTwice(name)
     s = scope.boundvars[name] = Sym(name, object(), False)
+    if not scope.parent:
+        s.is_global = True
+
     return s
 
 
@@ -129,6 +133,8 @@ def shadow(scope: Scope, name: str, sym: Sym = None) -> Sym:
         return sym
 
     s = scope.boundvars[name] = Sym(name, object(), False)
+    if not scope.parent:
+        s.is_global = True
     return s
 
 

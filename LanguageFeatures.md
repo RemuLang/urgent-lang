@@ -155,18 +155,44 @@ do x match
 ```
 
 
-## WIP的特性
+## Variants
 
-- variants
 ```shell script
-Nil ()
-Cons(_, _)
+data Nil, Cons(_, _) 
+infixr :: 1
+let :: = Cons
 
 let print_lst = lst ->
   lst match
-    Nil         => ...,
-    Cons (a, b) =>  ...
+    1 :: Cons(a, b) => ...,
+    Cons(a, b) => ...,
+    Nil =>  ...
 ```
+
+`[]`语法是`Nil`的简写, `[a, b]`这样的语法是`Cons a (Cons b Nil)`的简写, 所以我们可以
+
+```shell script
+data Nil, Cons(_, _) 
+infixr :: 1
+let :: = Cons
+
+let print_lst = lst ->
+  lst match
+    1 :: a :: b => ...,
+    a :: b => ...,
+    [] =>  ...
+```
+
+局部定义的variants:
+```shell script
+let x = data A, B, C in
+  (A, B, C)
+do A
+
+# Undef: A
+```
+
+这是用来动态create数据类型的. 注意这对于运行时来说比较缓慢. 一般来说, 还是把数据创建放到模块顶层. 
 
 ## WIP的其他东西
 

@@ -14,7 +14,8 @@ import dis
 import traceback
 
 keywords = [
-    'let', 'def', 'match', 'rec', 'open', 'infixl', 'infixr', 'import', 'in'
+    'let', 'def', 'match', 'rec', 'open', 'infixl', 'infixr', 'import', 'in',
+    'data'
 ]
 operators = ['->', '.', '?', '=>']
 completer = WordCompleter(keywords)
@@ -38,7 +39,6 @@ class UrgentLexer(RegexLexer):
 session = PromptSession(completer=completer,
                         lexer=PygmentsLexer(UrgentLexer),
                         history=InMemoryHistory())
-
 
 
 def repl(debug=False):

@@ -33,6 +33,15 @@ class CodeGen:
     def __init__(self, numbering: Numbering = None):
         self.number = numbering if numbering is not None else Numbering()
 
+    def preload(self):
+        return [
+            sij.Glob("__import__"),
+            sij.Const("collections"),
+            sij.Call(1),
+            sij.Attr("namedtuple"),
+            sij.GlobSet("namedtuple")
+        ]
+
     def s2n(self, s: Sym) -> str:
         return 'var.{}.{}'.format(s.name, self.number[s.uid])
 
@@ -42,7 +51,7 @@ class CodeGen:
     def as_global(self, sym):
         return sij.GlobSet(self.s2n(sym))
 
-    def from_global(self, s: str):
+    def load_global(self, s: str):
         assert isinstance(s, str)
         return sij.Glob(s)
 
@@ -53,12 +62,12 @@ class CodeGen:
             many.reverse()
             many.append(sij.Const(()))
             many.reverse()
-            return many
+        else:
+            many = self.eval_many(instrs)
+            many.append(sij.Const(None))
+            many.append(sij.Return())
 
-        many = self.eval_many(instrs)
-        many.append(sij.Const(None))
-        many.append(sij.Return())
-        return many
+        return self.preload() + many
 
     def eval_many(self, instrs: List[Instruction]):
         seq = []

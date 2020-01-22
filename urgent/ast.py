@@ -1,5 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
+from urgent.scope import Sym
 import typing as t
 
 Location = t.Tuple[int, int, str]
@@ -78,12 +79,21 @@ class Call:
     f: Expr
     arg: Expr
 
+@dataclass
+class PyCall:
+    f: Expr
+    args: t.List[Expr]
 
 @dataclass
 class List:
     loc: Location
     elts: t.List[Expr]
 
+
+@dataclass
+class Data:
+    loc: Location
+    cons: t.List[Cons]
 
 @dataclass
 class Tuple:
@@ -107,6 +117,13 @@ class Lit:
 class Var:
     loc: Location
     id: str
+
+
+@dataclass
+class SVar:
+    # symbolic variable, used for compiler
+    loc: Location
+    sym: Sym
 
 
 @dataclass
@@ -142,10 +159,10 @@ class Or:
     rhs: Expr
 
 
-Stmt = t.Union[Do, Open, Cons, Infix, Let]
+Stmt = t.Union[Do, Open, Data, Infix, Let]
 
 Expr = t.Union[And, Or, Extern, Coerce, Field, Var, Import, Match, If, Fun,
-               Bin, Call, List, Tuple, Lit]
+               Bin, Call, List, Tuple, Lit, SVar, PyCall]
 
 
 @dataclass

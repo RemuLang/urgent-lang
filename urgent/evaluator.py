@@ -100,16 +100,14 @@ class State(Visitor):
 
     @classmethod
     def top(cls, compiler: Compiler):
-        return State(Scope.top(), compiler, compiler.code, [])
+        return State(Scope.top(), compiler, compiler.code)
 
-    def __init__(self, scope: Scope, compiler: Compiler, code: list,
-                 levels: list):
+    def __init__(self, scope: Scope, compiler: Compiler, code: list):
         self._loc = None
         self.scope = scope
         self.code: List[VM] = code
         self.compiler = compiler
         self.path = ""
-        self.levels = levels
 
     def last_instr(self):
         for i in reversed(self.code):
@@ -120,11 +118,10 @@ class State(Visitor):
         self.code.append(vm)
 
     def mk_new(self, scope: Scope = None):
-        return State(scope, self.compiler, self.code, [])
+        return State(scope, self.compiler, self.code)
 
     def mk_sub(self, scope: Scope = None):
-        return State(scope or self.scope.sub_scope(), self.compiler, self.code,
-                     self.levels)
+        return State(scope or self.scope.sub_scope(), self.compiler, self.code)
 
     @state_add
     def v_module(self, a: ast.Module):
@@ -133,28 +130,26 @@ class State(Visitor):
             self.eval(each)
         names, syms = zip(*[each for each in self.scope.boundvars.items()])
         sym = self.scope.shadow(a.quals[-1])
-        sym.is_global = True
 
-        for each in syms:
-            self.emit(VM("var", each))
-
-        self.emit(VM("tuple", len(syms)))
+        self.emit(
+            VM("push",
+               f"runtime representation of module {qualname}, names: {names}"))
         self.emit(VM("set", sym))
-        self.compiler.module_symbols[sym] = self.scope.boundvars
+        self.compiler.module_symbols[sym] = {
+            **self.scope.boundvars,
+            **self.scope.aliases
+        }
         self.compiler.evaluated_modules[qualname] = sym
 
         return sym
 
     @state_add
     def v_let(self, a: ast.Let):
-        self.levels.append(None)
         emit = self.emit
         is_rec = a.is_rec
         if is_rec:
             for loc, name, expr in a.binds:
                 sym = self.scope.shadow(name)
-                if len(self.levels) is 1:
-                    sym.is_global = True
                 emit(VM("loc", loc[0]))
                 emit(VM("push", ()))
                 emit(VM("set", sym))
@@ -178,15 +173,70 @@ class State(Visitor):
                 emit(VM("loc", loc[0]))
                 if alias:
                     self.scope.shadow(name, alias)
-                    sym = alias
                     emit(VM("pop"))
                 else:
                     sym = self.scope.shadow(name)
                     emit(VM("set", sym))
-                if len(self.levels) is 1:
-                    sym.is_global = True
 
-        self.levels.pop()
+    @state_add
+    def v_data(self, c: ast.Data):
+        emit = self.emit
+        emit(VM("loc", c.loc[0]))
+        for each in c.cons:
+            self.eval(each)
+
+    @state_add
+    def v_cons(self, c: ast.Cons):
+        n_slots = c.slots
+        loc = c.loc
+        n = c.id
+
+        cons_sym = self.scope.enter(n)
+        data_sym = self.scope.enter('data.' + n)
+
+        self.emit(VM("load_global", "namedtuple"))
+        self.emit(VM("push", n))
+        self.emit(VM("push", tuple(f'elt{i}' for i in range(n_slots))))
+        self.emit(VM("call", 2))
+
+        if n_slots == 0:
+            self.emit(VM('call', 0))
+            fun = ast.SVar(loc, data_sym)
+        else:
+            vars = [ast.Var(loc, f'c_{i}') for i in range(n_slots)]
+            fun = ast.PyCall(ast.SVar(loc, data_sym), vars)
+            for var in reversed(vars):
+                fun = ast.Fun(loc, var, fun)
+
+        self.emit(VM("set", data_sym))
+
+        self.eval(fun)
+
+        self.emit(VM("set", cons_sym))
+
+        comp = self.compiler
+        comp.patterns[cons_sym] = data_sym
+        comp.pattern_ary[cons_sym] = n_slots
+
+    @state_add
+    def v_svar(self, a: ast.SVar):
+        self.emit(VM("loc", a.loc[0]))
+        self.emit(VM("var", a.sym))
+
+    @state_add
+    def v_pycall(self, a: ast.PyCall):
+        self.eval(a.f)
+        for arg in a.args:
+            self.eval(arg)
+        self.emit(VM("call", len(a.args)))
+
+    @state_add
+    def v_list(self, a: ast.List):
+        lst = ast.Var(a.loc, "Nil")
+        cons = ast.Var(a.loc, "Cons")
+        for each in reversed(a.elts):
+            lst = ast.Call(ast.Call(cons, each), lst)
+        return self.eval(lst)
 
     @state_add
     def v_do(self, a: ast.Do):
@@ -339,12 +389,6 @@ class State(Visitor):
         self.emit(VM("tuple", len(a.elts)))
 
     @state_add
-    def v_list(self, a: ast.List):
-        for each in a.elts:
-            self.eval(each)
-        self.emit(VM("list", len(a.elts)))
-
-    @state_add
     def v_var(self, a: ast.Var):
         self.emit(VM("loc", a.loc[0]))
         sym = self.scope.require(a.id)
@@ -394,7 +438,7 @@ class State(Visitor):
             if sym in self.compiler.module_symbols:
                 names = self.compiler.module_symbols[sym]
                 if a.attr not in names:
-                    raise Exception('Module {} has no attribute.'.format(
+                    raise Exception('Module {} has no attribute {}.'.format(
                         sym.name, a.attr))
                 sym = names[a.attr]
                 return self.emit(VM("var", sym))
@@ -459,14 +503,14 @@ class PatternCompilation:
         emit = self.emit
         emit(VM("dup"))
         emit(VM("attr", "__class__"))
-        emit(VM("from_global", class_name))
+        emit(VM("load_global", class_name))
         emit(VM("neq"))
         emit(VM("goto_if", self.label_unmatch))
 
     def check_len_eq(self, n: int):
         emit = self.emit
         emit(VM("dup"))
-        emit(VM("from_global", "len"))
+        emit(VM("load_global", "len"))
         emit(VM("rot"))
         emit(VM("call", 1))
 
@@ -480,6 +524,14 @@ class PatternCompilation:
         if not loc:
             return '.'
         return 'at {}, line {}, column {}.'.format(loc[2], loc[0], loc[1])
+
+    @pat_add
+    def v_list(self, a: ast.List):
+        lst = ast.Var(a.loc, "Nil")
+        cons = ast.Var(a.loc, "Cons")
+        for each in reversed(a.elts):
+            lst = ast.Call(cons, ast.Tuple(a.loc, [each, lst]))
+        return self.eval(lst)
 
     @pat_add
     def v_lit(self, a: ast.Lit):
@@ -525,12 +577,14 @@ class PatternCompilation:
         f = self.eval(a.f)
         if not f:
             raise Exception("Not a recogniser!")
-        uncons, n = f
+        data_cons, n = f
         assert n > 0
         emit = self.emit
-        emit(VM("var", uncons))
-        emit(VM("rot", 2))
-        emit(VM("call", 1))
+        emit(VM("dup"))
+        emit(VM("attr", '__class__'))
+        emit(VM("var", data_cons))
+        emit(VM("neq"))
+        emit(VM("goto_if", self.label_unmatch))
         emit(VM("unpack", n))
         if n == 1:
             return self.eval(a.arg)
@@ -538,11 +592,15 @@ class PatternCompilation:
         if not isinstance(a.arg, ast.Tuple):
             raise Exception(
                 "Expect a tuple for deconstruction of recogniser {}.".format(
-                    uncons.name))
+                    data_cons.name))
+
         if len(a.arg.elts) != n:
             raise Exception("{} is a {}-ary recogniser, got {}, {}".format(
-                uncons.name, n, len(a.arg.elts), self.show_error(a.arg.loc)))
+                data_cons.name, n, len(a.arg.elts),
+                self.show_error(a.arg.loc)))
+
         loc = a.arg.loc
+
         for each in a.arg.elts:
             self.non_recogniser(each, loc)
 
@@ -580,14 +638,14 @@ class PatternCompilation:
         if sym not in self.state.compiler.patterns:
             raise Exception("{} is not a pattern {}.".format(
                 sym.name, self.show_error(loc)))
-        uncons = self.state.compiler.patterns[sym]
+        data_cons = self.state.compiler.patterns[sym]
         n = self.state.compiler.pattern_ary[sym]
         if not n:
-            self.emit(VM("var", uncons))
+            self.emit(VM("var", data_cons))
             self.emit(VM("neq"))
             self.emit(VM("goto_if", self.label_unmatch))
             return
-        return uncons, n
+        return data_cons, n
 
     @pat_add
     def v_var(self, a: ast.Var):
@@ -629,7 +687,11 @@ class Compiler:
     op_precedences: Dict[Sym, int]
     op_assoc: Dict[Sym, int]
     namegen_cnt: int
-    patterns: Dict[Sym, Sym]
+
+    # constructor -> deconstructor.
+    # if the deconstructor is None, it's a classic ADT.
+    patterns: Dict[Sym, Optional[Sym]]
+
     pattern_ary: Dict[Sym, int]
     code: List[Instruction]
     main: State
