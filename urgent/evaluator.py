@@ -200,8 +200,7 @@ class State(Visitor):
         self.emit(VM("call", 2))
 
         if n_slots == 0:
-            self.emit(VM('call', 0))
-            fun = ast.SVar(loc, data_sym)
+            fun = ast.PyCall(ast.SVar(loc, data_sym), [])
         else:
             vars = [ast.Var(loc, f'c_{i}') for i in range(n_slots)]
             fun = ast.PyCall(ast.SVar(loc, data_sym), vars)
@@ -638,17 +637,19 @@ class PatternCompilation:
         if sym not in self.state.compiler.patterns:
             raise Exception("{} is not a pattern {}.".format(
                 sym.name, self.show_error(loc)))
-        data_cons = self.state.compiler.patterns[sym]
         n = self.state.compiler.pattern_ary[sym]
         if not n:
-            self.emit(VM("var", data_cons))
+            self.emit(VM("var", sym))
             self.emit(VM("neq"))
             self.emit(VM("goto_if", self.label_unmatch))
             return
+        data_cons = self.state.compiler.patterns[sym]
         return data_cons, n
 
     @pat_add
     def v_var(self, a: ast.Var):
+        if a.id == '_':
+            return self.emit("pop")
         n = a.id
         if n and n[0].isupper():
             sym = self.state.scope.require(a.id)
@@ -714,7 +715,7 @@ class Compiler:
         self.ast_modules = conf.load_modules()
         self.main = State.top(self)
 
-    def load_module(self, names: List[str], state: State) -> Sym:
+    def load_module(self, names: List[str], state: State = None) -> Sym:
         qualname = '.'.join(names)
         mod_sym = self.evaluated_modules.get(qualname)
         if mod_sym:

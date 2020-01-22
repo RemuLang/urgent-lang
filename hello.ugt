@@ -1,0 +1,40 @@
+module Hello
+
+infixr <| 0
+infixl |> 0
+
+let <| = f -> x -> f x
+let |> = x -> f -> f x
+
+let print = extern "print"
+let imp = extern "__import__"
+let op = imp "operator"
+
+// arithmetic operators
+
+infixl + 10
+infixl - 10
+infixl * 20
+infixl / 20
+infixl \\ 20
+infixr ^ 30
+
+let _add = op.add
+let _sub = op.sub
+let _mul = op.mul
+let _pow = op.pow
+let _fdiv = op.truediv
+let _sdiv = op.floordiv
+
+let + = x -> y -> _add.(x, y)
+let - = x -> y -> _sub.(x, y)
+let * = x -> y -> _mul.(x, y)
+let \\ = x -> y -> _sdiv.(x, y)
+let / = x -> y -> _fdiv.(x, y)
+
+// list
+
+infixr :: 1
+data Cons(_, _), Nil
+let :: = Cons
+

@@ -6,7 +6,7 @@ UPPER [A-Z][a-zA-Z0-9_\u4e00-\u9fa5]*'?
 LOWER [a-z_\u4e00-\u9fa5][a-zA-Z0-9_\u4e00-\u9fa5]*'?
 STRING "([^\\"]+|\\.)*?"
 SPECIAL \-\>|\=\>|\=|\=\=
-OP [\+\-\*\/\@\~\%\>\<][\+\-\*\/\@\~\%\>\<\:\|\=\^]*
+OP [\+\-\*\/\@\~\%\>\<\\\:\!][\\\+\-\*\/\@\~\%\>\<\:\|\=\^\!]*
 SOP \|[\+\-\*\/\@\~\%\>\<\:\|\=\^]+
 
 W \s+
@@ -40,6 +40,8 @@ W \s+
 %require Extern
 %require Var
 %require In
+
+%require PyCall
 
 %require DQString
 

@@ -68,12 +68,12 @@ let x  =
 
 ## Open, Import
 
-项目根目录那个`prelude.ugt`可以拿来试, 打开`ugt repl`,
+项目根目录那个`hello.ugt`可以拿来试, 打开`ugt repl`,
 ```shell script
-Urgent> import Pre
+Urgent> import Hello
 Urgent> do print 1
 Undef print
-Urgent> let x = Pre
+Urgent> let x = Hello
 Urgent> do x.print 1
 1
 Urgent> open x
@@ -85,21 +85,21 @@ Urgent> print 1
 看起来似乎是python的`import <mod>`和`from <mod> import *`, 其实不是.
 
 一切都是静态的, 只有module可以被import和open. `x`之所以可以被open,
-是因为`x`被分析为是模块`Pre`的alias.
+是因为`x`被分析为是模块`Hello`的alias.
 
-Urgent是pure的, 变量不可以多次赋值(只有绑定), 所以, 上面代码里任何使用`x`的地方都会索引到模块`Pre`.
+Urgent是pure的, 变量不可以多次赋值(只有绑定), 所以, 上面代码里任何使用`x`的地方都会索引到模块`Hello`.
 
 如果说`python import *`是有运行时开销的, 那么, 已经加载过的模块在urgent里,
 无论在哪儿open都是0开销的.
 
 一种来自于ML语言的用法是, 在局部打开模块.
 ```shell script
-Urgent> import Pre
+Urgent> import Hello
 Urgent> let x = 1
 Urgent> do print 1
 Undef print
 
-Urgent> let x = let y = 2 open Pre in print 1
+Urgent> let x = let y = 2 open Hello in print 1
 1
 Urgent> do print 1
 Undef print
@@ -109,14 +109,14 @@ Undef print
 
 `open`, `let`, `rec`, `def`这些语句后面可以跟一个`in`, 表示表达式.
 ```shell script
-Urgent> let x = def x = 1 in open Pre in print <| x + 1
+Urgent> let x = def x = 1 in open Hello in print <| x + 1
 2
 ```
 
 连续的`let`, `open`, 这些语句, 可以不写`in`.
 
 ```shell script
-Urgent> let x = let x = 1 let y = 2 let c = 3 open Pre in print <| x + y + c
+Urgent> let x = let x = 1 let y = 2 let c = 3 open Hello in print <| x + y + c
 6
 Urgent> do print <| 1 + 2 + 3
 Undef operator.<|
@@ -223,3 +223,21 @@ for { deref x  < 10 } {
 还可以弄一些糖, 比如单目运算符.
 
 打算把`{ ... }`做成空参数lambda, 但是觉得有点浪费大括号.
+
+
+### `trait`
+
+```shell script
+trait number a
+    def +  by a -> a -> _
+    def -  by a -> a -> _
+    def *  by a -> a -> _
+    def /  by a -> a -> _
+    def // by a -> a -> _
+
+implement number int
+  def + = fun a -> b -> ...
+  ...    
+```
+
+可以使用type class的第三种实现, intensional type analysis的方式. 坏处是不能基于返回值类型dispatch.

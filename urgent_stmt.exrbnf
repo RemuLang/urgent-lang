@@ -90,8 +90,10 @@ atom      : '(' ')'                                  { Tuple(@0, []) }
           | '[' ']'                                  { List(@0, []) }
           | '[' separated_list(',', expr) ']'        { List(@0, $1) }
           | '(' separated_list(',', expr) ')'        { Tuple(@0, $1) }
+          | '(' bop ')'                              { Var(@0, *$1) }
           | <UPPER>                                  { Var(@0, *$0) }
           | <LOWER>                                  { Var(@0, *$0) }
+          | '_'                                      { Var(@0, *$0) }
           | <INT>                                    { Lit(@0, int(*$0)) }
           | <FLOAT>                                  { Lit(@0, float(*$0)) }
           | <STRING>                                 { Lit(@0, DQString(*$0)) }
@@ -100,4 +102,6 @@ atom      : '(' ')'                                  { Tuple(@0, []) }
           | 'True'                                   { Lit(@0, True) }
           | 'False'                                  { Lit(@0, False) }
           | 'extern' <STRING>                        { Extern(@0, DQString(*$1)) }
+          | atom '.' '(' separated_list(',', expr) ')' { PyCall($0, $3) }
+          | atom '.' '(' ')'                           { PyCall($0, []) }
           ;

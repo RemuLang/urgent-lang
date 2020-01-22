@@ -41,8 +41,8 @@ session = PromptSession(completer=completer,
                         history=InMemoryHistory())
 
 
-def repl(debug=False):
-    compiler = Compiler()
+def repl(debug=False, project: str = ""):
+    compiler = Compiler(project)
     ctx = {}
     while True:
         inp: str = session.prompt('Urgent> ')

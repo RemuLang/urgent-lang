@@ -33,25 +33,24 @@ class Config:
         return modules
 
     @classmethod
-    def parse(cls, src, path):
+    def parse(cls, src, path: Path):
         conf = parse_config(src)
-        conf.path = os.path.split(path)[0]
-        conf.src_dirs = [os.path.join(path, each) for each in conf.src_dirs]
-
+        dir = conf.path = path.parent
+        conf.src_dirs = [str(dir / each) for each in conf.src_dirs]
         return conf
 
     @classmethod
-    def create(cls, path):
-        po = Path(path)
-        if not Path(path).exists():
-            po.parent.mkdir(parents=True)
-            with po.open('w') as f:
+    def create(cls, path: Path):
+        if not path.exists():
+            path.parent.mkdir(parents=True)
+            with path.open('w') as f:
                 f.write(_template_toml)
 
     @classmethod
     def load(cls, path):
+        path = Path(path).expanduser()
         cls.create(path)
-        with Path(path).open() as f:
+        with path.open() as f:
             return cls.parse(f.read(), path)
 
 
