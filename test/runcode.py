@@ -1,6 +1,6 @@
 from sijuiacion_lang.lowering import Lower
 from urgent.codegen import CodeGen
-from urgent.evaluator import Compiler
+from urgent.compiler import Compiler
 from urgent.parser_wrap import parse
 
 comp = Compiler()

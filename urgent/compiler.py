@@ -80,7 +80,8 @@ class Visitor:
         if hasattr(expr, 'loc'):
             self._loc = expr.loc
         try:
-            return self.dispatches[expr.__class__](self, expr)
+            ret = self.dispatches[expr.__class__](self, expr)
+            return ret
         except Report:
             raise
         except Exception as e:
@@ -205,7 +206,7 @@ class State(Visitor):
             vars = [ast.Var(loc, f'c_{i}') for i in range(n_slots)]
             fun = ast.PyCall(ast.SVar(loc, data_sym), vars)
             for var in reversed(vars):
-                fun = ast.Fun(loc, var, fun)
+                fun = ast.Fun(loc, var, ast.TCO(fun))
 
         self.emit(VM("set", data_sym))
 
@@ -370,9 +371,48 @@ class State(Visitor):
 
     @state_add
     def v_call(self, a: ast.Call):
-        self.eval(a.f)
+        # this is not tail call
+        self.emit(VM("load_global", "tco"))
+
         self.eval(a.arg)
+        self.eval(a.f)
+        self.emit(VM("tuple", 2))
+
         self.emit(VM("call", 1))
+
+    @state_add
+    def v_tco(self, a: ast.TCO):
+        emit = self.emit
+        expr = a.expr
+        if isinstance(expr, ast.Bin):
+            expr = self.solve_bin_ops(expr.head, expr.tl)
+        if isinstance(expr, ast.Call):
+            # tail call
+            emit(VM("push", False))
+            self.eval(expr.arg)
+            self.eval(expr.f)
+            emit(VM("tuple", 2))
+            emit(VM("tuple", 2))
+        elif isinstance(expr, ast.If):
+            # propagate
+            self.eval(
+                ast.If(expr.loc, expr.cond, ast.TCO(expr.tc),
+                       ast.TCO(expr.fc)))
+        elif isinstance(expr, ast.Match):
+            # propagate
+            self.eval(
+                ast.Match(expr.loc, expr.val_to_match,
+                          [(loc, pat, ast.TCO(value))
+                           for loc, pat, value in expr.cases]))
+
+        elif isinstance(expr, ast.In):
+            # propagate
+            self.eval(ast.In(expr.stmt, ast.TCO(expr.expr)))
+        else:
+            # non-tailcall evaluation.
+            emit(VM("push", True))
+            self.eval(a.expr)
+            emit(VM("tuple", 2))
 
     @state_add
     def v_tuple(self, a: ast.Tuple):
@@ -413,6 +453,7 @@ class State(Visitor):
         sub.scope.allow_reassign = False
 
         emit(VM("label", label_matched))
+
         sub.eval(a.body)
         emit(VM("goto", "urgent.funcend"))
         emit(VM("label", label_unmatch))
@@ -477,7 +518,7 @@ pat_dispatches = {}
 pat_add = mk_dispatch(pat_dispatches)
 
 
-class PatternCompilation:
+class PatternCompilation(Visitor):
     dispatches = pat_dispatches
 
     def __init__(self, scope: Scope, state: State, label_unmatch):
@@ -494,9 +535,6 @@ class PatternCompilation:
             yield
         finally:
             self.label_unmatch = lu
-
-    def eval(self, expr):
-        return self.dispatches[expr.__class__](self, expr)
 
     def check_class(self, class_name: str):
         emit = self.emit
@@ -518,11 +556,6 @@ class PatternCompilation:
         emit(VM("neq"))
 
         emit(VM("goto_if", self.label_unmatch))
-
-    def show_error(self, loc: ast.Location):
-        if not loc:
-            return '.'
-        return 'at {}, line {}, column {}.'.format(loc[2], loc[0], loc[1])
 
     @pat_add
     def v_list(self, a: ast.List):
@@ -596,7 +629,7 @@ class PatternCompilation:
         if len(a.arg.elts) != n:
             raise Exception("{} is a {}-ary recogniser, got {}, {}".format(
                 data_cons.name, n, len(a.arg.elts),
-                self.show_error(a.arg.loc)))
+                self.show_error_loc(a.arg.loc)))
 
         loc = a.arg.loc
 
@@ -609,7 +642,7 @@ class PatternCompilation:
             uncons, n = recog
             raise Exception(
                 "Recogniser {} is {}-ary, but used as enumeration {}".format(
-                    uncons.name, n, self.show_error(loc)))
+                    uncons.name, n, self.show_error_loc(loc)))
 
     @pat_add
     def v_tuple(self, a: ast.Tuple):
@@ -636,7 +669,7 @@ class PatternCompilation:
     def process_recogniser(self, sym: Sym, loc):
         if sym not in self.state.compiler.patterns:
             raise Exception("{} is not a pattern {}.".format(
-                sym.name, self.show_error(loc)))
+                sym.name, self.show_error_loc(loc)))
         n = self.state.compiler.pattern_ary[sym]
         if not n:
             self.emit(VM("var", sym))

@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import *
 from urgent.scope import Scope, Sym
-from urgent.evaluator import Instruction
+from urgent.compiler import Instruction
 from sijuiacion_lang.lowering import sij
 T = TypeVar('T')
 
@@ -34,12 +34,25 @@ class CodeGen:
         self.number = numbering if numbering is not None else Numbering()
 
     def preload(self):
+        tco = sij.Defun("base", "base", [], "tailcall", ["argf"], [
+            sij.Load("argf"),
+            sij.Label("loop"),
+            sij.Unpack(2),
+            sij.Call(1),
+            sij.Unpack(2),
+            sij.GotoNEq("loop"),
+            sij.Return()
+        ])
         return [
+            # for ADTs
             sij.Glob("__import__"),
             sij.Const("collections"),
             sij.Call(1),
             sij.Attr("namedtuple"),
-            sij.GlobSet("namedtuple")
+            sij.GlobSet("namedtuple"),
+            # for tail call optimizations
+            tco,
+            sij.GlobSet("tco")
         ]
 
     def s2n(self, s: Sym) -> str:

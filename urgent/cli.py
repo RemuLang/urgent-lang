@@ -1,5 +1,5 @@
 from urgent.repl_parser_wrap import parse_stmt
-from urgent.evaluator import Compiler, VM
+from urgent.compiler import Compiler, VM
 from urgent.codegen import CodeGen, Numbering
 from sijuiacion_lang.lowering import Lower
 from importlib._bootstrap_external import _code_to_hash_pyc

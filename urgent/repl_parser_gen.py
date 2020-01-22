@@ -8,7 +8,7 @@ __all__ = ['lexicals', 'run_lexer', 'mk_parser']
 
 
 
-def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, And, Or, Bin, Call, List, Tuple, Lit, Field, Coerce, Extern, Var, In, PyCall, DQString):
+def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, And, Or, Bin, Call, List, Tuple, Lit, Field, Coerce, Extern, Var, In, TCO, PyCall, DQString):
     from rbnf_rts.rts import AST as prim__mk__ast, Cons as prim__cons, _nil as prim__nil
 
     def lr_step_atom(_slot_0, prim__state, prim__tokens):
@@ -4752,7 +4752,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
             lcl_1 = _slot_0_check[1]
             lcl_1 = lcl_1
             _slot_0 = lcl_1
-            lcl_1 = parse_exprCont(prim__state, prim__tokens)
+            lcl_1 = parse_expr__cont(prim__state, prim__tokens)
             _slot_1_check = lcl_1
             lcl_1 = _slot_1_check[0]
             lcl_1 = (lcl_1 is False)
@@ -5461,7 +5461,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     prim__tokens.offset = (_py_local_i + 1)
                     lcl_4 = _py_local_t
                     _slot_1 = lcl_4
-                    lcl_4 = parse_expr2(prim__state, prim__tokens)
+                    lcl_4 = parse_expr(prim__state, prim__tokens)
                     _slot_2_check = lcl_4
                     lcl_4 = _slot_2_check[0]
                     lcl_4 = (lcl_4 is False)
@@ -5474,6 +5474,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                         lcl_5 = (_slot_1.lineno, _slot_1.colno, _slot_1.filename)
                         lcl_6 = _slot_0
                         lcl_7 = _slot_2
+                        lcl_7 = TCO(lcl_7)
                         lcl_5 = Fun(lcl_5, lcl_6, lcl_7)
                         _slot_local__1 = lcl_5
                         lcl_5 = (True, _slot_local__1)
@@ -5494,7 +5495,7 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
             lcl_0 = lcl_1
         return lcl_0
 
-    def parse_exprCont(prim__state, prim__tokens):
+    def parse_expr__cont(prim__state, prim__tokens):
         lcl_0 = prim__tokens.offset
         _off_0 = lcl_0
         lcl_0 = (len(prim__tokens.array) > (prim__tokens.offset + 0))
@@ -5667,14 +5668,14 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             else:
-                lcl_3 = (_off_0, 'exprCont lookahead failed')
+                lcl_3 = (_off_0, 'expr_cont lookahead failed')
                 lcl_3 = prim__cons(lcl_3, prim__nil)
                 lcl_3 = lcl_3
                 lcl_3 = (False, lcl_3)
                 lcl_1 = lcl_3
             lcl_0 = lcl_1
         else:
-            lcl_1 = (_off_0, 'exprCont got EOF')
+            lcl_1 = (_off_0, 'expr_cont got EOF')
             lcl_1 = prim__cons(lcl_1, prim__nil)
             lcl_1 = lcl_1
             lcl_1 = (False, lcl_1)

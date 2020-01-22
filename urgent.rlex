@@ -40,6 +40,7 @@ W \s+
 %require Extern
 %require Var
 %require In
+%require TCO
 
 %require PyCall
 

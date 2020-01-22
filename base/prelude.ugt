@@ -6,8 +6,11 @@ infixl |> 0
 let <| = f -> x -> f x
 let |> = x -> f -> f x
 
-let print = extern "print"
-let imp = extern "__import__"
+let wrap_py_func = pyfunc -> arg -> pyfunc.(arg)
+
+let print = wrap_py_func extern "print"
+let imp = wrap_py_func extern "__import__"
+
 let op = imp "operator"
 
 // arithmetic operators
@@ -33,6 +36,7 @@ let - = x -> y -> _sub.(x, y)
 let * = x -> y -> _mul.(x, y)
 let \\ = x -> y -> _sdiv.(x, y)
 let / = x -> y -> _fdiv.(x, y)
+let ^ = x -> y -> _pow.(x, y)
 let !! = x -> y -> _item.(x, y)
 
 // list

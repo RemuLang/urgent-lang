@@ -79,10 +79,12 @@ class Call:
     f: Expr
     arg: Expr
 
+
 @dataclass
 class PyCall:
     f: Expr
     args: t.List[Expr]
+
 
 @dataclass
 class List:
@@ -94,6 +96,7 @@ class List:
 class Data:
     loc: Location
     cons: t.List[Cons]
+
 
 @dataclass
 class Tuple:
@@ -159,10 +162,15 @@ class Or:
     rhs: Expr
 
 
+@dataclass
+class TCO:
+    expr: Expr
+
+
 Stmt = t.Union[Do, Open, Data, Infix, Let]
 
 Expr = t.Union[And, Or, Extern, Coerce, Field, Var, Import, Match, If, Fun,
-               Bin, Call, List, Tuple, Lit, SVar, PyCall]
+               Bin, Call, List, Tuple, Lit, SVar, PyCall, TCO]
 
 
 @dataclass

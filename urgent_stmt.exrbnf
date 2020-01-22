@@ -44,8 +44,9 @@ expr : bind_expr                        { $0 }
      | expr2                            { $0 }
      ;
 
+
 expr2 : boolor { $0 }
-      | boolor '->' expr2 { Fun(@1, $0, $2) }
+      | boolor '->' expr { Fun(@1, $0, TCO($2)) }
       ;
 
 boolor : boolor 'or' booland { Or(@1, $0, $2) }
@@ -56,11 +57,11 @@ booland : booland 'and' bin { And(@1, $0, $2) }
         | bin { $0 }
         ;
 
-bind_expr : stmt exprCont                   { In($0, $1) } ;
+bind_expr     : stmt expr_cont               { In($0, $1) } ;
 
-exprCont : 'in' expr   { $1 }
-         | bind_expr   { $0 }
-         ;
+expr_cont : 'in' expr   { $1 }
+          | bind_expr    { $0 }
+          ;
 
 match_cases : separated_list(',', match_case) { $0 } ;
 match_case : pat '=>' expr                    { (@1, $0, $2) } ;

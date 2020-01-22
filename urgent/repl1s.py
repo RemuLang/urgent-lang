@@ -8,7 +8,7 @@ from prompt_toolkit.completion import WordCompleter
 from prompt_toolkit.shortcuts import PromptSession
 from prompt_toolkit.lexers import PygmentsLexer
 from urgent.cli import get_code_for_repl
-from urgent.evaluator import Compiler, Report
+from urgent.compiler import Compiler, Report
 import re
 import dis
 import traceback

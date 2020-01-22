@@ -1,5 +1,5 @@
 from urgent.parser_wrap import parse
-from urgent.evaluator import Compiler, Instruction
+from urgent.compiler import Compiler, Instruction
 from pprint import pprint
 ast = parse("""
 module A.I
