@@ -6,7 +6,7 @@ from urgent.codegen import CodeGen, Numbering
 from sijuiacion_lang.lowering import Lower
 from importlib._bootstrap_external import _code_to_hash_pyc
 from importlib.util import source_hash
-
+import marshal
 
 def get_code(inp: Module, filename, project: str = ""):
     comp = Compiler(project)
@@ -37,13 +37,16 @@ def get_code_for_repl(inp: str, comp: Compiler):
     return code
 
 
-def cc(path: str, out: str, project: str = "", main='Main'):
+def cc(path: str, out: str, project: str = "", raw_bytecode: bool = False):
     with open(path, 'r') as f:
         source = f.read()
         mod = parse(source, path)
         code = get_code(mod, path, project)
 
     with open(out, 'wb') as f:
+        if raw_bytecode:
+            f.write(marshal.dumps(code))
+            return 
         data = _code_to_hash_pyc(code, source_hash(source.encode('utf8')))
         f.write(data)
 
