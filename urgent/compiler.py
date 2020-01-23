@@ -634,7 +634,9 @@ class PatternCompilation(Visitor):
         if not f:
             raise Exception("Not a recogniser!")
         data_cons, n = f
-        assert n == len(args)
+        if n != len(args):
+            raise Exception("Deconstructor {} requires {} arguments.".format(
+                data_cons, n))
         emit = self.emit
         emit(VM("dup"))
         emit(VM("attr", '__class__'))

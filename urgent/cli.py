@@ -8,6 +8,7 @@ from importlib._bootstrap_external import _code_to_hash_pyc
 from importlib.util import source_hash
 import marshal
 
+
 def get_code(inp: Module, filename, project: str = ""):
     comp = Compiler(project)
     comp.compile_module(inp)
@@ -46,7 +47,7 @@ def cc(path: str, out: str, project: str = "", raw_bytecode: bool = False):
     with open(out, 'wb') as f:
         if raw_bytecode:
             f.write(marshal.dumps(code))
-            return 
+            return
         data = _code_to_hash_pyc(code, source_hash(source.encode('utf8')))
         f.write(data)
 

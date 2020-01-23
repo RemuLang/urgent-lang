@@ -1,9 +1,20 @@
-from urgent.cli import get_code_for_repl, Compiler
+from urgent.cli import get_code, Compiler
+from urgent.parser_wrap import parse
 
-comp = Compiler("./bootstrap.toml")
+mod = parse("""
+module Main
+open Pre
 
+let x =
+    open Pre in
+    let op2 = op
+    let y = imp "operator"
+    rec f = x ->
+         op2.add.((x, 1), (y, 2))
+    in f 1
+    
+do open Pre in print x
+""")
+code = get_code(mod, "a.ugt", "./bootstrap.toml")
 
-get_code_for_repl("""
-do 0 match 0 => 2, 1 => 2
-""", comp)
-
+exec(code)

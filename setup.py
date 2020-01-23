@@ -20,7 +20,7 @@ setup(
     author_email='twshere@outlook.com',
     packages=find_packages(),
     entry_points={"console_scripts": ['ugt=urgent.cli:main']},
-    install_requires=["rbnf-rts", "toml", 'argser'],
+    install_requires=["rbnf-rts", "toml", 'argser', 'sijuiacion-lang'],
     platforms="any",
     classifiers=[
         "Programming Language :: Python :: 3.6",
