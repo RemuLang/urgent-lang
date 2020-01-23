@@ -229,6 +229,13 @@ do A
 
 这是用来动态create数据类型的. 注意这对于运行时来说比较缓慢. 一般来说, 还是把数据创建放到模块顶层. 
 
+Variants的成员可以按名字访问:
+```shell script
+data Either(left, right)
+let x = Either(1, 2)
+do x.left |> print
+```
+
 ## 尾递归
 
 urgent实现了尾递归, 所以, 你可以随意地写递归函数定义.
