@@ -66,15 +66,14 @@ class CodeGen:
                                      sij.Const(()),
                                      sij.Return()
                                  ])
-        failwith = sij.Defun("base", "base", [], "failwith",
-                                 ["msg"], [
-                                        sij.Glob("Exception"),
-                                        sij.Load("msg"),
-                                        sij.Call(1),
-                                        sij.DUP(1),
-                                        sij.SimpleRaise(),
-                                        sij.Return()
-                                 ])
+        failwith = sij.Defun("base", "base", [], "failwith", ["msg"], [
+            sij.Glob("Exception"),
+            sij.Load("msg"),
+            sij.Call(1),
+            sij.DUP(1),
+            sij.SimpleRaise(),
+            sij.Return()
+        ])
         return [
             # for ADTs
             sij.Glob("__import__"),
@@ -199,6 +198,12 @@ class CodeGen:
     def dup(self):
         return sij.DUP(1)
 
+    def same(self):
+        return sij.Cmp(sij.Compare.Is)
+
+    def not_same(self):
+        return sij.Cmp(sij.Compare.IS_NOT)
+
     def rot(self, n=None):
         return sij.ROT(n or 2)
 
@@ -208,7 +213,7 @@ class CodeGen:
     def call(self, i: int):
         return sij.Call(i)
 
-    def function(self, filename, scope: Scope, arg_sym: Sym, instrs):
+    def function(self, name, filename, scope: Scope, arg_sym: Sym, instrs):
         freevars = list(map(self.s2n, scope.freevars.values()))
-        return sij.Defun("", filename, freevars, self.s2n(arg_sym),
+        return sij.Defun(name, filename, freevars, self.s2n(arg_sym),
                          [self.s2n(arg_sym)], self.eval_many(instrs))

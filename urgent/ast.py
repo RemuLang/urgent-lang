@@ -67,6 +67,7 @@ class Fun:
     loc: Location
     pat: Expr
     body: Expr
+    name = "<fun>"
 
 
 @dataclass

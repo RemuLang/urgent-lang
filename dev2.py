@@ -14,6 +14,12 @@ let x =
     in f 1
     
 do open Pre in print x
+open Pre
+
+data C, B
+do C match
+    B => print 1,
+    C => print 2
 """)
 code = get_code(mod, "a.ugt", "./bootstrap.toml")
 

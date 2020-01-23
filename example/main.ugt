@@ -1,6 +1,0 @@
-module Main
-open Pre
-
-// check implementation of Pre at ../base/prelude.ugt
-
-do print 1

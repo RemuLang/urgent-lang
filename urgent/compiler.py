@@ -210,11 +210,11 @@ class State(Visitor):
 
         cons_sym = self.scope.enter(n)
         data_sym = self.scope.enter('data.' + n)
-
-        self.emit(VM("load_global", "namedtuple"))
-        self.emit(VM("push", n))
-        self.emit(VM("push", tuple(slots)))
-        self.emit(VM("call", 2))
+        emit = self.emit
+        emit(VM("load_global", "namedtuple"))
+        emit(VM("push", n))
+        emit(VM("push", tuple(slots)))
+        emit(VM("call", 2))
 
         if not slots:
             fun = ast.PyCall(ast.SVar(loc, data_sym), [])
@@ -223,12 +223,13 @@ class State(Visitor):
             fun = ast.PyCall(ast.SVar(loc, data_sym), vars)
             for var in reversed(vars):
                 fun = ast.Fun(loc, var, ast.TCO(fun))
+                fun.name = n
 
-        self.emit(VM("set", data_sym))
+        emit(VM("set", data_sym))
 
         self.eval(fun)
 
-        self.emit(VM("set", cons_sym))
+        emit(VM("set", cons_sym))
 
         comp = self.compiler
         comp.patterns[cons_sym] = data_sym
@@ -480,7 +481,7 @@ class State(Visitor):
         emit(VM("ret"))
 
         code, self.code = self.code, code
-        emit(VM("function", a.loc[2], sub.scope, n, code))
+        emit(VM("function", a.name, a.loc[2], sub.scope, n, code))
 
     @state_add
     def v_lit(self, a: ast.Lit):
@@ -685,7 +686,7 @@ class PatternCompilation(Visitor):
         n = self.state.compiler.pattern_ary[sym]
         if not n:
             self.emit(VM("var", sym))
-            self.emit(VM("neq"))
+            self.emit(VM("not_same"))
             self.emit(VM("goto_if", self.label_unmatch))
             return
         data_cons = self.state.compiler.patterns[sym]
