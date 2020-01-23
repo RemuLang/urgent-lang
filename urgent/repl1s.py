@@ -36,12 +36,11 @@ class UrgentLexer(RegexLexer):
     }
 
 
-session = PromptSession(completer=completer,
-                        lexer=PygmentsLexer(UrgentLexer),
-                        history=InMemoryHistory())
-
-
 def repl(debug=False, project: str = ""):
+    session = PromptSession(completer=completer,
+                            lexer=PygmentsLexer(UrgentLexer),
+                            history=InMemoryHistory())
+
     compiler = Compiler(project)
     ctx = {}
     tracing_limit = 2 if debug else 0

@@ -58,13 +58,22 @@ class CodeGen:
                 sij.BuildTuple(2),
                 sij.Return()
             ])
-        set_contents = sij.Defun("base", "base", [],
-                                 "to_py_callable", ["on", "val"], [
+        set_contents = sij.Defun("base", "base", [], "to_py_callable",
+                                 ["on", "val"], [
                                      sij.Load("val"),
                                      sij.Load("on"),
                                      sij.AttrSet("contents"),
                                      sij.Const(()),
                                      sij.Return()
+                                 ])
+        failwith = sij.Defun("base", "base", [], "failwith",
+                                 ["msg"], [
+                                        sij.Glob("Exception"),
+                                        sij.Load("msg"),
+                                        sij.Call(1),
+                                        sij.DUP(1),
+                                        sij.SimpleRaise(),
+                                        sij.Return()
                                  ])
         return [
             # for ADTs
@@ -79,7 +88,9 @@ class CodeGen:
             to_py_callable,
             sij.GlobSet("to_py_callable"),
             set_contents,
-            sij.GlobSet("set_contents")
+            sij.GlobSet("set_contents"),
+            failwith,
+            sij.GlobSet("failwith")
         ]
 
     def s2n(self, s: Sym) -> str:

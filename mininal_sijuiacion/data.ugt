@@ -1,1 +1,257 @@
+module Data
+// created by auto generation
 
+data Load(_),
+     Store(_),
+     Deref(_),
+     RefSet(_),
+     Glob(_),
+     GlobSet(_),
+     Const(_),
+     Extern(_),
+     SimpleRaise,
+     Unpack(_),
+     Pop,
+     Rot2,
+     Rot3,
+     Dup(_),
+
+     Goto(_),
+     GotoIf(_),
+     GotoIfNot(_),
+
+     Label(label_name),
+     BlockAddr(label_name),
+     Indir,
+     Switch(table),
+
+     Bin(_),
+     IBin(_),
+     Un(_),
+     Cmp(_),
+
+     Attr(_),
+     AttrSet(_),
+     Item,
+     ItemSet,
+
+     Call(_),
+     Print,
+     BuildList(_),
+     BuildTuple(_),
+     ListAppend(_),
+
+     Return,
+     Line(_),
+     Defun(_, _, _, _, _, _)
+
+let xs = 
+	open Pre in
+	let mod = imp "sijuiacion_lang.blockaddr"
+	in mod
+
+
+let lower =
+
+open Pre in
+infixl `isa` 1
+let isa = x -> y -> (extern "isinstance").(x, y)
+let mod = imp "sijuiacion_lang.blockaddr" in
+let resolve_blockaddr = mod.resolve_blockaddr
+let NamedLabel = mod.NamedLabel
+let LabelValue = mod.LabelValue
+let LabelValueMap = mod.LabelValueMap
+let WHY_CONTINUE = mod.WHY_CONTINUE
+let I = imp "sijuiacion_lang.bytecode_instrs"
+let PR = imp "sijuiacion_lang.preserved_registers"
+let sij = imp "sijuiacion_lang.sijuiacion"
+let marshal = imp "marshal"
+let ModuleType = (imp "types").ModuleType
+let bytec = imp "bytecode"
+let sys = imp "sys"
+let PY38 = sys.version_info >= (3, 8)
+let BytecodeInstrType = bytec.Instr
+let pydict = extern "dict"
+let pylist = extern "list"
+let pyset = extern "set"
+let pylen = extern "len"
+let pyenum = extern "enumerate"
+let find_indir_targets = instrs ->
+	let ret = pyset.()
+	do for_pylist instrs (instr ->
+		instr match
+			BlockAddr label_name =>
+				ret.add.(label_name)
+		  , Switch table =>
+		  		ret.update.(table.values.())
+		  , _ => ())
+	in ret
+// `foreach` can be a urgent list traverser, 
+// or a python function providing for-loop functionalities
+rec lower = lineno ->
+	Defun name filename doc args frees instrs ->
+  	let indir_targets = find_indir_targets instrs
+  	let _line = ref lineno
+  	let inner_frees = pyset.()
+  	let bc_instrs = pylist.()
+  	let bc_instrs_append = bc_instrs.append
+  	let yield = instr ->
+  		do _line := instr.lineno
+  		do bc_instrs_append.(instr)
+  		in ()
+  	do
+  		indir_targets and not PY38 ?
+  			do yield <| I.LOAD_CONST.(False)
+  			do yield I.STORE_FAST.(PR.REG_TEST_INDIR_JUMPED)
+  			in ()
+  		else ()
+  	let each_do = (i, instr) -> instr match
+  		Line(no) => _line := no
+  	  , Pop =>
+  	  		yield I.POP_TOP.()
+  	  , Cmp op =>
+  	  	yield I.COMPARE_OP.(op)
+  	  , Glob name =>
+  	  	yield I.LOAD_GLOBAL.(name)
+  	  , GlobSet n =>
+  	  	yield I.STORE_GLOBAL.(n)
+  	  , Load n =>
+  	  	yield I.LOAD_FAST.(n)
+  	  , Store n =>
+  	  	yield I.STORE_FAST.(n)
+  	  , Deref n =>
+  	  	yield I.LOAD_DEREF.(n)
+  	  , RefSet n =>
+  	  	yield I.STORE_DEREF.(n)
+  	  , SimpleRaise =>
+  	  	yield I.RAISE_VARARGS.(1)
+  	  , Unpack n =>
+  	  	yield I.UNPACK_SEQUENCE.(n)
+  	  , Const val =>
+  	  	yield I.LOAD_CONST.(val)
+  	  , Rot2 => yield I.ROT2.()
+  	  , Rot3 => yield I.Rot3.()
+  	  , Dup n => yield I.DUP()
+  	  , Goto n =>
+  	  	yield I.JUMP_ABSOLUTE.(NamedLabel.(n))
+  	  , GotoIf n =>
+  	  	yield I.POP_JUMP_IF_TRUE.(NamedLabel.(n))
+  	  , GotoIfNot n =>
+  	  	yield I.POP_JUMP_IF_FALSE.(NamedLabel.(n))
+  	  , Label n =>
+  	  	do yield NamedLabel.(name)
+  	  	name in indir_targets and not PY38 ?
+  	  		do yield I.LOAD_FAST.(PR.REG_TEST_INDIR_JUMPED)
+  	  		do yield I.POP_JUMP_IF_FALSE.(NamedLabel.(i))
+  	  		do yield I.POP_BLOCK.()
+  	  		do yield I.LOAD_CONST.(False)
+  	  		do yield I.STORE_FAST.(PR.REG_TEST_INDIR_JUMPED)
+  	  		in yield NamedLabel.(i)
+  	  	else ()
+  	  , BlockAddr n =>
+  	  	let label_as_val = LabelValue.(n)
+  	  	in yield I.LOAD_CONST.(label_as_val)
+  	  , Indir =>
+  	  	do PY38 ? () else
+  	  		do yield I.PUSH_BLOCK.(i)
+  	  		do yield NamedLabel.(i)
+  	  		do yield I.LOAD_CONST.(True)
+  	  		in yield I.STORE_FAST.(PR.REG_TEST_INDIR_JUMPED)
+  	  	do yield I.LOAD_CONST.(WHY_CONTINUE)
+  	  	in yield I.INDIR.()
+	  , Bin bin_op =>
+	  	yield I.BINARY.(bin_op)
+	  , IBin bin_op =>
+	  	yield I.INPLACE_BINARY.(bin_op)
+	  , Un uop =>
+	  	yield I.UNARY.(uop)
+	  , Attr attr =>
+	  	yield I.LOAD_ATTR.(attr)
+	  , AttrSet attr =>
+	  	yield I.STORE_ATTR.(attr)
+	  , Item =>
+	  	yield I.BINARY.(sij.BinOp.SUBSCR)
+	  , ItemSet =>
+	  	yield I.STORE_SUBSCR.()
+	  , Call n =>
+	  	yield I.CALL_FUNCTION.(n)
+	  , Print =>
+	  	yield I.PRINT_EXPR.()
+	  , BuildList n =>
+	  	yield I.BUILD_LIST.(n)
+	  , BuildTuple n =>
+	  	yield I.BUILD_TUPLE.(n)
+	  , ListAppend n =>
+	  	yield I.LIST_APPEND.(n)
+	  , Return =>
+	  	yield I.RETURN_VALUE.()
+	  , Defun name f_filename doc args frees instrs =>
+	  	let filename = f_filename or filename
+	  	let has_free = frees ? True else False
+	  	do not has_free? () else
+	  		do for_pylist frees (free ->
+	  			I.LOAD_CLOSURE.(free))
+	  		in I.BUILD_TUPLE(pylen(frees))
+	  	let code = lower !_line <|
+	  		Defun name filename doc args frees instrs
+	  	do yield I.LOAD_CONST.(code)
+	  	do yield I.LOAD_CONST.(name)
+	  	in I.MAKE_FUNCTION.(has_free)
+	do for_pylist (pylist.(pyenum.(instrs))) each_do
+  	let code = bytec.Bytecode.(bc_instrs)
+  	do code.argnames.extend.(args)
+  	do setattr code "filename" filename
+  	do setattr code "first_lineno" lineno
+  	do setattr code "docstring" doc
+  	do setattr code "name" name
+  	do setattr code "argcount" pylen.(args)
+  	let cellvars = pyset.()
+  	do for_pylist code (each ->
+  			not (each `isa` bytec.Instr) ?
+  				()
+  			else
+  			not (each.arg `isa` bytec.FreeVar) ?
+  				()
+  			else
+  			let varname = each.arg.name
+  			in
+  			op.not_in.(code.argnames, varname) ?
+  				do setattr each "arg" <| bytec.CellVar.(varname)
+  				in cellvars.add.(varname)
+  			else ()
+  		)
+  	do setattr code "freevars" frees
+  	do setattr code "cellvars" pylist.(cellvars)
+  	let stacksize = code.compute_stacksize.()
+  	let ccode = resolve_blockaddr.(code)
+  	do setattr ccode "flags" bytec.flags.infer_flags.(ccode)
+  	in ccode.to_code.(stacksize)
+in lower
+
+
+do  open Pre
+	let pydict = extern "dict"
+	let l1 = to_py_list []
+	let l2 = to_py_list []
+	let l3 = to_py_list [
+			Const("222"),
+			Return
+		]
+	in
+	let defun = Defun
+		"name" "fname" "doc"
+		l1 l2 l3
+	in lower 1 defun
+	|> let dis = imp "dis" in x -> dis.dis.(x)
+
+data Export
+
+let export = name -> value ->
+	open Pre
+	in op.setitem.(extern "globals".(), name, value)
+
+export "Load" Load
+export "Store" Store
+export "Deref" Deref
+export "RefSet" RefSet
+export "Glob" Glob

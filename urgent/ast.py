@@ -23,7 +23,7 @@ class Open:
 class Cons:
     loc: Location
     id: str
-    slots: int
+    slots: t.List[str]
 
 
 @dataclass

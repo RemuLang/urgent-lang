@@ -1863,26 +1863,16 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
             lcl_1 = (False, lcl_1)
             lcl_0 = lcl_1
         else:
-            lcl_1 = 18
-            try:
-                _py_local_tk = prim__tokens.array[prim__tokens.offset]
-                if (_py_local_tk.idint is lcl_1):
-                    prim__tokens.offset += 1
-                else:
-                    _py_local_tk = None
-            except IndexError:
-                _py_local_tk = None
-            lcl_1 = _py_local_tk
-            _slot_2 = lcl_1
-            lcl_1 = (_slot_2 is None)
+            lcl_1 = parse_slot(prim__state, prim__tokens)
+            _slot_2_check = lcl_1
+            lcl_1 = _slot_2_check[0]
+            lcl_1 = (lcl_1 is False)
             if lcl_1:
-                lcl_2 = prim__tokens.offset
-                lcl_2 = (lcl_2, 'quote _ not match')
-                lcl_2 = prim__cons(lcl_2, prim__nil)
-                lcl_2 = lcl_2
-                lcl_2 = (False, lcl_2)
-                lcl_1 = lcl_2
+                lcl_1 = _slot_2_check
             else:
+                lcl_2 = _slot_2_check[1]
+                lcl_2 = lcl_2
+                _slot_2 = lcl_2
                 lcl_2 = _slot_0
                 lcl_3 = _slot_2
                 _py_local_t = lcl_2
@@ -5893,7 +5883,8 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_4 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
                     lcl_5 = _slot_0
                     lcl_5 = lcl_5.value
-                    lcl_4 = Cons(lcl_4, lcl_5, False)
+                    lcl_6 = []
+                    lcl_4 = Cons(lcl_4, lcl_5, lcl_6)
                     _slot_local__1 = lcl_4
                     lcl_4 = (True, _slot_local__1)
                     lcl_2 = lcl_4
@@ -7092,26 +7083,16 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
         return lcl_0
 
     def parse_rbnf__sep__list__3(prim__state, prim__tokens):
-        lcl_0 = 18
-        try:
-            _py_local_tk = prim__tokens.array[prim__tokens.offset]
-            if (_py_local_tk.idint is lcl_0):
-                prim__tokens.offset += 1
-            else:
-                _py_local_tk = None
-        except IndexError:
-            _py_local_tk = None
-        lcl_0 = _py_local_tk
-        _slot_0 = lcl_0
-        lcl_0 = (_slot_0 is None)
+        lcl_0 = parse_slot(prim__state, prim__tokens)
+        _slot_0_check = lcl_0
+        lcl_0 = _slot_0_check[0]
+        lcl_0 = (lcl_0 is False)
         if lcl_0:
-            lcl_1 = prim__tokens.offset
-            lcl_1 = (lcl_1, 'quote _ not match')
-            lcl_1 = prim__cons(lcl_1, prim__nil)
-            lcl_1 = lcl_1
-            lcl_1 = (False, lcl_1)
-            lcl_0 = lcl_1
+            lcl_0 = _slot_0_check
         else:
+            lcl_1 = _slot_0_check[1]
+            lcl_1 = lcl_1
+            _slot_0 = lcl_1
             lcl_1 = _slot_0
             lcl_1 = [lcl_1]
             _slot_local__1 = lcl_1
@@ -7152,6 +7133,71 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
             lcl_1 = [lcl_1]
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_rbnf__sep__list__6(_slot_local__1, prim__state, prim__tokens)
+            lcl_0 = lcl_1
+        return lcl_0
+
+    def parse_slot(prim__state, prim__tokens):
+        lcl_0 = prim__tokens.offset
+        _off_0 = lcl_0
+        lcl_0 = (len(prim__tokens.array) > (prim__tokens.offset + 0))
+        if lcl_0:
+            lcl_2 = prim__tokens.array[(prim__tokens.offset + 0)]
+            lcl_2 = lcl_2.idint
+            if (lcl_2 == 18):
+                _py_local_i = prim__tokens.offset
+                _py_local_t = prim__tokens.array[_py_local_i]
+                prim__tokens.offset = (_py_local_i + 1)
+                lcl_3 = _py_local_t
+                _slot_0 = lcl_3
+                lcl_3 = _slot_0
+                lcl_3 = lcl_3.value
+                _slot_local__1 = lcl_3
+                lcl_3 = (True, _slot_local__1)
+                lcl_1 = lcl_3
+            elif (lcl_2 == 40):
+                lcl_3 = parse_ID(prim__state, prim__tokens)
+                _slot_0_check = lcl_3
+                lcl_3 = _slot_0_check[0]
+                lcl_3 = (lcl_3 is False)
+                if lcl_3:
+                    lcl_3 = _slot_0_check
+                else:
+                    lcl_4 = _slot_0_check[1]
+                    lcl_4 = lcl_4
+                    _slot_0 = lcl_4
+                    lcl_4 = _slot_0
+                    _slot_local__1 = lcl_4
+                    lcl_4 = (True, _slot_local__1)
+                    lcl_3 = lcl_4
+                lcl_1 = lcl_3
+            elif (lcl_2 == 41):
+                lcl_3 = parse_ID(prim__state, prim__tokens)
+                _slot_0_check = lcl_3
+                lcl_3 = _slot_0_check[0]
+                lcl_3 = (lcl_3 is False)
+                if lcl_3:
+                    lcl_3 = _slot_0_check
+                else:
+                    lcl_4 = _slot_0_check[1]
+                    lcl_4 = lcl_4
+                    _slot_0 = lcl_4
+                    lcl_4 = _slot_0
+                    _slot_local__1 = lcl_4
+                    lcl_4 = (True, _slot_local__1)
+                    lcl_3 = lcl_4
+                lcl_1 = lcl_3
+            else:
+                lcl_3 = (_off_0, 'slot lookahead failed')
+                lcl_3 = prim__cons(lcl_3, prim__nil)
+                lcl_3 = lcl_3
+                lcl_3 = (False, lcl_3)
+                lcl_1 = lcl_3
+            lcl_0 = lcl_1
+        else:
+            lcl_1 = (_off_0, 'slot got EOF')
+            lcl_1 = prim__cons(lcl_1, prim__nil)
+            lcl_1 = lcl_1
+            lcl_1 = (False, lcl_1)
             lcl_0 = lcl_1
         return lcl_0
 
@@ -7207,7 +7253,6 @@ def mk_parser(Module, Do, Open, Cons, Data, Let, Infix, Fun, Import, If, Match, 
                     lcl_2 = lcl_3
                 else:
                     lcl_3 = _slot_1
-                    lcl_3 = len(lcl_3)
                     _slot_local__1 = lcl_3
                     lcl_3 = (True, _slot_local__1)
                     lcl_2 = lcl_3

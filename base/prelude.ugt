@@ -13,7 +13,13 @@ let from_py = pyfunc -> arg -> pyfunc.(arg)
 let to_py = extern "to_py_callable"
 
 let print = from_py extern "print"
-let imp = from_py extern "__import__"
+let failwith = extern "failwith"
+
+let imp = 
+    let imp = from_py extern "__import__"
+    let imp = imp "importlib"
+    in from_py <| imp.import_module
+
 let io = imp "io"
 let op = imp "operator"
 let repr = from_py extern "repr"
@@ -49,15 +55,24 @@ let setattr = x -> y -> v -> (extern "setattr").(x, y, v)
 // cmp operations
 infixl < 8
 infixl > 8
+infixl >= 8
+infixr <= 8
 infixl == 8
 
 let _lt = op.lt
 let _gt = op.gt
 let _eq = op.eq
 
+
 let < = x -> y -> _lt.(x, y)
 let > = x -> y -> _gt.(x, y)
 let == = x -> y -> _eq.(x, y)
+let >= = 
+    let _ge = op.ge in
+    x -> y -> _ge.(x, y)
+let <= =
+    let _le = op.le in
+    x -> y -> _le.(x, y)
 
 // list
 
@@ -83,11 +98,32 @@ rec for = seq -> f ->
             do f hd
             in for tl f
 
+let fori =
+    rec fori = i -> seq -> f ->
+        seq match
+        [] => (),
+        hd :: tl =>
+            do f i hd
+            in fori (i + 1) tl f
+    in fori
+
 rec while = cond -> f ->
     cond () ?
         do f ()
         in while cond f
     else ()
+
+infixl `contains` 6
+
+rec contains = seq -> elem ->
+    seq match
+        [] => False,
+        hd :: tl =>
+        hd == elem ?
+            True
+        else
+        contains tl elem
+
 
 let reverse =
     rec reverse_impl = feed -> left ->
@@ -127,7 +163,7 @@ do setattr [1].__class__ "__repr__" <|
      let f = map repr |>> join ", " |>> surround ("[", "]")
      in to_py f
 
-let py_list = xs ->
+let to_py_list = xs ->
     let ret = (extern "list").()
     do each (from_py ret.append) xs
     in ret
@@ -136,8 +172,8 @@ let ref =
     let dict = extern "dict"
     let type = extern "type"
     let list = extern "list"
-    let pair = py_list [
-            ("__slots__", py_list ["contents"]),
+    let pair = to_py_list [
+            ("__slots__", to_py_list ["contents"]),
             ("__repr__",
                     let repr = extern "repr" in
                     let func = x -> "ref " + repr.(x.contents)
@@ -153,3 +189,34 @@ infixl := 5
 let := = x -> y -> (extern "set_contents").(x, y)
 
 let ! = x -> x.contents
+let not = 
+    let _not = op.not_ in
+    x -> _not.(x)
+
+infixl `to` 3
+let to = 
+    rec range_impl = xs -> start -> end ->
+        start == end ?
+            xs
+        else
+            let end = end - 1
+            in range_impl (end :: xs) start end
+    in range_impl []
+
+let for_pylist = xs -> f ->
+    let n = extern "len".(xs)
+    let i = ref 0
+    in while { !i < n } {
+        let e = !i in
+        do f (xs !! e)
+        in i := e + 1
+    }
+
+let fori_pylist = xs -> f ->
+    let n = extern "len".(xs)
+    let i = ref 0
+    in while { !i < n } {
+        let e = !i in
+        do f e (xs !! e)
+        in i := e + 1
+    }

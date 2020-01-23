@@ -194,7 +194,17 @@ class State(Visitor):
 
     @state_add
     def v_cons(self, c: ast.Cons):
-        n_slots = c.slots
+        def remove_dup(n, slots):
+            while n in slots:
+                n += '_'
+            return n
+
+        slots = c.slots
+        slots = [
+            each if each != '_' else remove_dup('elt{}'.format(i), slots)
+            for i, each in enumerate(slots)
+        ]
+
         loc = c.loc
         n = c.id
 
@@ -203,13 +213,13 @@ class State(Visitor):
 
         self.emit(VM("load_global", "namedtuple"))
         self.emit(VM("push", n))
-        self.emit(VM("push", tuple(f'elt{i}' for i in range(n_slots))))
+        self.emit(VM("push", tuple(slots)))
         self.emit(VM("call", 2))
 
-        if n_slots == 0:
+        if not slots:
             fun = ast.PyCall(ast.SVar(loc, data_sym), [])
         else:
-            vars = [ast.Var(loc, f'c_{i}') for i in range(n_slots)]
+            vars = [ast.Var(loc, slot_n) for slot_n in slots]
             fun = ast.PyCall(ast.SVar(loc, data_sym), vars)
             for var in reversed(vars):
                 fun = ast.Fun(loc, var, ast.TCO(fun))
@@ -222,7 +232,7 @@ class State(Visitor):
 
         comp = self.compiler
         comp.patterns[cons_sym] = data_sym
-        comp.pattern_ary[cons_sym] = n_slots
+        comp.pattern_ary[cons_sym] = len(slots)
 
     @state_add
     def v_svar(self, a: ast.SVar):

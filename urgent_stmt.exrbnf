@@ -32,12 +32,16 @@ stmt :  LET binds                        { Let(@0, False, $1) }
       ;
 
 cons : <UPPER> slots  { Cons(@0, *$0, $1) }
-     | <UPPER>        { Cons(@0, *$0, False) }
+     | <UPPER>        { Cons(@0, *$0, []) }
      ;
 
 module : separated_list('.', ID)   { $0 };
 
-slots : '(' separated_list(',', '_') ')' { len($1) };
+slot : ID { $0 }
+     | '_' { *$0 }
+     ;
+
+slots : '(' separated_list(',', slot) ')' { $1 };
 
 expr : bind_expr                        { $0 }
      | expr '?' expr 'else' expr        { If(@1, $0, $2, $4) }
