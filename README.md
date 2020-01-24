@@ -2,7 +2,7 @@
 
 安装pip, 命令ugt
 
-(`pip install urgent-lang`, `ugt --help`)
+(`pip install urgent`, `ugt --help`)
 
 运行3.6, 编译3.7
 
