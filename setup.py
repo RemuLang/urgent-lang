@@ -4,7 +4,7 @@ from pathlib import Path
 with Path('README.md').open() as readme:
     readme = readme.read()
 
-version = 0.1
+version = "0.1.1"
 
 setup(
     name='urgent',
@@ -20,7 +20,7 @@ setup(
     author_email='twshere@outlook.com',
     packages=find_packages(),
     entry_points={"console_scripts": ['ugt=urgent.cli:main']},
-    install_requires=["rbnf-rts", "toml", 'argser', 'sijuiacion-lang'],
+    install_requires=["rbnf-rts", "toml", 'argser', 'sijuiacion-lang', 'remu-operator'],
     platforms="any",
     classifiers=[
         "Programming Language :: Python :: 3.6",
