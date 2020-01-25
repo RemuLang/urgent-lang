@@ -352,23 +352,9 @@ packaging和project building这些方面其实还没设计好, 但先用着了. 
 ## WIP的其他东西
 
 
-例如`for`函数和`while`函数之类的.
+弄一些糖, 比如单目运算符.
 
-```shell script
-let x = ref 0
-for { deref x  < 10 } {
-   do x := deref x + 1
-   do print <| deref x
-   ()
-}   
-```
-
-造一些方便度比list comprehension好的玩意儿.
-
-还可以弄一些糖, 比如单目运算符.
-
-打算把`{ ... }`做成空参数lambda, 但是觉得有点浪费大括号.
-
+以及
 
 ### `trait`
 
