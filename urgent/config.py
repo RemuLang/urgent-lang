@@ -61,7 +61,7 @@ def parse_config(src):
     conf = Config()
     conf.out = config_dict.get('out', 'a.pyc')
     conf.src_dirs = config_dict['src']
-    conf.version = config_dict.get('version', '0.1')
+    conf.version = config_dict.get('version', [0, 1, 0])
     return conf
 
 
