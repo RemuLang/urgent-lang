@@ -8,8 +8,13 @@ import urgent.ast as ast
 import remu_operator
 
 
-class Instruction(namedtuple('VM', ['name', 'args'])):
-    pass
+class Instruction:
+    def __init__(self, name, args):
+        self.name = name
+        self.args = args
+
+    def __repr__(self):
+        return repr((self.name, *self.args))
 
 
 class VM:
@@ -500,6 +505,8 @@ class State(Visitor):
                     raise Exception('Module {} has no attribute {}.'.format(
                         sym.name, a.attr))
                 sym = names[a.attr]
+                i.name = "loc"
+                i.args = a.loc[0],
                 return self.emit(VM("var", sym))
         self.emit(VM("attr", a.attr))
 
@@ -737,6 +744,8 @@ class PatternCompilation(Visitor):
                     raise Exception('Module {} has no attribute.'.format(
                         sym.name, a.attr))
                 sym = names[a.attr]
+                i.name = "loc"
+                i.args = a.loc[0],
                 return self.process_recogniser(sym, a.loc)
 
         raise Exception(
