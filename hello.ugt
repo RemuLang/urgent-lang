@@ -8,7 +8,7 @@ let |> = x -> f -> f x
 
 let print = extern "print"
 let imp = extern "__import__"
-let op = imp "operator"
+let op = imp.("operator")
 
 // arithmetic operators
 

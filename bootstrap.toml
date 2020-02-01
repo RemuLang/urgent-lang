@@ -1,7 +1,6 @@
 [basic]
 out="a.pyc"
 src=[
-    "base",
-    "example"
+    "base"
 ]
 version = [0, 0, 1]
