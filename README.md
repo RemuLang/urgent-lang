@@ -12,7 +12,7 @@
 跨版本加载用`--raw_bytecode` flag.
 
 ```shell script
-ugt cc <xxx.ugt> <xxx.code> -- raw_bytecode --project bootstrap.toml
+ugt cc <xxx.ugt> <xxx.code> --raw_bytecode --project bootstrap.toml
 ```
 后,
 ```

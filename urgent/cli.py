@@ -3,6 +3,7 @@ from urgent.parser_wrap import parse
 from urgent.compiler import Compiler, VM
 from urgent.ast import Module
 from urgent.codegen import CodeGen, Numbering
+from urgent.version import __version__
 from sijuiacion_lang.lowering import Lower
 from importlib._bootstrap_external import _code_to_hash_pyc
 from importlib.util import source_hash
@@ -60,6 +61,10 @@ def run(path: str, project: str = ""):
     exec(code)
 
 
+def version():
+    print(__version__)
+
+
 def main():
     import argser
     subs = argser.SubCommands()
@@ -70,4 +75,5 @@ def main():
         subs.add(repl)
     except ImportError:
         pass
+    subs.add(version)
     subs.parse()
