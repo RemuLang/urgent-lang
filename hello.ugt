@@ -2,13 +2,27 @@ module Hello
 
 infixr <| 0
 infixl |> 0
-
+infixl |>> 5
+infixl <<| 5
 let <| = f -> x -> f x
 let |> = x -> f -> f x
+let |>> = f -> g -> x -> g (f x)
+let <<| = f -> g -> x -> f (g x)
 
-let print = extern "print"
-let imp = extern "__import__"
-let op = imp.("operator")
+let from_py = pyfunc -> arg -> pyfunc.(arg)
+let to_py = extern "to_py_callable"
+
+let print = from_py extern "print"
+let failwith = extern "failwith"
+
+let imp = 
+    let imp = from_py extern "__import__"
+    let imp = imp "importlib"
+    in from_py <| imp.import_module
+
+let io = imp "io"
+let op = imp "operator"
+let repr = from_py extern "repr"
 
 // arithmetic operators
 
@@ -18,6 +32,7 @@ infixl * 20
 infixl / 20
 infixl \\ 20
 infixr ^ 30
+infixl !! 50
 
 let _add = op.add
 let _sub = op.sub
@@ -25,12 +40,39 @@ let _mul = op.mul
 let _pow = op.pow
 let _fdiv = op.truediv
 let _sdiv = op.floordiv
+let _item = op.getitem
 
 let + = x -> y -> _add.(x, y)
 let - = x -> y -> _sub.(x, y)
 let * = x -> y -> _mul.(x, y)
 let \\ = x -> y -> _sdiv.(x, y)
 let / = x -> y -> _fdiv.(x, y)
+let ^ = x -> y -> _pow.(x, y)
+let !! = x -> y -> _item.(x, y)
+
+let setattr = x -> y -> v -> (extern "setattr").(x, y, v)
+
+// cmp operations
+infixl < 8
+infixl > 8
+infixl >= 8
+infixr <= 8
+infixl == 8
+
+let _lt = op.lt
+let _gt = op.gt
+let _eq = op.eq
+
+
+let < = x -> y -> _lt.(x, y)
+let > = x -> y -> _gt.(x, y)
+let == = x -> y -> _eq.(x, y)
+let >= = 
+    let _ge = op.ge in
+    x -> y -> _ge.(x, y)
+let <= =
+    let _le = op.le in
+    x -> y -> _le.(x, y)
 
 // list
 
@@ -38,3 +80,35 @@ infixr :: 1
 data Cons(_, _), Nil
 let :: = Cons
 
+
+// control flow
+
+// TODO: use bytecode to write one that uses loops
+rec each = f -> seq ->
+    seq match
+        [] => (),
+        hd :: tl =>
+            do f hd
+            in each f tl
+
+rec for = seq -> f ->
+    seq match
+        [] => (),
+        hd :: tl =>
+            do f hd
+            in for tl f
+
+let fori =
+    rec fori = i -> seq -> f ->
+        seq match
+        [] => (),
+        hd :: tl =>
+            do f i hd
+            in fori (i + 1) tl f
+    in fori
+
+rec while = cond -> f ->
+    cond () ?
+        do f ()
+        in while cond f
+    else ()

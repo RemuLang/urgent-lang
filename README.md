@@ -103,10 +103,10 @@ let f = x -> (x, 2 * x)
 项目根目录那个`hello.ugt`可以拿来试, 打开`ugt repl`,
 ```shell script
 Urgent> import Hello
-Urgent> do print 1
+Urgent> print 1
 Undef print
 Urgent> let x = Hello
-Urgent> do x.print 1
+Urgent> x.print 1
 1
 Urgent> open x
 Urgent> print 1
@@ -128,12 +128,12 @@ Urgent是pure的, 变量不可以多次赋值(只有绑定), 所以, 上面代�
 ```shell script
 Urgent> import Hello
 Urgent> let x = 1
-Urgent> do print 1
+Urgent> print 1
 Undef print
 
 Urgent> let x = let y = 2 open Hello in print 1
 1
-Urgent> do print 1
+Urgent> print 1
 Undef print
 ```   
 
@@ -150,9 +150,9 @@ Urgent> let x = def x = 1 in open Hello in print <| x + 1
 ```shell script
 Urgent> let x = let x = 1 let y = 2 let c = 3 open Hello in print <| x + y + c
 6
-Urgent> do print <| 1 + 2 + 3
+Urgent> print <| 1 + 2 + 3
 Undef operator.<|
-Urgent> do print (1+2)
+Urgent> print (1+2)
 Undef operator.+
 ```
 
@@ -181,7 +181,7 @@ infixr <| 0
 `and`表示左右俩都要match, `or`表示只match一个.
 
 ```shell script
-do x match
+x match
   1 or 2 or 3 => 0,
   x and (y, z) => (y, x, z) 
 ```
@@ -222,7 +222,7 @@ let print_lst = lst ->
 ```shell script
 let x = data A, B, C in
   (A, B, C)
-do A
+A
 
 # Undef: A
 ```
@@ -233,7 +233,7 @@ Variants的成员可以按名字访问:
 ```shell script
 data Either(left, right)
 let x = Either(1, 2)
-do x.left |> print
+x.left |> print
 ```
 
 ## 尾递归
@@ -349,26 +349,4 @@ sh> ugt repl --project <项目文件.toml>
 
 packaging和project building这些方面其实还没设计好, 但先用着了. 做事第一.
 
-## WIP的其他东西
-
-
-弄一些糖, 比如单目运算符.
-
-以及
-
-### `trait`
-
-```shell script
-trait number a
-    def +  by a -> a -> _
-    def -  by a -> a -> _
-    def *  by a -> a -> _
-    def /  by a -> a -> _
-    def // by a -> a -> _
-
-implement number int
-  def + = fun a -> b -> ...
-  ...    
-```
-
-可以使用type class的第三种实现, intensional type analysis的方式. 坏处是不能基于返回值类型dispatch.
+## WIP: Traits
