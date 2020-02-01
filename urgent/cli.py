@@ -34,7 +34,7 @@ def get_code_for_repl(inp: str, comp: Compiler):
     python = cg.start(comp.code, repl_mode=True)
     for each in comp.main.scope.boundvars.values():
         each.is_global = True
-    code, _ = Lower({}).lower('<repl>', inp, 1, "", [], [], python)
+    code, _ = Lower({}).lower(inp, '<repl>', 1, "", [], [], python)
     return code
 
 
