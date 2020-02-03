@@ -68,12 +68,12 @@ def version():
 def main():
     import argser
     subs = argser.SubCommands()
-    subs.add(run)
-    subs.add(cc)
+    subs.add(run, help="run code")
+    subs.add(cc, help="compile code")
     try:
         from urgent.repl1s import repl
-        subs.add(repl)
+        subs.add(repl, help="run repl")
     except ImportError:
         pass
-    subs.add(version)
+    subs.add(version, help="show version")
     subs.parse()
